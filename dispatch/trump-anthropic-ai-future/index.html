@@ -20,628 +20,516 @@
     <meta name="twitter:creator" content="@sd_thetravellingtechie">
     <link rel="canonical" href="https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0a0a0a">
+    <meta name="theme-color" content="#fafafa">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-tertiary: #1a1a1a;
-            --text-primary: #f5f5f5;
-            --text-secondary: #a0a0a0;
-            --text-muted: #666666;
-            --accent: #ff3333;
-            --accent-soft: rgba(255, 51, 51, 0.1);
-            --border: #2a2a2a;
-            --border-light: #333333;
+            --bg: #fafafa;
+            --bg-card: #ffffff;
+            --text: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --dispatch: #e11d48;
+            --dispatch-soft: rgba(225, 29, 72, 0.08);
+            --indigo: #6366f1;
+            --border: #e2e8f0;
+            --border-card: #cbd5e1;
+            --galaxy-deep: #1e1b4b;
+            --galaxy-mid: #312e81;
+            --galaxy-violet: #4f46e5;
+            --galaxy-purple: #6d28d9;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Crimson Pro', Georgia, serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text-body);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Grain overlay */
+        /* ── Grain ── */
         .grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* Progress bar */
+        /* ── Progress bar ── */
         .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--bg-tertiary);
-            z-index: 1001;
+            position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+            background: rgba(0,0,0,0.05); z-index: 1001;
         }
-
         .progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
+            height: 100%; background: var(--dispatch); width: 0%;
             transition: width 0.1s;
         }
 
-        /* Navigation */
+        /* ── Navigation ── */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: fixed; top: 3px; left: 0; right: 0;
+            padding: 1.25rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 100;
-            background: transparent;
             transition: all 0.4s ease;
         }
 
+        /* Over dark hero: white text */
+        .nav-logo { color: rgba(255,255,255,0.95); }
+        .nav-links a { color: rgba(255,255,255,0.75); }
+        .nav-lang button { color: rgba(255,255,255,0.75); }
+
         nav.scrolled {
-            background: rgba(10,10,10,0.92);
+            background: rgba(250,250,250,0.92);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
+        nav.scrolled .nav-logo { color: var(--text); }
+        nav.scrolled .nav-links a { color: var(--text-muted); }
+        nav.scrolled .nav-links a:hover { color: var(--text); }
+        nav.scrolled .nav-lang button { color: var(--text-muted); }
+        nav.scrolled .nav-lang button.active { color: var(--dispatch); }
 
         .nav-logo {
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-            font-size: 0.875rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800; font-size: 0.875rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
             text-decoration: none;
-            position: relative;
+            transition: color 0.3s;
         }
+        .nav-logo:hover { opacity: 0.8; }
 
-        .nav-logo::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-logo:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
+        .nav-right {
+            display: flex; align-items: center; gap: 2.5rem;
         }
 
         .nav-links {
-            display: flex;
-            gap: 2rem;
+            display: flex; gap: 1.75rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+            font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
         }
-
         .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
+            text-decoration: none; transition: color 0.3s;
             position: relative;
         }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
         .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
+            content: ''; position: absolute; bottom: -3px; left: 0;
+            width: 0; height: 1px; background: var(--dispatch);
             transition: width 0.3s;
         }
+        .nav-links a:hover::after { width: 100%; }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        /* Language toggle */
+        .nav-lang {
+            display: flex; align-items: center; gap: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem; letter-spacing: 0.08em;
         }
+        .nav-lang button {
+            background: none; border: none; cursor: pointer;
+            padding: 0.2rem 0.4rem; font-size: 0.7rem;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            transition: color 0.2s;
+        }
+        .nav-lang button.active { color: var(--dispatch) !important; font-weight: 600; }
+        .nav-lang .sep { color: rgba(255,255,255,0.3); font-size: 0.65rem; }
+        nav.scrolled .nav-lang .sep { color: var(--text-light); }
 
-        /* Hero Section */
+        /* ── Hero ── */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: relative;
-            padding: 0 2rem 5rem;
-            overflow: hidden;
+            min-height: 100vh; display: flex;
+            flex-direction: column; justify-content: flex-end;
+            align-items: center; position: relative;
+            padding: 0 2rem 5rem; overflow: hidden;
         }
 
         .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(to bottom, 
-                    rgba(10,10,10,0.2) 0%, 
-                    rgba(10,10,10,0.1) 35%, 
-                    rgba(10,10,10,0.7) 65%,
-                    rgba(10,10,10,0.97) 100%),
-                radial-gradient(circle at 20% 50%, rgba(255,51,51,0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,51,51,0.08) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                linear-gradient(to bottom,
+                    rgba(30,27,75,0.25) 0%,
+                    rgba(30,27,75,0.1) 30%,
+                    rgba(15,23,42,0.72) 65%,
+                    rgba(15,23,42,0.97) 100%),
+                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(99,102,241,0.1) 0%, transparent 40%);
+            pointer-events: none; z-index: 1;
+        }
+
+        .hero-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; object-position: center top;
+            opacity: 0.72; filter: saturate(0.85) brightness(0.9); z-index: 0;
+        }
+
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 180px;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+            z-index: 3; pointer-events: none;
         }
 
         .hero-content {
-            max-width: 900px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
+            max-width: 860px; text-align: center;
+            position: relative; z-index: 2;
             animation: fadeInUp 1s ease-out;
         }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .hero-meta {
             font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
+            font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--dispatch); margin-bottom: 2rem;
+            display: flex; align-items: center; justify-content: center; gap: 1rem;
         }
-
-        .hero-meta::before,
-        .hero-meta::after {
-            content: '';
-            width: 30px;
-            height: 1px;
-            background: var(--accent);
+        .hero-meta::before, .hero-meta::after {
+            content: ''; width: 28px; height: 1px; background: var(--dispatch);
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 600;
-            line-height: 1.1;
-            margin-bottom: 2rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 800; line-height: 1.1; margin-bottom: 2rem;
             letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 40%, #fca5a5 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            font-style: italic;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.5;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem; color: rgba(255,255,255,0.7);
+            font-style: italic; max-width: 580px;
+            margin: 0 auto 2.5rem; line-height: 1.6;
         }
 
         .hero-author {
             font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            letter-spacing: 0.1em;
+            font-size: 0.8rem; color: rgba(255,255,255,0.55);
+            letter-spacing: 0.05em;
         }
-
-        .hero-author strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
+        .hero-author strong { color: rgba(255,255,255,0.85); font-weight: 600; }
 
         .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255,255,255,0.5);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.625rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            animation: bounce 2s infinite;
-            z-index: 2;
+            position: absolute; bottom: 2.5rem; left: 50%;
+            transform: translateX(-50%); z-index: 4;
+            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+            color: rgba(255,255,255,0.45);
+            font-family: 'Inter', sans-serif; font-size: 0.6rem;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            animation: bounce 2.5s infinite;
         }
-
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+            0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-8px); }
+            60% { transform: translateX(-50%) translateY(-4px); }
         }
+        .scroll-indicator svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
-        .scroll-indicator svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 1.5;
+        /* ── Breadcrumb ── */
+        .breadcrumb {
+            max-width: 740px; margin: 3.5rem auto 0; padding: 0 2rem;
+            font-family: 'Inter', sans-serif; font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
+        .breadcrumb a {
+            color: var(--dispatch); text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            transition: opacity 0.2s;
+        }
+        .breadcrumb a:hover { opacity: 0.75; }
 
-        /* Article Content */
+        /* ── Article ── */
         article {
-            max-width: 740px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
+            max-width: 740px; margin: 0 auto;
+            padding: 3.5rem 2rem 5rem;
             position: relative;
         }
 
         .section-header {
             margin: 0 0 2.5rem;
-            padding: 1.75rem 0 1.75rem;
+            padding: 1.75rem 0 1.75rem 1.25rem;
             border-bottom: 1px solid var(--border);
+            border-left: 3px solid var(--dispatch);
         }
 
         h2 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin: 0;
-            color: var(--text-primary);
-            letter-spacing: -0.01em;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem; font-weight: 700;
+            color: var(--text); letter-spacing: -0.01em; margin: 0;
         }
 
         h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 2.5rem 0 1rem;
-            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem; font-weight: 600;
+            color: var(--text); margin: 2.5rem 0 1rem;
         }
 
         p {
-            font-size: 1.2rem;
-            line-height: 1.9;
-            margin-bottom: 1.75rem;
-            color: #c8c8c8;
-            text-align: justify;
-            hyphens: auto;
+            font-family: 'Crimson Pro', Georgia, serif;
+            font-size: 1.2rem; line-height: 1.9;
+            margin-bottom: 1.75rem; color: var(--text-body);
+            text-align: justify; hyphens: auto;
         }
+        p strong { color: var(--text); font-weight: 600; }
+        p em { font-style: italic; }
 
-        p strong { color: #f0f0f0; font-weight: 600; }
-        p em { color: #e0e0e0; font-style: italic; }
-
-        /* Pull Quotes */
+        /* ── Blockquote ── */
         blockquote {
-            margin: 3rem 0;
-            padding: 2rem 2.5rem;
-            background: var(--bg-secondary);
-            border-left: 3px solid var(--accent);
+            margin: 3rem 0; padding: 2rem 2.5rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--dispatch);
             position: relative;
-            font-size: 1.375rem;
-            line-height: 1.6;
-            color: var(--text-primary);
+            font-size: 1.3rem; line-height: 1.65;
             font-style: italic;
         }
-
         blockquote::before {
-            content: '\201C';
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 4rem;
-            color: var(--accent);
-            opacity: 0.2;
-            font-family: Georgia, serif;
-            line-height: 1;
+            content: '\201C'; position: absolute; top: 0.75rem; left: 1rem;
+            font-size: 3.5rem; color: var(--dispatch); opacity: 0.15;
+            font-family: Georgia, serif; line-height: 1;
         }
-
         blockquote p {
-            color: var(--text-primary);
-            font-size: 1.375rem;
-            margin: 0;
-            text-align: left;
+            color: var(--text); font-size: 1.3rem; margin: 0; text-align: left;
         }
 
-        /* Highlight Box */
+        /* ── Highlight box ── */
         .highlight-box {
-            background: var(--bg-secondary);
+            background: #f8fafc;
             border: 1px solid var(--border);
-            padding: 2rem;
-            margin: 3rem 0;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
+            border-top: 2px solid var(--dispatch);
+            padding: 2rem; margin: 3rem 0;
+            border-radius: 6px;
         }
 
-        .highlight-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-        }
-
-        /* Divider */
+        /* ── Divider ── */
         .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 3.5rem 0 0;
-            gap: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            margin: 3.5rem 0 0; gap: 1rem;
         }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
         }
+        .divider span { color: var(--dispatch); font-size: 0.9rem; line-height: 1; }
 
-        .divider span {
-            color: var(--accent);
-            font-size: 1rem;
-            line-height: 1;
-        }
-
-        /* Sources Section */
+        /* ── Sources ── */
         .sources {
-            margin-top: 6rem;
-            padding-top: 3rem;
+            margin-top: 6rem; padding-top: 3rem;
             border-top: 1px solid var(--border);
         }
-
         .sources h2 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 2rem;
+            font-family: 'Inter', sans-serif; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 0.2em;
+            margin-bottom: 2rem; color: var(--text-muted);
+            border-left: none; padding-left: 0;
         }
-
         .source-category { margin-bottom: 2rem; }
-
         .source-category h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif; font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;
         }
-
-        .source-list {
-            list-style: none;
-            padding: 0;
-        }
-
+        .source-list { list-style: none; padding: 0; }
         .source-list li {
-            font-size: 0.9375rem;
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            position: relative;
             font-family: 'Inter', sans-serif;
+            font-size: 0.875rem; margin-bottom: 0.65rem;
+            padding-left: 1.5rem; position: relative;
         }
-
         .source-list li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 0.75rem;
+            content: '→'; position: absolute; left: 0;
+            color: var(--dispatch); font-size: 0.7rem; top: 2px;
         }
-
         .source-list a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s;
+            color: var(--text-muted); text-decoration: none;
+            border-bottom: 1px solid var(--border); transition: all 0.2s;
         }
+        .source-list a:hover { color: var(--dispatch); border-bottom-color: var(--dispatch); }
 
-        .source-list a:hover {
-            color: var(--text-primary);
-            border-bottom-color: var(--accent);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 4rem 2rem;
-            border-top: 1px solid var(--border);
-            margin-top: 4rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        footer p { font-size: 0.875rem; text-align: center; margin: 0; }
-
-        /* Reading time badge */
-        .reading-time {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            padding: 0.75rem 1.25rem;
-            border-radius: 100px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            z-index: 99;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .reading-time::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
-            .nav-links { display: none; }
-            .hero { padding: 0 1.5rem 4rem; }
-            article { padding: 3rem 1.5rem; }
-            p { font-size: 1.1rem; text-align: left; }
-            blockquote { padding: 1.5rem; margin: 2rem -0.5rem; }
-            .reading-time { display: none; }
-        }
-
-
-        /* Hero Image */
-        .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            opacity: 0.75;
-            filter: saturate(0.85) brightness(0.9);
-            z-index: 0;
-        }
-
-        ::selection { background: var(--accent-soft); color: var(--text-primary); }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
-
-        /* Share section */
+        /* ── Share section (bottom) ── */
         .share-section {
-            max-width: 720px;
-            margin: 0 auto;
+            max-width: 740px; margin: 0 auto;
             padding: 2.5rem 2rem 4rem;
             border-top: 1px solid var(--border);
         }
         .share-label {
             font-family: 'Inter', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
+            font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--text-light); margin-bottom: 1.25rem;
         }
-        .share-buttons {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
+        .share-buttons { display: flex; gap: 0.75rem; flex-wrap: wrap; }
         .share-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem;
             padding: 0.55rem 1.1rem;
-            border: 1px solid var(--border-light);
-            border-radius: 2px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            cursor: pointer;
-            background: none;
+            border: 1px solid var(--border-card); border-radius: 4px;
+            font-family: 'Inter', sans-serif; font-size: 0.7rem;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            text-decoration: none; color: var(--text-muted);
+            transition: all 0.2s; cursor: pointer; background: var(--bg-card);
         }
-        .share-btn:hover {
-            border-color: var(--accent);
-            color: var(--text);
-        }
-        .share-btn svg {
-            width: 13px; height: 13px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-        .share-btn.copied {
-            border-color: #22c55e;
-            color: #22c55e;
-        }
+        .share-btn:hover { border-color: var(--dispatch); color: var(--dispatch); }
+        .share-btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+        .share-btn.copied { border-color: #10b981; color: #10b981; }
 
+        /* ── Sticky share sidebar ── */
+        .share-sidebar {
+            position: fixed; left: 1.25rem; top: 50%;
+            transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 0.6rem;
+            z-index: 90;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s, transform 0.4s;
+            transform: translateY(-50%) translateX(-20px);
+        }
+        .share-sidebar.visible {
+            opacity: 1; pointer-events: all;
+            transform: translateY(-50%) translateX(0);
+        }
+        .share-sidebar-btn {
+            width: 38px; height: 38px; border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; text-decoration: none;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .share-sidebar-btn:hover {
+            border-color: var(--dispatch); color: var(--dispatch);
+            box-shadow: 0 2px 8px rgba(225,29,72,0.15);
+            transform: translateX(3px);
+        }
+        .share-sidebar-btn.copied { border-color: #10b981; color: #10b981; }
+        .share-sidebar-btn svg { width: 15px; height: 15px; fill: currentColor; }
+
+        /* ── Footer ── */
         footer {
             border-top: 1px solid var(--border);
             padding: 2.5rem 2rem;
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            align-items: center;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 1rem;
+            background: var(--bg);
         }
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+        .footer-icons {
+            display: flex; gap: 0.75rem;
+        }
+        .footer-icon-btn {
+            width: 38px; height: 38px; border-radius: 6px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .footer-icon-btn:hover { border-color: var(--dispatch); color: var(--dispatch); }
+        .footer-icon-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        footer p {
+            font-family: 'Inter', sans-serif; font-size: 0.75rem;
+            color: var(--text-light); text-align: center; margin: 0;
         }
         footer a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-        footer a:hover { color: var(--accent); }
+        footer a:hover { color: var(--dispatch); }
+
+        /* ── Reading time badge ── */
+        .reading-time {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 0.6rem 1.1rem; border-radius: 100px;
+            font-family: 'Inter', sans-serif; font-size: 0.7rem;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text-muted); z-index: 99;
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; gap: 0.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .reading-time::before {
+            content: ''; width: 7px; height: 7px;
+            background: var(--dispatch); border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ── Selection & scrollbar ── */
+        ::selection { background: rgba(225,29,72,0.12); color: var(--text); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--dispatch); }
+
+        /* ── Responsive ── */
+        @media (max-width: 1100px) {
+            .share-sidebar { display: none; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero { padding: 0 1.5rem 4rem; }
+            article, .breadcrumb, .share-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+            p { font-size: 1.1rem; text-align: left; }
+            blockquote { padding: 1.5rem; margin: 2rem -0.25rem; }
+            .reading-time { display: none; }
+            h1 { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+        }
     </style>
 </head>
 <body>
     <div class="grain"></div>
-    
+
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
+    <!-- Sticky share sidebar -->
+    <div class="share-sidebar" id="shareSidebar">
+        <a class="share-sidebar-btn"
+           href="https://www.linkedin.com/sharing/share-offsite/?url=https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/"
+           target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a class="share-sidebar-btn"
+           href="https://wa.me/?text=Trump%20Didn%27t%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem.%20https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/"
+           target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a class="share-sidebar-btn"
+           href="https://twitter.com/intent/tweet?url=https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/&text=Trump%20Didn%27t%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem."
+           target="_blank" rel="noopener noreferrer" title="Share on X">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <button class="share-sidebar-btn" id="sidebarCopyBtn" title="Copy link">
+            <svg viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+        </button>
+    </div>
+
     <nav id="navbar">
         <a href="/dispatch/" class="nav-logo">Techie Dispatch</a>
-        <div class="nav-links">
-            <a href="#part1">The Shock</a>
-            <a href="#part2">Context</a>
-            <a href="#part3">Implications</a>
-            <a href="#part4">Landscape</a>
-            <a href="#part5">Future</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#part1" data-fr="Le Choc" data-en="The Shock">The Shock</a>
+                <a href="#part2" data-fr="Contexte" data-en="Context">Context</a>
+                <a href="#part3" data-fr="Implications" data-en="Implications">Implications</a>
+                <a href="#part4" data-fr="Paysage" data-en="Landscape">Landscape</a>
+                <a href="#part5" data-fr="Futur" data-en="Future">Future</a>
+            </div>
+            <div class="nav-lang">
+                <button id="langFR" onclick="applyLang('fr')">FR</button>
+                <span class="sep">/</span>
+                <button id="langEN" onclick="applyLang('en')" class="active">EN</button>
+            </div>
         </div>
     </nav>
 
@@ -652,19 +540,29 @@
             <div class="hero-meta">Investigation</div>
             <h1>Trump Didn't Ban Anthropic.<br>He Dropped a Bomb on the Entire AI Ecosystem.</h1>
             <p class="hero-subtitle">How a standoff over surveillance and autonomous weapons became a defining moment for the future of artificial intelligence</p>
-            <div class="hero-author">By <strong>Salim</strong> &amp; <strong>Claude (Anthropic)</strong> — February 28, 2026</div>
+            <div class="hero-author">
+                <span data-fr="Par" data-en="By">By</span>
+                <strong>Salim</strong> &amp; <strong>Claude (Anthropic)</strong> — February 28, 2026
+            </div>
         </div>
         <div class="scroll-indicator">
-            <span>Scroll</span>
+            <span data-fr="Défiler" data-en="Scroll">Scroll</span>
             <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
     </header>
+
+    <div class="breadcrumb">
+        <a href="/dispatch/">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span data-fr="Accueil" data-en="Dispatch">Dispatch</span>
+        </a>
+    </div>
 
     <article>
         <section id="part1" class="section-header">
             <h2>Part 1 — The Shock of February 27th</h2>
         </section>
-        
+
         <p>On Friday afternoon, President Donald Trump posted on Truth Social: <em>"I am directing EVERY Federal Agency in the United States Government to IMMEDIATELY CEASE all use of Anthropic's technology. We don't need it, we don't want it, and will not do business with them again!"</em></p>
 
         <p>Minutes later, Defense Secretary Pete Hegseth went further. He designated Anthropic a <strong>"Supply-Chain Risk to National Security"</strong> — a label historically reserved for foreign adversaries like Huawei. Never before publicly applied to an American company.</p>
@@ -680,7 +578,7 @@
         <blockquote>
             <p>We cannot in good conscience accede to their request.</p>
         </blockquote>
-        <p style="text-align: right; margin-top: -1rem; color: var(--text-muted); font-size: 1rem;">— Dario Amodei, Anthropic CEO</p>
+        <p style="text-align: right; margin-top: -1rem; color: var(--text-light); font-size: 1rem;">— Dario Amodei, Anthropic CEO</p>
 
         <p>In today's climate, those words have a real price. Not ethics slides. Not a press release. A $200 million contract incinerated. A national security blacklist. Threats of criminal prosecution. And a six-month countdown to find a replacement for the only AI model operating inside America's classified military networks.</p>
 
@@ -811,12 +709,12 @@
         <p><strong>Wake up. The future did not wait.</strong></p>
 
         <div class="highlight-box">
-            <p style="font-size: 1.125rem; margin: 0; text-align: center; font-style: italic; color: var(--text-muted);">This article was co-produced with Claude (Anthropic) — which is itself a statement about what responsible human-AI collaboration can look like.</p>
+            <p style="font-size: 1.1rem; margin: 0; text-align: center; font-style: italic; color: var(--text-muted);">This article was co-produced with Claude (Anthropic) — which is itself a statement about what responsible human-AI collaboration can look like.</p>
         </div>
 
         <section class="sources">
             <h2>Sources</h2>
-            
+
             <div class="source-category">
                 <h3>The Ban — February 27, 2026</h3>
                 <ul class="source-list">
@@ -885,67 +783,103 @@
         </section>
     </article>
 
-        <section class="share-section">
-        <p class="share-label">Partager cet article</p>
+    <section class="share-section">
+        <p class="share-label" data-fr="Partager cet article" data-en="Share this article">Share this article</p>
         <div class="share-buttons">
             <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 LinkedIn
             </a>
-            <a class="share-btn" href="https://wa.me/?text=Trump%20Didn't%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem.%20https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/" target="_blank" rel="noopener noreferrer">
+            <a class="share-btn" href="https://wa.me/?text=Trump%20Didn%27t%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem.%20https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 WhatsApp
             </a>
-            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/&text=Trump%20Didn't%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem." target="_blank" rel="noopener noreferrer">
+            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/&text=Trump%20Didn%27t%20Ban%20Anthropic.%20He%20Dropped%20a%20Bomb%20on%20the%20Entire%20AI%20Ecosystem." target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 X / Twitter
             </a>
-            <button class="share-btn" onclick="navigator.clipboard.writeText('https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/').then(()=>{this.textContent='✓ Copié';this.classList.add('copied');setTimeout(()=>{this.innerHTML='<svg viewBox='0 0 24 24'><path d='M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3'/></svg> Copier le lien';this.classList.remove('copied')},2000)})">
+            <button class="share-btn" id="bottomCopyBtn">
                 <svg viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                Copier le lien
+                <span data-fr="Copier" data-en="Copy link">Copy link</span>
             </button>
         </div>
     </section>
 
     <footer>
-        <div class="footer-links">
-            <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer">YouTube</a>
-            <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <div class="footer-icons">
+            <!-- LinkedIn -->
+            <a class="footer-icon-btn" href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <!-- Instagram -->
+            <a class="footer-icon-btn" href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <!-- YouTube -->
+            <a class="footer-icon-btn" href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <!-- GitHub -->
+            <a class="footer-icon-btn" href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer" title="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
         </div>
         <p>&copy; 2026 Salim &mdash; <a href="/">The Traveling Techie</a></p>
     </footer>
 
     <div class="reading-time">
-        <span>Long Read</span>
+        <span data-fr="Long article" data-en="Long Read">Long Read</span>
     </div>
 
     <script>
+        // ── Language toggle ──────────────────────────────────
+        const LANG_KEY = 'ttt-lang';
+        let currentLang = localStorage.getItem(LANG_KEY) || 'en';
+        const langFR = document.getElementById('langFR');
+        const langEN = document.getElementById('langEN');
+
+        function applyLang(lang) {
+            currentLang = lang;
+            localStorage.setItem(LANG_KEY, lang);
+            langFR.classList.toggle('active', lang === 'fr');
+            langEN.classList.toggle('active', lang === 'en');
+            document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+                el.innerHTML = lang === 'fr' ? el.dataset.fr : el.dataset.en;
+            });
+            document.documentElement.lang = lang;
+        }
+        applyLang(currentLang);
+
+        // ── Scroll: progress bar + nav state + sidebar ───────
+        const progressBar  = document.getElementById('progressBar');
+        const navbar       = document.getElementById('navbar');
+        const shareSidebar = document.getElementById('shareSidebar');
+        const heroEl       = document.querySelector('.hero');
+
         window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-            
-            const nav = document.getElementById('navbar');
-            if (winScroll > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
+            // Progress bar
+            const winScroll = document.documentElement.scrollTop;
+            const height    = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            progressBar.style.width = ((winScroll / height) * 100) + '%';
+
+            // Nav scrolled class
+            navbar.classList.toggle('scrolled', winScroll > 80);
+
+            // Sticky sidebar: show after scrolling past hero
+            const heroBottom = heroEl ? heroEl.offsetHeight : 600;
+            shareSidebar.classList.toggle('visible', winScroll > heroBottom * 0.8);
         });
 
+        // ── Smooth anchor scrolling ───────────────────────────
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
+        // ── Intersection observer for section animations ──────
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -953,13 +887,36 @@
                     entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, { root: null, rootMargin: '0px', threshold: 0.1 });
+        }, { threshold: 0.08 });
 
-        document.querySelectorAll('section').forEach((section, index) => {
+        document.querySelectorAll('section').forEach((section, i) => {
             section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            section.style.transform = 'translateY(18px)';
+            section.style.transition = `opacity 0.6s ease ${i * 0.08}s, transform 0.6s ease ${i * 0.08}s`;
             observer.observe(section);
+        });
+
+        // ── Copy link buttons ─────────────────────────────────
+        const articleUrl = 'https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/';
+
+        function copyLink(btn, restoreHTML) {
+            navigator.clipboard.writeText(articleUrl).then(() => {
+                btn.classList.add('copied');
+                const original = btn.innerHTML;
+                btn.innerHTML = restoreHTML;
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        document.getElementById('bottomCopyBtn').addEventListener('click', function() {
+            copyLink(this, '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><span>✓ Copied</span>');
+        });
+
+        document.getElementById('sidebarCopyBtn').addEventListener('click', function() {
+            copyLink(this, '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>');
         });
     </script>
 </body>
