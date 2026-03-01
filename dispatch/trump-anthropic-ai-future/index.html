@@ -44,7 +44,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
         body {
             font-family: 'Crimson Pro', Georgia, serif;
@@ -153,13 +153,11 @@
 
         .hero-bg {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                linear-gradient(to bottom,
-                    rgba(0,0,0,0.08) 0%,
-                    rgba(0,0,0,0.02) 22%,
-                    rgba(0,0,0,0.45) 58%,
-                    rgba(0,0,0,0.86) 100%),
-                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.09) 0%, transparent 50%);
+            background: linear-gradient(to bottom,
+                rgba(0,0,0,0.08) 0%,
+                rgba(0,0,0,0.02) 22%,
+                rgba(0,0,0,0.45) 58%,
+                rgba(0,0,0,0.86) 100%);
             pointer-events: none; z-index: 1;
         }
 
