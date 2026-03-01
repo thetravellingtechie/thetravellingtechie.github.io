@@ -26,18 +26,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0d0d0d;
-            --bg-card: #141414;
-            --bg-hover: #1c1c1c;
-            --text: #f0f0f0;
-            --text-body: #c8c8c8;
-            --text-muted: #777777;
-            --text-light: #555555;
-            --dispatch: #e11d48;
-            --dispatch-soft: rgba(225, 29, 72, 0.1);
+            --bg: #fafafa;
+            --bg-card: #ffffff;
+            --text: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --dispatch: #6366f1;
+            --dispatch-soft: rgba(99, 102, 241, 0.08);
             --indigo: #6366f1;
-            --border: #1e1e1e;
-            --border-card: #2a2a2a;
+            --border: #e2e8f0;
+            --border-card: #cbd5e1;
             --galaxy-deep: #1e1b4b;
             --galaxy-mid: #312e81;
             --galaxy-violet: #4f46e5;
@@ -87,7 +86,7 @@
         .nav-lang button { color: rgba(255,255,255,0.75); }
 
         nav.scrolled {
-            background: rgba(13,13,13,0.94);
+            background: rgba(250,250,250,0.94);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -142,7 +141,7 @@
         }
         .nav-lang button.active { color: var(--dispatch) !important; font-weight: 600; }
         .nav-lang .sep { color: rgba(255,255,255,0.3); font-size: 0.65rem; }
-        nav.scrolled .nav-lang .sep { color: rgba(255,255,255,0.2); }
+        nav.scrolled .nav-lang .sep { color: var(--text-light); }
 
         /* ── Hero ── */
         .hero {
@@ -156,11 +155,11 @@
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background:
                 linear-gradient(to bottom,
-                    rgba(0,0,0,0.15) 0%,
-                    rgba(0,0,0,0.05) 25%,
-                    rgba(0,0,0,0.62) 65%,
-                    rgba(10,10,10,0.97) 100%),
-                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.1) 0%, transparent 50%);
+                    rgba(0,0,0,0.08) 0%,
+                    rgba(0,0,0,0.02) 22%,
+                    rgba(0,0,0,0.45) 58%,
+                    rgba(0,0,0,0.86) 100%),
+                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.09) 0%, transparent 50%);
             pointer-events: none; z-index: 1;
         }
 
@@ -172,7 +171,7 @@
 
         .hero::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 180px;
+            height: 48px;
             background: linear-gradient(to bottom, transparent, var(--bg));
             z-index: 3; pointer-events: none;
         }
@@ -237,9 +236,15 @@
         }
         .scroll-indicator svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
+        /* ── Article separator ── */
+        .article-sep {
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--dispatch) 0%, transparent 60%);
+        }
+
         /* ── Breadcrumb ── */
         .breadcrumb {
-            max-width: 740px; margin: 3.5rem auto 0; padding: 0 2rem;
+            max-width: 740px; margin: 2.5rem auto 0; padding: 0 2rem;
             font-family: 'Inter', sans-serif; font-size: 0.75rem;
             letter-spacing: 0.05em;
         }
@@ -288,8 +293,8 @@
         /* ── Blockquote ── */
         blockquote {
             margin: 3rem 0; padding: 2rem 2.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
+            background: #f8fafc;
+            border: 1px solid var(--border);
             border-left: 3px solid var(--dispatch);
             position: relative;
             font-size: 1.3rem; line-height: 1.65;
@@ -306,8 +311,8 @@
 
         /* ── Highlight box ── */
         .highlight-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
+            background: #f8fafc;
+            border: 1px solid var(--border);
             border-top: 2px solid var(--dispatch);
             padding: 2rem; margin: 3rem 0;
             border-radius: 6px;
@@ -549,6 +554,8 @@
             <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
     </header>
+
+    <div class="article-sep"></div>
 
     <div class="breadcrumb">
         <a href="/dispatch/">
