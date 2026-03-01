@@ -195,14 +195,22 @@
 
         .hero-meta {
             font-family: 'Inter', sans-serif;
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
-            color: var(--dispatch); margin-bottom: 1.5rem;
-            display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.32em; text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 1.75rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 0.9rem;
+            background: rgba(225, 29, 72, 0.18);
+            border: 1px solid rgba(225, 29, 72, 0.55);
+            padding: 0.45rem 1.2rem;
+            border-radius: 2px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
         .hero-meta::before, .hero-meta::after {
-            content: ''; width: 36px; height: 2px; background: var(--dispatch);
-            border-radius: 1px;
+            content: ''; width: 20px; height: 1px;
+            background: rgba(225, 29, 72, 0.8);
         }
 
         h1 {
