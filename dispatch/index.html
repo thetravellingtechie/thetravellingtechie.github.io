@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techie Dispatch — The Traveling Techie</title>
+    <meta name="description" content="Long-form articles on tech, geopolitics, AI, travels and the world — by Salim (SD).">
+    <meta name="author" content="Salim">
+    <meta property="og:title" content="Techie Dispatch — The Traveling Techie">
+    <meta property="og:description" content="Long-form articles on tech, geopolitics, AI, travels and the world — by Salim (SD).">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thetravellingtechie.github.io/dispatch/">
+    <meta property="og:image" content="https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg">
+    <meta property="og:site_name" content="The Traveling Techie">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@sd_thetravellingtechie">
+    <link rel="canonical" href="https://thetravellingtechie.github.io/dispatch/">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg-card: #111111;
+            --bg-hover: #161616;
+            --text: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #555555;
+            --accent: #ff3333;
+            --border: #222222;
+            --border-light: #2e2e2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10,10,10,0.92);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-links a.active { color: var(--accent); }
+
+        /* Header */
+        .page-header {
+            padding: 9rem 2rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover { color: var(--accent); }
+
+        .breadcrumb svg {
+            width: 10px; height: 10px;
+            stroke: currentColor; fill: none; stroke-width: 2;
+        }
+
+        .page-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .page-desc {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Articles grid */
+        .articles {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .articles-count {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .article-card {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 0;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            margin-bottom: 1.5px;
+            transition: border-color 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card:hover { border-color: var(--border-light); }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 2px; height: 0;
+            background: var(--accent);
+            transition: height 0.3s ease;
+        }
+
+        .article-card:hover::before { height: 100%; }
+
+        .article-body {
+            padding: 2rem 2rem 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            transition: background 0.25s;
+        }
+
+        .article-card:hover .article-body { background: var(--bg-hover); }
+
+        .article-meta-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .article-tag {
+            color: var(--accent);
+            font-size: 0.65rem;
+        }
+
+        .article-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.55rem;
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .article-excerpt {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        .article-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding-top: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .article-card:hover .article-cta { color: var(--accent); }
+
+        .article-cta svg {
+            width: 13px; height: 13px;
+            stroke: currentColor; fill: none; stroke-width: 2;
+            transition: transform 0.2s;
+        }
+
+        .article-card:hover .article-cta svg { transform: translateX(3px); }
+
+        .article-thumb {
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        .article-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%);
+            transition: filter 0.4s, transform 0.4s;
+        }
+
+        .article-card:hover .article-thumb img {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 680px) {
+            .article-card { grid-template-columns: 1fr; }
+            .article-thumb { height: 200px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="nav-logo">The Traveling Techie</a>
+        <div class="nav-links">
+            <a href="/dispatch/" class="active">Dispatch</a>
+            <a href="/learn/">Learn</a>
+            <a href="/lab/">Lab</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+            <span>Dispatch</span>
+        </div>
+        <div class="page-tag">Techie Dispatch</div>
+        <h1 class="page-title">Articles &amp; Opinions</h1>
+        <p class="page-desc">Long-form takes on tech, geopolitics, AI, travels and the world.</p>
+    </header>
+
+    <main class="articles">
+        <p class="articles-count">1 article published</p>
+
+        <a href="/dispatch/trump-anthropic-ai-future/" class="article-card">
+            <div class="article-body">
+                <div class="article-meta-top">
+                    <span class="article-tag">Investigation</span>
+                    <span>Feb 28, 2026</span>
+                    <span>~15 min read</span>
+                </div>
+                <h2 class="article-title">Trump Didn't Ban Anthropic. He Dropped a Bomb on the Entire AI Ecosystem.</h2>
+                <p class="article-excerpt">How a standoff over surveillance and autonomous weapons became a defining moment for the future of artificial intelligence — and what it means for all of us.</p>
+                <span class="article-cta">
+                    Read article
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </div>
+            <div class="article-thumb">
+                <img src="/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg"
+                     alt="Trump Anthropic AI Future at Stake"
+                     loading="lazy">
+            </div>
+        </a>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Salim &mdash; <a href="/">The Traveling Techie</a></p>
+    </footer>
+
+</body>
+</html>

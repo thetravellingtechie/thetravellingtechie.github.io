@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Traveling Techie — by Salim</title>
+    <meta name="description" content="Tech, geopolitics, AI, travels and the future — dispatches, courses and experiments by Salim (SD).">
+    <meta name="author" content="Salim">
+    <meta property="og:title" content="The Traveling Techie">
+    <meta property="og:description" content="Tech, geopolitics, AI, travels and the future — dispatches, courses and experiments by Salim (SD).">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thetravellingtechie.github.io/">
+    <meta property="og:image" content="https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg">
+    <meta property="og:site_name" content="The Traveling Techie">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Traveling Techie">
+    <meta name="twitter:description" content="Tech, geopolitics, AI, travels and the future — by Salim (SD).">
+    <meta name="twitter:image" content="https://thetravellingtechie.github.io/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg">
+    <meta name="twitter:creator" content="@sd_thetravellingtechie">
+    <link rel="canonical" href="https://thetravellingtechie.github.io/">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg-card: #111111;
+            --bg-hover: #161616;
+            --text: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #555555;
+            --accent: #ff3333;
+            --accent-soft: rgba(255,51,51,0.08);
+            --border: #222222;
+            --border-light: #2e2e2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grain */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10,10,10,0.92);
+            border-bottom-color: var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 60%, rgba(255,51,51,0.07) 0%, transparent 55%),
+                radial-gradient(circle at 75% 30%, rgba(255,51,51,0.05) 0%, transparent 45%);
+            pointer-events: none;
+        }
+
+        .hero-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-tag::before,
+        .hero-tag::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', Georgia, serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-sub {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.5;
+        }
+
+        .hero-author {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 3rem;
+        }
+
+        .hero-author strong { color: var(--text-secondary); }
+
+        /* Social links */
+        .socials {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 2px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .social-link svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* Scroll indicator */
+        .scroll-down {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: bob 2s ease-in-out infinite;
+        }
+
+        .scroll-down svg {
+            width: 20px; height: 20px;
+            stroke: currentColor; fill: none; stroke-width: 1.5;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* Sections */
+        .sections {
+            padding: 5rem 2rem 7rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .sections-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+            background: var(--border);
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: background 0.25s;
+            position: relative;
+        }
+
+        .card:hover { background: var(--bg-hover); }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 2px; height: 0;
+            background: var(--accent);
+            transition: height 0.3s ease;
+        }
+
+        .card:hover::after { height: 100%; }
+
+        .card-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .card-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .card-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .card:hover .card-cta { color: var(--accent); }
+
+        .card-cta svg {
+            width: 14px; height: 14px;
+            stroke: currentColor; fill: none; stroke-width: 2;
+            transition: transform 0.2s;
+        }
+
+        .card:hover .card-cta svg { transform: translateX(3px); }
+
+        .card.coming-soon { opacity: 0.65; cursor: default; }
+        .card.coming-soon:hover { background: var(--bg-card); }
+        .card.coming-soon::after { display: none; }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            border-radius: 2px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cards { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="/" class="nav-logo">The Traveling Techie</a>
+        <div class="nav-links">
+            <a href="/dispatch/">Dispatch</a>
+            <a href="/learn/">Learn</a>
+            <a href="/lab/">Lab</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-tag">by Salim — SD</div>
+        <h1>The Traveling<br>Techie</h1>
+        <p class="hero-sub">Tech, geopolitics, AI, travels and the future — one post at a time.</p>
+        <div class="hero-author">Written by <strong>Salim</strong> — <strong>@sd_thetravellingtechie</strong></div>
+        <div class="socials">
+            <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                Instagram
+            </a>
+            <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube
+            </a>
+            <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                GitHub
+            </a>
+        </div>
+        <div class="scroll-down">
+            <span>Explore</span>
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+    </section>
+
+    <section class="sections">
+        <p class="sections-label">Three spaces. One voice.</p>
+        <div class="cards">
+
+            <a href="/dispatch/" class="card">
+                <span class="card-tag">Techie Dispatch</span>
+                <h2 class="card-title">Articles &amp; Opinions</h2>
+                <p class="card-desc">Tech news, geopolitics, AI, travels and the world — long-form takes on what matters.</p>
+                <p class="card-meta">1 article published</p>
+                <span class="card-cta">
+                    Read
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </a>
+
+            <div class="card coming-soon">
+                <span class="card-tag">Techie Learn</span>
+                <h2 class="card-title">Formations</h2>
+                <p class="card-desc">Cloud, AI, project management, sciences — structured courses to level up your skills.</p>
+                <span class="badge">Coming soon</span>
+            </div>
+
+            <div class="card coming-soon">
+                <span class="card-tag">Techie Lab</span>
+                <h2 class="card-title">Build &amp; Experiment</h2>
+                <p class="card-desc">AI agents, automation, how-to guides — practical experiments you can replicate.</p>
+                <span class="badge">Coming soon</span>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            &copy; 2026 Salim &mdash; The Traveling Techie &nbsp;&middot;&nbsp;
+            <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer">Instagram</a> &nbsp;&middot;&nbsp;
+            <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </p>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+    </script>
+
+</body>
+</html>
