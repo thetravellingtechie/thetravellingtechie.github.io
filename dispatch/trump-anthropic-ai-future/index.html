@@ -155,12 +155,11 @@
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background:
                 linear-gradient(to bottom,
-                    rgba(30,27,75,0.25) 0%,
-                    rgba(30,27,75,0.1) 30%,
-                    rgba(15,23,42,0.72) 65%,
-                    rgba(15,23,42,0.97) 100%),
-                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(99,102,241,0.1) 0%, transparent 40%);
+                    rgba(0,0,0,0.15) 0%,
+                    rgba(0,0,0,0.05) 25%,
+                    rgba(0,0,0,0.62) 65%,
+                    rgba(10,10,10,0.97) 100%),
+                radial-gradient(circle at 20% 50%, rgba(225,29,72,0.1) 0%, transparent 50%);
             pointer-events: none; z-index: 1;
         }
 
@@ -203,10 +202,9 @@
             font-size: clamp(2.2rem, 5.5vw, 4rem);
             font-weight: 800; line-height: 1.1; margin-bottom: 2rem;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff 40%, #fca5a5 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #ffffff;
         }
+        h1 .key { color: var(--dispatch); }
 
         .hero-subtitle {
             font-family: 'Crimson Pro', serif;
@@ -538,7 +536,7 @@
         <img class="hero-image" src="images/trump-anthropic-ai-future-at-stake.jpg" alt="Balance scales: power vs humanity" />
         <div class="hero-content">
             <div class="hero-meta">Investigation</div>
-            <h1>Trump Didn't Ban Anthropic.<br>He Dropped a Bomb on the Entire AI Ecosystem.</h1>
+            <h1>Anthropic was just the <span class="key">FIRST.</span><br>Now every AI company on earth must pick a side.</h1>
             <p class="hero-subtitle">How a standoff over surveillance and autonomous weapons became a defining moment for the future of artificial intelligence</p>
             <div class="hero-author">
                 <span data-fr="Par" data-en="By">By</span>
