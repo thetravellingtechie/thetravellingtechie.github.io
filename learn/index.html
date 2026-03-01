@@ -203,6 +203,30 @@
         footer a:hover { color: var(--accent); }
 
         @media (max-width: 680px) { .nav-links { display: none; } }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -237,7 +261,13 @@
         </div>
     </main>
 
-    <footer>
+        <footer>
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
         <p>&copy; 2026 Salim &mdash; <a href="/">The Traveling Techie</a></p>
     </footer>
 

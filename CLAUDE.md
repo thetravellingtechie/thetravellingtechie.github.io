@@ -168,7 +168,7 @@ This workflow context is stored in **two places**:
 
 ```
 Repo:     thetravellingtechie/thetravellingtechie.github.io
-Local:    C:/Users/salim/Documents/ClaudeCowork/Articles/Nouveau dossier/site/
+
 
 Structure:
   index.html                          ← Landing page (done)
