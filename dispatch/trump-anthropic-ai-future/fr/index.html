@@ -460,7 +460,7 @@
 
         /* ── Reading time badge ── */
         .reading-time {
-            position: fixed; bottom: 2rem; right: 2rem;
+            position: fixed; bottom: 2rem; left: 2rem;
             background: var(--bg-card); border: 1px solid var(--border);
             padding: 0.6rem 1.1rem; border-radius: 100px;
             font-family: 'Inter', sans-serif; font-size: 0.7rem;
@@ -478,6 +478,111 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.4; }
+        }
+
+        /* ── Floating chapter navigation ── */
+        .chapter-fab-wrap {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+        .chapter-fab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.58rem 1.1rem;
+            background: rgba(10,10,10,0.9);
+            border: 1px solid var(--dispatch);
+            border-radius: 100px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: background 0.25s, opacity 0.3s, transform 0.3s;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+        }
+        .chapter-fab.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .chapter-fab:hover { background: rgba(225,29,72,0.1); }
+        .chapter-fab svg {
+            width: 13px; height: 13px;
+            stroke: var(--dispatch); fill: none; stroke-width: 2.5;
+            transition: transform 0.3s ease;
+        }
+        .chapter-fab.open svg { transform: rotate(180deg); }
+        .chapter-panel {
+            background: rgba(10,10,10,0.95);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 0.4rem 0;
+            min-width: 210px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: max-height 0.35s ease, opacity 0.22s ease, transform 0.22s ease;
+            pointer-events: none;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
+        .chapter-panel.open {
+            max-height: 520px;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.58rem 1.1rem;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.71rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s, background 0.2s, border-color 0.2s;
+            border-left: 2px solid transparent;
+        }
+        .chapter-item:hover {
+            color: var(--text);
+            background: rgba(225,29,72,0.06);
+            border-left-color: rgba(225,29,72,0.35);
+        }
+        .chapter-item.active {
+            color: var(--dispatch);
+            border-left-color: var(--dispatch);
+        }
+        .chapter-num {
+            font-size: 0.6rem;
+            color: var(--muted);
+            min-width: 12px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+        .chapter-item.active .chapter-num { color: var(--dispatch); }
+        @media (max-width: 768px) {
+            .chapter-fab-wrap { bottom: 1.25rem; right: 1.25rem; }
+            .chapter-panel { min-width: 190px; }
         }
 
         /* ── Selection & scrollbar ── */
@@ -850,6 +955,48 @@
         <span data-fr="Long article" data-en="Long Read">Long article</span>
     </div>
 
+    <!-- Floating chapter navigation -->
+    <div class="chapter-fab-wrap" id="chapterFabWrap">
+        <div class="chapter-panel" id="chapterPanel">
+            <a class="chapter-item active" href="#" id="ch-home">
+                <span class="chapter-num">↑</span>
+                <span>Accueil</span>
+            </a>
+            <a class="chapter-item" href="#part1">
+                <span class="chapter-num">1</span>
+                <span>Le Choc</span>
+            </a>
+            <a class="chapter-item" href="#part2">
+                <span class="chapter-num">2</span>
+                <span>Contexte</span>
+            </a>
+            <a class="chapter-item" href="#part3">
+                <span class="chapter-num">3</span>
+                <span>Implications</span>
+            </a>
+            <a class="chapter-item" href="#part4">
+                <span class="chapter-num">4</span>
+                <span>Paysage</span>
+            </a>
+            <a class="chapter-item" href="#part5">
+                <span class="chapter-num">5</span>
+                <span>Futur</span>
+            </a>
+            <a class="chapter-item" href="#part6">
+                <span class="chapter-num">6</span>
+                <span>Gouvernance</span>
+            </a>
+            <a class="chapter-item" href="#conclusion">
+                <span class="chapter-num">✦</span>
+                <span>Conclusions</span>
+            </a>
+        </div>
+        <button class="chapter-fab" id="chapterFab" aria-label="Navigation par chapitres">
+            <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+            <span>Chapitres</span>
+        </button>
+    </div>
+
     <script>
         // ── Language toggle ──────────────────────────────────
         const LANG_KEY = 'ttt-lang';
@@ -937,6 +1084,75 @@
         document.getElementById('sidebarCopyBtn').addEventListener('click', function() {
             copyLink(this, '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>');
         });
+
+        // ── Floating chapter navigation ───────────────────────
+        const chapterFab   = document.getElementById('chapterFab');
+        const chapterPanel = document.getElementById('chapterPanel');
+        const homeItem     = document.getElementById('ch-home');
+
+        function updateFabVisibility() {
+            const heroBottom = heroEl ? heroEl.offsetHeight : 500;
+            chapterFab.classList.toggle('visible', document.documentElement.scrollTop > heroBottom * 0.5);
+        }
+        window.addEventListener('scroll', updateFabVisibility, { passive: true });
+        updateFabVisibility();
+
+        chapterFab.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = chapterPanel.classList.toggle('open');
+            chapterFab.classList.toggle('open', isOpen);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#chapterFabWrap')) {
+                chapterPanel.classList.remove('open');
+                chapterFab.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                chapterPanel.classList.remove('open');
+                chapterFab.classList.remove('open');
+            }
+        });
+
+        document.querySelectorAll('.chapter-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                chapterPanel.classList.remove('open');
+                chapterFab.classList.remove('open');
+                if (item.getAttribute('href') === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+
+        const chapterIds = ['part1','part2','part3','part4','part5','part6','conclusion'];
+        const chapterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.chapter-item').forEach(i => i.classList.remove('active'));
+                    const link = document.querySelector(`.chapter-item[href="#${entry.target.id}"]`);
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { threshold: 0.25, rootMargin: '-80px 0px -45% 0px' });
+
+        chapterIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) chapterObserver.observe(el);
+        });
+
+        if (heroEl) {
+            const heroObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    document.querySelectorAll('.chapter-item').forEach(i => i.classList.remove('active'));
+                    if (homeItem) homeItem.classList.add('active');
+                }
+            }, { threshold: 0.1 });
+            heroObserver.observe(heroEl);
+        }
     </script>
 </body>
 </html>
