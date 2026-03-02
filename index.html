@@ -649,11 +649,11 @@
             let t = 0, wakeUp = 0;
 
             // Flat-top hexagon grid
-            const R   = 22;                        // circumradius (px)
+            const R   = 130;                       // circumradius (px) — immense scales
             const S3  = Math.sqrt(3);
             const CX  = R * 1.5;                   // column x-spacing
             const CY  = R * S3;                    // row y-spacing
-            const GAP = 1.5;                       // groove between scales
+            const GAP = 3;                         // groove between scales
 
             // Draws a flat-top hexagon path centered at (cx, cy)
             function hexPath(cx, cy, r) {
@@ -760,14 +760,14 @@
                 hexes.forEach(h => {
                     // Mouse proximity glow
                     const md  = Math.hypot(h.cx - mouseX, h.cy - mouseY);
-                    const pr  = Math.max(0, 1 - md / 185);
+                    const pr  = Math.max(0, 1 - md / 320);
                     const spr = pr * pr * (3 - 2 * pr);   // smoothstep
 
                     // Click-ripple waves
                     let ripple = 0;
                     waves.forEach(w => {
                         const wd  = Math.hypot(h.cx - w.ox, h.cy - w.oy);
-                        const rel = Math.abs(wd - w.radius) / 55;
+                        const rel = Math.abs(wd - w.radius) / 90;
                         ripple = Math.max(ripple, Math.max(0, 1 - rel) * w.str);
                     });
 
@@ -781,7 +781,7 @@
 
                 // Advance & prune waves
                 waves = waves.filter(w => w.str > 0.012);
-                waves.forEach(w => { w.radius += 10; w.str *= 0.955; });
+                waves.forEach(w => { w.radius += 14; w.str *= 0.962; });
 
                 requestAnimationFrame(frame);
             }
