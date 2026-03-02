@@ -179,22 +179,11 @@
             color: #ffffff;
         }
 
-        /* Stars overlay */
+        /* Stars overlay — animated via canvas */
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            background-image:
-                radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
-                radial-gradient(1px 1px at 25% 45%, rgba(255,255,255,0.4) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 40% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
-                radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.35) 0%, transparent 100%),
-                radial-gradient(1px 1px at 75% 10%, rgba(255,255,255,0.55) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
-                radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.45) 0%, transparent 100%),
-                radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
-                radial-gradient(1px 1px at 20% 75%, rgba(255,255,255,0.35) 0%, transparent 100%),
-                radial-gradient(1.5px 1.5px at 70% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
             pointer-events: none;
         }
 
@@ -210,24 +199,43 @@
 
         .hero-content { position: relative; z-index: 1; }
 
-        .hero-tag {
-            font-size: 0.68rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: rgba(196,181,253,1);
-            margin-bottom: 1.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        /* Star canvas */
+        #starCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .hero-tag::before,
-        .hero-tag::after {
-            content: '';
-            width: 28px;
+        /* Thin decorative line (replaces hero-tag) */
+        .hero-line {
+            width: 40px;
             height: 1px;
-            background: rgba(196,181,253,0.6);
+            background: linear-gradient(90deg, transparent, rgba(196,181,253,0.85), transparent);
+            margin: 0 auto 2rem;
         }
+
+        /* ── Entrance animations ── */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealFade {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes cardReveal {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Staggered hero content reveals */
+        .hero-line             { animation: revealFade 0.6s ease both 0.1s; }
+        .hero-content h1       { animation: revealUp 1s cubic-bezier(0.16,1,0.3,1) both 0.25s; }
+        .hero-sub              { animation: revealUp 0.9s cubic-bezier(0.16,1,0.3,1) both 0.45s; }
+        .hero-author           { animation: revealFade 0.8s ease both 0.65s; }
+        .hero-content .socials { animation: revealUp 0.8s cubic-bezier(0.16,1,0.3,1) both 0.8s; }
 
         h1 {
             font-family: 'Outfit', sans-serif;
@@ -308,7 +316,7 @@
             font-size: 0.58rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            animation: bob 2s ease-in-out infinite;
+            animation: revealFade 0.8s ease both 1s, bob 2s ease-in-out 1.8s infinite;
             z-index: 1;
         }
 
@@ -544,8 +552,9 @@
     </nav>
 
     <section class="hero">
+        <canvas id="starCanvas" aria-hidden="true"></canvas>
         <div class="hero-content">
-            <div class="hero-tag" data-fr="par Salim — SD" data-en="by Salim — SD">par Salim — SD</div>
+            <div class="hero-line" aria-hidden="true"></div>
             <h1>The Traveling<br>Techie</h1>
             <p class="hero-sub" data-fr="Tech, géopolitique, IA, voyages et le futur — une publication à la fois." data-en="Tech, geopolitics, AI, travels and the future — one post at a time.">
                 Tech, géopolitique, IA, voyages et le futur — une publication à la fois.
@@ -631,6 +640,76 @@
     </footer>
 
     <script>
+        // ── Twinkling star canvas ──
+        (function () {
+            const canvas = document.getElementById('starCanvas');
+            const ctx    = canvas.getContext('2d');
+            let stars    = [];
+
+            function resize() {
+                canvas.width  = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+
+            function init(n) {
+                stars = Array.from({ length: n }, () => ({
+                    x:     Math.random() * canvas.width,
+                    y:     Math.random() * canvas.height,
+                    r:     Math.random() * 1.1 + 0.2,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.013 + 0.004
+                }));
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.phase += s.speed;
+                    const a = ((Math.sin(s.phase) + 1) / 2) * 0.65 + 0.08;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+
+            new ResizeObserver(() => { resize(); init(180); }).observe(canvas.parentElement);
+            resize(); init(180); requestAnimationFrame(draw);
+        })();
+
+        // ── Scroll-reveal for sections ──
+        (function () {
+            const allCards = [...document.querySelectorAll('.card')];
+
+            const cardObs = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const card  = entry.target;
+                    const idx   = allCards.indexOf(card);
+                    const delay = (idx * 0.12).toFixed(2);
+                    card.style.animation = `cardReveal 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}s both`;
+                    card.addEventListener('animationend', () => {
+                        card.style.animation = '';
+                        if (!card.classList.contains('coming-soon')) card.style.opacity = '1';
+                    }, { once: true });
+                    obs.unobserve(card);
+                });
+            }, { threshold: 0.08 });
+
+            const labelObs = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.style.animation = 'revealUp 0.6s cubic-bezier(0.16,1,0.3,1) both';
+                    obs.unobserve(entry.target);
+                });
+            }, { threshold: 0.1 });
+
+            allCards.forEach(c => cardObs.observe(c));
+            const lbl = document.querySelector('.sections-label');
+            if (lbl) labelObs.observe(lbl);
+        })();
+
         // ── Nav scroll behaviour ──
         const nav = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
