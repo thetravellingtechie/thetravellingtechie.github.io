@@ -1,0 +1,148 @@
+<!--
+  ═══════════════════════════════════════════════════════
+  COOKIE CONSENT BANNER — RGPD/GDPR compliant
+  The Travelling Techie
+  ═══════════════════════════════════════════════════════
+
+  USAGE:
+  1. Paste the <style> block inside your <style> section (or link to a shared CSS).
+  2. Paste the <div id="cookieBanner"> just after <body>.
+  3. Paste the <script> block just before </body>.
+
+  HOW IT WORKS:
+  - On first visit: banner appears, analytics are NOT loaded yet.
+  - On "Accept": consent saved in localStorage, analytics load immediately.
+  - On "Decline": no analytics loaded, choice saved.
+  - On subsequent visits: banner hidden, analytics loaded only if previously accepted.
+
+  WIRE UP ANALYTICS:
+  Replace the "// load analytics" comment in the script below with the actual
+  GA4 + Clarity snippet from analytics.html (the <script> tags, not the comments).
+  ═══════════════════════════════════════════════════════
+-->
+
+<!-- ── CSS ── (add inside your <style> block) ────── -->
+<style>
+  /* Cookie consent banner */
+  #cookieBanner {
+    position: fixed;
+    bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    width: min(640px, calc(100vw - 2rem));
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    z-index: 9999;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  #cookieBanner.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+  }
+  #cookieBanner p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    line-height: 1.5;
+    text-align: left;
+    flex: 1;
+  }
+  #cookieBanner p a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: underline;
+  }
+  .cookie-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0;
+  }
+  .cookie-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .cookie-btn:hover { opacity: 0.85; }
+  .cookie-btn-accept {
+    background: #6366f1;
+    color: #ffffff;
+  }
+  .cookie-btn-decline {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  @media (max-width: 540px) {
+    #cookieBanner { flex-direction: column; align-items: flex-start; }
+    .cookie-actions { width: 100%; justify-content: flex-end; }
+  }
+</style>
+
+<!-- ── HTML ── (paste just after <body>) ─────────── -->
+<div id="cookieBanner" class="hidden" role="dialog" aria-label="Cookie consent">
+  <p>
+    Ce site utilise des cookies analytiques pour mesurer l'audience et améliorer le contenu.
+    Aucune donnée personnelle n'est vendue.
+    <a href="/about/" target="_blank">En savoir plus</a>
+  </p>
+  <div class="cookie-actions">
+    <button class="cookie-btn cookie-btn-decline" id="cookieDecline">Refuser</button>
+    <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Accepter</button>
+  </div>
+</div>
+
+<!-- ── SCRIPT ── (paste just before </body>) ──────── -->
+<script>
+  (function () {
+    const CONSENT_KEY = 'ttt-analytics-consent';
+    const banner      = document.getElementById('cookieBanner');
+    const consent     = localStorage.getItem(CONSENT_KEY);
+
+    function loadAnalytics() {
+      // ── Paste GA4 + Clarity <script> tags here ──────────
+      // (copy from _templates/snippets/analytics.html)
+      // ────────────────────────────────────────────────────
+    }
+
+    function hideBanner() {
+      banner.classList.add('hidden');
+      setTimeout(() => banner.style.display = 'none', 350);
+    }
+
+    if (consent === 'granted') {
+      loadAnalytics();
+      banner.style.display = 'none';
+    } else if (consent === 'denied') {
+      banner.style.display = 'none';
+    } else {
+      // First visit — show banner after a brief delay
+      setTimeout(() => banner.classList.remove('hidden'), 800);
+    }
+
+    document.getElementById('cookieAccept').addEventListener('click', () => {
+      localStorage.setItem(CONSENT_KEY, 'granted');
+      loadAnalytics();
+      hideBanner();
+    });
+
+    document.getElementById('cookieDecline').addEventListener('click', () => {
+      localStorage.setItem(CONSENT_KEY, 'denied');
+      hideBanner();
+    });
+  })();
+</script>
