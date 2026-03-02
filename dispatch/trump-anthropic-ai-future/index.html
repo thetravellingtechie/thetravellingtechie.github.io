@@ -71,6 +71,18 @@
             transition: width 0.1s;
         }
 
+        /* ── Nav background mask (hides article scrolling under nav) ── */
+        .nav-mask {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 72px;
+            background: var(--bg);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .nav-mask.scrolled { opacity: 1; }
+
         /* ── Navigation ── */
         nav {
             position: fixed; top: 3px; left: 0; right: 0;
@@ -636,6 +648,7 @@
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
+    <div class="nav-mask" id="navMask"></div>
 
     <!-- Sticky share sidebar -->
     <div class="share-sidebar" id="shareSidebar">
@@ -1034,6 +1047,7 @@
         // ── Scroll: progress bar + nav state + sidebar ───────
         const progressBar  = document.getElementById('progressBar');
         const navbar       = document.getElementById('navbar');
+        const navMask      = document.getElementById('navMask');
         const shareSidebar = document.getElementById('shareSidebar');
         const heroEl       = document.querySelector('.hero');
 
@@ -1043,8 +1057,9 @@
             const height    = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             progressBar.style.width = ((winScroll / height) * 100) + '%';
 
-            // Nav scrolled class
+            // Nav scrolled class + mask
             navbar.classList.toggle('scrolled', winScroll > 80);
+            navMask.classList.toggle('scrolled', winScroll > 80);
 
             // Sticky sidebar: show after scrolling past hero
             const heroBottom = heroEl ? heroEl.offsetHeight : 600;
