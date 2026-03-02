@@ -32,8 +32,8 @@
             --text-body: #334155;
             --text-muted: #64748b;
             --text-light: #94a3b8;
-            --dispatch: #e11d48;
-            --dispatch-soft: rgba(225, 29, 72, 0.08);
+            --dispatch: #d97706;
+            --dispatch-soft: rgba(217, 119, 6, 0.08);
             --indigo: #6366f1;
             --border: #e2e8f0;
             --border-card: #cbd5e1;
@@ -206,8 +206,8 @@
             margin-bottom: 1.75rem;
             display: inline-flex; align-items: center; justify-content: center;
             gap: 0.9rem;
-            background: rgba(225, 29, 72, 0.18);
-            border: 1px solid rgba(225, 29, 72, 0.55);
+            background: rgba(217, 119, 6, 0.18);
+            border: 1px solid rgba(217, 119, 6, 0.55);
             padding: 0.45rem 1.2rem;
             border-radius: 2px;
             backdrop-filter: blur(6px);
@@ -215,7 +215,7 @@
         }
         .hero-meta::before, .hero-meta::after {
             content: ''; width: 20px; height: 1px;
-            background: rgba(225, 29, 72, 0.8);
+            background: rgba(217, 119, 6, 0.8);
         }
 
         h1 {
@@ -232,6 +232,7 @@
             font-size: 1.2rem; color: rgba(255,255,255,0.7);
             font-style: italic; max-width: 580px;
             margin: 0 auto 2.5rem; line-height: 1.6;
+            text-align: center;
         }
 
         .hero-author {
@@ -243,21 +244,6 @@
         .hero-author strong { color: rgba(255,255,255,0.85); font-weight: 600; }
         .hero-author-date { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
 
-        .scroll-indicator {
-            position: absolute; bottom: 2.5rem; left: 50%;
-            transform: translateX(-50%); z-index: 4;
-            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-            color: rgba(255,255,255,0.45);
-            font-family: 'Inter', sans-serif; font-size: 0.6rem;
-            letter-spacing: 0.2em; text-transform: uppercase;
-            animation: bounce 2.5s infinite;
-        }
-        @keyframes bounce {
-            0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-8px); }
-            60% { transform: translateX(-50%) translateY(-4px); }
-        }
-        .scroll-indicator svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
 
         /* ── Breadcrumb ── */
@@ -303,10 +289,17 @@
             font-family: 'Crimson Pro', Georgia, serif;
             font-size: 1.2rem; line-height: 1.9;
             margin-bottom: 1.75rem; color: var(--text-body);
-            text-align: justify; hyphens: auto;
+            text-align: justify; hyphens: none; overflow-wrap: break-word;
         }
         p strong { color: var(--text); font-weight: 600; }
         p em { font-style: italic; }
+        .footnote-inline {
+            font-family: 'Inter', sans-serif; font-size: 0.82rem;
+            color: var(--text-muted); font-style: normal;
+            background: rgba(0,0,0,0.04); border-radius: 3px;
+            padding: 0.1em 0.4em; margin-left: 0.2em;
+            white-space: normal;
+        }
 
         /* ── Blockquote ── */
         blockquote {
@@ -684,19 +677,15 @@
 
     <header class="hero">
         <div class="hero-bg"></div>
-        <img class="hero-image" src="../images/trump-anthropic-ai-future-at-stake.jpg" alt="Balance scales: power vs humanity" />
+        <img class="hero-image" src="/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg" alt="Balance scales: power vs humanity" />
         <div class="hero-content">
-            <div class="hero-meta">Investigation</div>
+            <div class="hero-meta">Investigation &nbsp;·&nbsp; IA &nbsp;·&nbsp; Géopolitique</div>
             <h1 data-key="hero-h1">Anthropic n'était que la <span class="key">PREMIÈRE.</span><br>Désormais, chaque entreprise d'IA sur Terre doit choisir son camp.</h1>
             <p class="hero-subtitle" data-key="hero-sub">Comment un bras de fer autour de la surveillance et des armes autonomes est devenu un moment décisif pour l'avenir de l'intelligence artificielle</p>
             <div class="hero-author">
                 <div><span data-fr="Par" data-en="By">Par</span> <strong>The Traveling Techie</strong> &amp; <strong>Claude (Anthropic)</strong></div>
                 <div class="hero-author-date">February 28, 2026</div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <span data-fr="Défiler" data-en="Scroll">Défiler</span>
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
     </header>
 
@@ -709,7 +698,7 @@
 
         <article>
         <section id="part1" class="section-header">
-            <h2>1 — Le choc du 27 février</h2>
+            <h2>1 — Le choc du vendredi 27 février 2026</h2>
         </section>
 
         <p>Vendredi après-midi, Donald Trump a publié sur Truth Social : <em>« Je demande à CHAQUE Agence Fédérale du Gouvernement des États-Unis de CESSER IMMÉDIATEMENT d'utiliser la technologie d'Anthropic. Nous n'en avons pas besoin, nous n'en voulons pas, et nous ne ferons plus jamais affaire avec eux ! »</em></p>
@@ -781,7 +770,7 @@
 
         <p>Pour comprendre pourquoi contrôler Anthropic importe autant, il faut comprendre où elle se situe dans la course mondiale à l'IA.</p>
 
-        <p>Claude — et plus précisément Sonnet 4.6 — représente une combinaison unique : une capacité frontier au plus haut niveau, couplée à la philosophie de sécurité la plus cohérente et la plus rigoureuse de tout modèle actuellement déployé à grande échelle. Cette combinaison n'est pas accidentelle. Elle est le produit de l'engagement fondateur d'Anthropic envers <strong>l'interprétabilité</strong> — la science de comprendre ce qui se passe réellement à l'intérieur d'un modèle d'IA, pas seulement ce qu'il produit.</p>
+        <p>Claude — et plus précisément Sonnet 4.6 — représente une combinaison unique : une capacité <em>frontier</em> <span class="footnote-inline">(terme désignant les modèles d'IA les plus avancés au monde, opérant à la limite absolue de ce que la technologie permet)</span> au plus haut niveau, couplée à la philosophie de sécurité la plus cohérente et la plus rigoureuse de tout modèle actuellement déployé à grande échelle. Cette combinaison n'est pas accidentelle. Elle est le produit de l'engagement fondateur d'Anthropic envers <strong>l'interprétabilité</strong> — la science de comprendre ce qui se passe réellement à l'intérieur d'un modèle d'IA, pas seulement ce qu'il produit.</p>
 
         <p>Dario Amodei est le seul PDG parmi les entreprises d'IA frontier à avoir fait de la recherche en interprétabilité un pilier central — pas un argument marketing, mais un véritable investissement dans la compréhension des mécanismes internes des modèles qu'ils construisent. Cela compte énormément pour la confiance. Et la confiance, dans les contextes géopolitiques et de sécurité nationale, est la monnaie ultime.</p>
 
@@ -795,7 +784,7 @@
 
         <p>Et à l'horizon : <strong>l'informatique quantique</strong>. Le processeur Willow de Google, annoncé fin 2024, a démontré des capacités de correction d'erreurs représentant un véritable bond en avant. La convergence de l'informatique quantique avec les modèles d'IA frontier n'est pas de la science-fiction — c'est la prochaine frontière stratégique vers laquelle toutes les grandes puissances se dirigent discrètement. Ce que cette convergence signifie pour la nature même de l'intelligence reste l'une des questions ouvertes les plus profondes de notre époque.</p>
 
-        <p>Dans ce paysage, celui qui contrôle le modèle d'IA le plus capable et le plus fiable détient un levier de pouvoir stratégique extraordinaire. C'est précisément pourquoi ce qui arrive à Anthropic n'est pas un différend d'approvisionnement. C'est une lutte de pouvoir sur qui façonnera l'avenir.</p>
+        <p>Dans ce paysage, celui qui contrôle le modèle d'IA le plus capable et le plus fiable détient un levier de pouvoir stratégique extraordinaire. C'est précisément pour cela que ce qui se joue autour d'Anthropic n'a rien d'une querelle contractuelle. C'est un bras de fer pour décider qui tiendra les rênes de l'intelligence artificielle — et, avec elle, celles du monde.</p>
 
         <div class="divider"><span>◆</span></div>
 
@@ -978,9 +967,6 @@
         <p>&copy; 2026 Salim &mdash; <a href="/">The Traveling Techie</a></p>
     </footer>
 
-    <div class="reading-time">
-        <span data-fr="Long article" data-en="Long Read">Long article</span>
-    </div>
 
     <!-- Floating chapter navigation -->
     <div class="chapter-fab-wrap" id="chapterFabWrap">

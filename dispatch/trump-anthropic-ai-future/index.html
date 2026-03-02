@@ -32,8 +32,8 @@
             --text-body: #334155;
             --text-muted: #64748b;
             --text-light: #94a3b8;
-            --dispatch: #e11d48;
-            --dispatch-soft: rgba(225, 29, 72, 0.08);
+            --dispatch: #d97706;
+            --dispatch-soft: rgba(217, 119, 6, 0.08);
             --indigo: #6366f1;
             --border: #e2e8f0;
             --border-card: #cbd5e1;
@@ -206,8 +206,8 @@
             margin-bottom: 1.75rem;
             display: inline-flex; align-items: center; justify-content: center;
             gap: 0.9rem;
-            background: rgba(225, 29, 72, 0.18);
-            border: 1px solid rgba(225, 29, 72, 0.55);
+            background: rgba(217, 119, 6, 0.18);
+            border: 1px solid rgba(217, 119, 6, 0.55);
             padding: 0.45rem 1.2rem;
             border-radius: 2px;
             backdrop-filter: blur(6px);
@@ -215,7 +215,7 @@
         }
         .hero-meta::before, .hero-meta::after {
             content: ''; width: 20px; height: 1px;
-            background: rgba(225, 29, 72, 0.8);
+            background: rgba(217, 119, 6, 0.8);
         }
 
         h1 {
@@ -232,6 +232,7 @@
             font-size: 1.2rem; color: rgba(255,255,255,0.7);
             font-style: italic; max-width: 580px;
             margin: 0 auto 2.5rem; line-height: 1.6;
+            text-align: center;
         }
 
         .hero-author {
@@ -243,21 +244,6 @@
         .hero-author strong { color: rgba(255,255,255,0.85); font-weight: 600; }
         .hero-author-date { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
 
-        .scroll-indicator {
-            position: absolute; bottom: 2.5rem; left: 50%;
-            transform: translateX(-50%); z-index: 4;
-            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-            color: rgba(255,255,255,0.45);
-            font-family: 'Inter', sans-serif; font-size: 0.6rem;
-            letter-spacing: 0.2em; text-transform: uppercase;
-            animation: bounce 2.5s infinite;
-        }
-        @keyframes bounce {
-            0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-8px); }
-            60% { transform: translateX(-50%) translateY(-4px); }
-        }
-        .scroll-indicator svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
 
         /* ── Breadcrumb ── */
@@ -303,7 +289,7 @@
             font-family: 'Crimson Pro', Georgia, serif;
             font-size: 1.2rem; line-height: 1.9;
             margin-bottom: 1.75rem; color: var(--text-body);
-            text-align: justify; hyphens: auto;
+            text-align: justify; hyphens: none; overflow-wrap: break-word;
         }
         p strong { color: var(--text); font-weight: 600; }
         p em { font-style: italic; }
@@ -504,7 +490,7 @@
             background: rgba(10,10,10,0.9);
             border: 1px solid var(--dispatch);
             border-radius: 100px;
-            color: var(--text);
+            color: #ffffff;
             font-family: 'Inter', sans-serif;
             font-size: 0.7rem;
             font-weight: 700;
@@ -569,7 +555,7 @@
             border-left: 2px solid transparent;
         }
         .chapter-item:hover {
-            color: var(--text);
+            color: rgba(255,255,255,0.95);
             background: rgba(225,29,72,0.06);
             border-left-color: rgba(225,29,72,0.35);
         }
@@ -684,19 +670,15 @@
 
     <header class="hero">
         <div class="hero-bg"></div>
-        <img class="hero-image" src="images/trump-anthropic-ai-future-at-stake.jpg" alt="Balance scales: power vs humanity" />
+        <img class="hero-image" src="/dispatch/trump-anthropic-ai-future/images/trump-anthropic-ai-future-at-stake.jpg" alt="Balance scales: power vs humanity" />
         <div class="hero-content">
-            <div class="hero-meta">Investigation</div>
+            <div class="hero-meta">Investigation &nbsp;·&nbsp; AI &nbsp;·&nbsp; Geopolitics</div>
             <h1 data-key="hero-h1">Anthropic was just the <span class="key">FIRST.</span><br>Now every AI company on earth must pick a side.</h1>
             <p class="hero-subtitle" data-key="hero-sub">How a standoff over surveillance and autonomous weapons became a defining moment for the future of artificial intelligence</p>
             <div class="hero-author">
                 <div><span data-fr="Par" data-en="By">By</span> <strong>The Traveling Techie</strong> &amp; <strong>Claude (Anthropic)</strong></div>
                 <div class="hero-author-date">February 28, 2026</div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <span data-fr="Défiler" data-en="Scroll">Scroll</span>
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
     </header>
 
@@ -976,9 +958,6 @@
         <p>&copy; 2026 Salim &mdash; <a href="/">The Traveling Techie</a></p>
     </footer>
 
-    <div class="reading-time">
-        <span data-fr="Long article" data-en="Long Read">Long Read</span>
-    </div>
 
     <!-- Floating chapter navigation -->
     <div class="chapter-fab-wrap" id="chapterFabWrap">

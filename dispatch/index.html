@@ -16,7 +16,7 @@
     <meta name="twitter:creator" content="@sd_thetravellingtechie">
     <link rel="canonical" href="https://thetravellingtechie.github.io/dispatch/">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#1e1b4b">
+    <meta name="theme-color" content="#78350f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -32,8 +32,8 @@
             --border-light: #f1f5f9;
             --accent:       #6366f1;
             --accent-soft:  rgba(99,102,241,0.08);
-            --dispatch:     #e11d48;
-            --dispatch-soft:rgba(225,29,72,0.07);
+            --dispatch:     #d97706;
+            --dispatch-soft:rgba(217,119,6,0.07);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,7 +46,7 @@
             line-height: 1.6;
         }
 
-        /* ── NAV (always light on content pages) ── */
+        /* ── NAV ── */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -55,6 +55,10 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
             background: rgba(250,250,250,0.92);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(16px);
@@ -67,37 +71,49 @@
             font-size: 0.85rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--text);
+            color: #ffffff;
             text-decoration: none;
+            transition: color 0.3s;
         }
+
+        nav.scrolled .nav-logo { color: var(--text); }
 
         .nav-center {
             display: flex;
             gap: 2rem;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .nav-center a {
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.65);
             text-decoration: none;
             transition: color 0.2s;
             font-family: 'Inter', sans-serif;
+            font-weight: 500;
         }
 
-        .nav-center a:hover { color: var(--text); }
-        .nav-center a.active { color: var(--dispatch); font-weight: 600; }
+        nav.scrolled .nav-center a { color: var(--text-secondary); }
+        .nav-center a:hover { color: #ffffff; }
+        nav.scrolled .nav-center a:hover { color: var(--text); }
+        .nav-center a.active { color: rgba(253,230,138,0.95); font-weight: 600; }
+        nav.scrolled .nav-center a.active { color: var(--dispatch); }
 
         .lang-toggle {
             display: flex;
             align-items: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
             border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled .lang-toggle {
+            background: var(--bg-card);
+            border-color: var(--border);
         }
 
         .lang-toggle span {
@@ -106,88 +122,184 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.6);
             transition: all 0.2s;
             font-family: 'Inter', sans-serif;
             user-select: none;
         }
 
+        nav.scrolled .lang-toggle span { color: var(--text-muted); }
+
         .lang-toggle span.active {
-            background: var(--accent);
+            background: rgba(217,119,6,0.9);
             color: #ffffff;
         }
 
-        /* ── PAGE HEADER ── */
-        .page-header {
-            padding: 8rem 2rem 3.5rem;
+        nav.scrolled .lang-toggle span.active { background: var(--accent); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; text-align: center;
+            background: linear-gradient(160deg, #0f172a 0%, #78350f 28%, #d97706 55%, #92400e 78%, #0f172a 100%);
+        }
+
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 220px;
+            background: linear-gradient(to bottom, transparent, var(--bg)); z-index: 1;
+        }
+
+        #starCanvas {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+
+        .hero-inner {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1.25rem; padding: 0 2rem;
+        }
+
+        .hero-line {
+            width: 40px; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(253,230,138,0.85), transparent);
+            animation: revealFade 0.6s ease both 0.2s;
+        }
+
+        .hero-tag {
+            font-size: 0.62rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(253,230,138,0.85);
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            animation: revealFade 0.8s ease both 0.25s;
+        }
+
+        .hero-inner h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            color: #ffffff; line-height: 1.1; letter-spacing: -0.02em;
+            animation: revealUp 1s cubic-bezier(0.16,1,0.3,1) both 0.35s;
+        }
+
+        .hero-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: rgba(255,255,255,0.5);
+            max-width: 480px;
+            line-height: 1.65;
+            animation: revealUp 0.9s cubic-bezier(0.16,1,0.3,1) both 0.5s;
+        }
+
+        .hero-scroll {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem; font-weight: 500;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(255,255,255,0.28);
+            animation: revealFade 0.8s ease both 0.8s;
+            margin-top: 0.75rem;
+        }
+
+        .hero-scroll svg {
+            width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2;
+            animation: bounce 2s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealFade { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ── FILTERS ── */
+        .filters-bar {
             max-width: 960px;
             margin: 0 auto;
-        }
-
-        /* Ruby accent bar at top of header */
-        .page-header::before {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 3px;
-            background: var(--dispatch);
-            border-radius: 2px;
-            margin-bottom: 1.5rem;
-        }
-
-        .breadcrumb {
-            font-size: 0.68rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
+            padding: 2rem 2rem 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .breadcrumb a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .breadcrumb a:hover { color: var(--accent); }
-
-        .breadcrumb svg {
-            width: 10px; height: 10px;
-            stroke: currentColor; fill: none; stroke-width: 2;
-        }
-
-        .page-tag {
-            font-size: 0.62rem;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: var(--dispatch);
+        .filter-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .page-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.75rem;
+        .filter-btn:hover {
+            border-color: var(--dispatch);
+            color: var(--dispatch);
         }
 
-        .page-desc {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 520px;
+        .filter-btn.active {
+            background: var(--dispatch);
+            border-color: var(--dispatch);
+            color: #ffffff;
+        }
+
+        .filter-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            font-size: 0.55rem;
+            font-weight: 700;
+            background: rgba(255,255,255,0.25);
+            margin-left: 0.3rem;
+        }
+
+        .filter-btn:not(.active) .filter-count {
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        .article-card[hidden] { display: none !important; }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            display: none;
         }
 
         /* ── ARTICLES ── */
         .articles {
             max-width: 960px;
             margin: 0 auto;
-            padding: 2.5rem 2rem 6rem;
+            padding: 2rem 2rem 6rem;
+        }
+
+        .articles-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .articles-count {
@@ -195,9 +307,6 @@
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
         }
 
         .article-card {
@@ -215,8 +324,8 @@
 
         .article-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 36px rgba(225,29,72,0.1);
-            border-color: rgba(225,29,72,0.25);
+            box-shadow: 0 12px 36px rgba(217,119,6,0.12);
+            border-color: rgba(217,119,6,0.3);
         }
 
         .article-body {
@@ -238,7 +347,7 @@
         }
 
         .article-tag {
-            color: var(--dispatch);
+            color: var(--text-muted);
             font-weight: 600;
             font-size: 0.62rem;
         }
@@ -359,12 +468,13 @@
 </head>
 <body>
 
-    <nav>
+    <nav id="mainNav">
         <a href="/" class="nav-logo">The Traveling Techie</a>
         <div class="nav-center">
             <a href="/dispatch/" class="active" data-fr="Dispatch" data-en="Dispatch">Dispatch</a>
             <a href="/learn/" data-fr="Apprendre" data-en="Learn">Apprendre</a>
             <a href="/lab/" data-fr="Lab" data-en="Lab">Lab</a>
+            <a href="/about/" data-fr="À propos" data-en="About">À propos</a>
         </div>
         <div class="lang-toggle" id="langToggle" role="button" aria-label="Toggle language" tabindex="0">
             <span id="langFR" class="active">FR</span>
@@ -372,23 +482,91 @@
         </div>
     </nav>
 
-    <header class="page-header">
-        <div class="breadcrumb">
-            <a href="/" data-fr="Accueil" data-en="Home">Accueil</a>
-            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-            <span>Dispatch</span>
+    <section class="hero">
+        <canvas id="starCanvas" aria-hidden="true"></canvas>
+        <div class="hero-inner">
+            <div class="hero-line" aria-hidden="true"></div>
+            <div class="hero-tag">Techie Dispatch</div>
+            <h1 data-fr="Articles &amp; Opinions" data-en="Articles &amp; Opinions">Articles &amp; Opinions</h1>
+            <p class="hero-tagline" data-fr="Analyses longues sur la tech, la géopolitique, l'IA, les voyages et le monde." data-en="Long-form takes on tech, geopolitics, AI, travels and the world.">
+                Analyses longues sur la tech, la géopolitique, l'IA, les voyages et le monde.
+            </p>
+            <div class="hero-scroll" aria-hidden="true">
+                <span data-fr="Parcourir les articles" data-en="Browse articles">Parcourir les articles</span>
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
         </div>
-        <div class="page-tag">Techie Dispatch</div>
-        <h1 class="page-title" data-fr="Articles &amp; Opinions" data-en="Articles &amp; Opinions">Articles &amp; Opinions</h1>
-        <p class="page-desc" data-fr="Analyses longues sur la tech, la géopolitique, l'IA, les voyages et le monde." data-en="Long-form takes on tech, geopolitics, AI, travels and the world.">
-            Analyses longues sur la tech, la géopolitique, l'IA, les voyages et le monde.
-        </p>
-    </header>
+    </section>
+
+    <div class="filters-bar" id="filtersBar">
+        <button class="filter-btn active" data-filter="all">
+            <span data-fr="Tous" data-en="All">Tous</span>
+            <span class="filter-count" id="countAll">1</span>
+        </button>
+        <button class="filter-btn" data-filter="ia">
+            <span data-fr="IA" data-en="AI">IA</span>
+            <span class="filter-count" id="countIa">0</span>
+        </button>
+        <button class="filter-btn" data-filter="geopolitique">
+            <span data-fr="Géopolitique" data-en="Geopolitics">Géopolitique</span>
+            <span class="filter-count" id="countGeopolitique">0</span>
+        </button>
+        <button class="filter-btn" data-filter="tech">
+            <span data-fr="Tech" data-en="Tech">Tech</span>
+            <span class="filter-count" id="countTech">0</span>
+        </button>
+        <button class="filter-btn" data-filter="voyage">
+            <span data-fr="Voyage" data-en="Travel">Voyage</span>
+            <span class="filter-count" id="countVoyage">0</span>
+        </button>
+        <button class="filter-btn" data-filter="societe">
+            <span data-fr="Société" data-en="Society">Société</span>
+            <span class="filter-count" id="countSociete">0</span>
+        </button>
+        <button class="filter-btn" data-filter="science">
+            <span data-fr="Science" data-en="Science">Science</span>
+            <span class="filter-count" id="countScience">0</span>
+        </button>
+        <button class="filter-btn" data-filter="business">
+            <span data-fr="Business" data-en="Business">Business</span>
+            <span class="filter-count" id="countBusiness">0</span>
+        </button>
+        <button class="filter-btn" data-filter="enquete">
+            <span data-fr="Enquête" data-en="Investigation">Enquête</span>
+            <span class="filter-count" id="countEnquete">0</span>
+        </button>
+        <button class="filter-btn" data-filter="decryptage">
+            <span data-fr="Décryptage" data-en="Explainer">Décryptage</span>
+            <span class="filter-count" id="countDecryptage">0</span>
+        </button>
+        <button class="filter-btn" data-filter="opinion">
+            <span data-fr="Opinion" data-en="Opinion">Opinion</span>
+            <span class="filter-count" id="countOpinion">0</span>
+        </button>
+        <button class="filter-btn" data-filter="securite">
+            <span data-fr="Sécurité" data-en="Security">Sécurité</span>
+            <span class="filter-count" id="countSecurite">0</span>
+        </button>
+        <button class="filter-btn" data-filter="portrait">
+            <span data-fr="Portrait" data-en="Portrait">Portrait</span>
+            <span class="filter-count" id="countPortrait">0</span>
+        </button>
+        <button class="filter-btn" data-filter="futur">
+            <span data-fr="Futur" data-en="Future">Futur</span>
+            <span class="filter-count" id="countFutur">0</span>
+        </button>
+    </div>
 
     <main class="articles">
-        <p class="articles-count" data-fr="1 article publié" data-en="1 article published">1 article publié</p>
+        <div class="articles-header">
+            <p class="articles-count" id="articlesCount" data-fr="1 article publié" data-en="1 article published">1 article publié</p>
+        </div>
 
-        <a href="/dispatch/trump-anthropic-ai-future/" class="article-card">
+        <div class="no-results" id="noResults" data-fr="Aucun article dans cette catégorie pour l'instant." data-en="No articles in this category yet.">
+            Aucun article dans cette catégorie pour l'instant.
+        </div>
+
+        <a href="/dispatch/trump-anthropic-ai-future/" class="article-card" data-categories="enquete ia geopolitique">
             <div class="article-body">
                 <div class="article-meta-top">
                     <span class="article-tag" data-fr="Enquête" data-en="Investigation">Enquête</span>
@@ -438,6 +616,49 @@
     </footer>
 
     <script>
+        // ── Star canvas
+        (function () {
+            const canvas = document.getElementById('starCanvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            function resize() {
+                canvas.width  = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            function init(n) {
+                stars = Array.from({ length: n }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.1 + 0.2,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.013 + 0.004
+                }));
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.phase += s.speed;
+                    const a = ((Math.sin(s.phase) + 1) / 2) * 0.65 + 0.08;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            new ResizeObserver(() => { resize(); init(180); }).observe(canvas.parentElement);
+            resize(); init(180); requestAnimationFrame(draw);
+        })();
+
+        // ── Nav scroll
+        (function () {
+            const nav = document.getElementById('mainNav');
+            window.addEventListener('scroll', () => {
+                nav.classList.toggle('scrolled', window.scrollY > 80);
+            }, { passive: true });
+        })();
+
+        // ── Language toggle
         const LANG_KEY = 'ttt-lang';
         let currentLang = localStorage.getItem(LANG_KEY) || 'fr';
 
@@ -462,6 +683,54 @@
         });
 
         applyLang(currentLang);
+
+        // ── Filters (multi-category support via data-categories="cat1 cat2 cat3")
+        (function () {
+            const cards = document.querySelectorAll('.article-card[data-categories]');
+            const buttons = document.querySelectorAll('.filter-btn[data-filter]');
+            const noResults = document.getElementById('noResults');
+            const countEl = document.getElementById('articlesCount');
+
+            // Build per-filter counts
+            const counts = {};
+            cards.forEach(c => {
+                (c.dataset.categories || '').split(' ').forEach(cat => {
+                    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+                });
+            });
+
+            // Update count badges on buttons
+            buttons.forEach(btn => {
+                const f = btn.dataset.filter;
+                const n = f === 'all' ? cards.length : (counts[f] || 0);
+                const badge = btn.querySelector('.filter-count');
+                if (badge) badge.textContent = n;
+            });
+
+            function filterCards(filter) {
+                let visible = 0;
+                cards.forEach(c => {
+                    const cats = (c.dataset.categories || '').split(' ');
+                    const show = filter === 'all' || cats.includes(filter);
+                    c.hidden = !show;
+                    if (show) visible++;
+                });
+                noResults.style.display = visible === 0 ? 'block' : 'none';
+                const n = filter === 'all' ? cards.length : (counts[filter] || 0);
+                const lang = localStorage.getItem('ttt-lang') || 'fr';
+                countEl.textContent = lang === 'fr'
+                    ? `${n} article${n !== 1 ? 's' : ''} publié${n !== 1 ? 's' : ''}`
+                    : `${n} article${n !== 1 ? 's' : ''} published`;
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterCards(btn.dataset.filter);
+                });
+            });
+        })();
     </script>
 
 </body>

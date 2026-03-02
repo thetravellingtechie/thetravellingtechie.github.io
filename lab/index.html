@@ -14,7 +14,7 @@
     <meta name="twitter:creator" content="@sd_thetravellingtechie">
     <link rel="canonical" href="https://thetravellingtechie.github.io/lab/">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#1e1b4b">
+    <meta name="theme-color" content="#064e3b">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -38,11 +38,10 @@
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            line-height: 1.6;
         }
 
+        /* ── NAV ── */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -51,6 +50,10 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
             background: rgba(250,250,250,0.92);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(16px);
@@ -63,35 +66,49 @@
             font-size: 0.85rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--text);
+            color: #ffffff;
             text-decoration: none;
+            transition: color 0.3s;
         }
+
+        nav.scrolled .nav-logo { color: var(--text); }
 
         .nav-center {
             display: flex;
             gap: 2rem;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .nav-center a {
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.65);
             text-decoration: none;
             transition: color 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
         }
 
-        .nav-center a:hover { color: var(--text); }
-        .nav-center a.active { color: var(--lab); font-weight: 600; }
+        nav.scrolled .nav-center a { color: var(--text-secondary); }
+        .nav-center a:hover { color: #ffffff; }
+        nav.scrolled .nav-center a:hover { color: var(--text); }
+        .nav-center a.active { color: rgba(167,243,208,0.95); font-weight: 600; }
+        nav.scrolled .nav-center a.active { color: var(--lab); }
 
         .lang-toggle {
             display: flex;
             align-items: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
             border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled .lang-toggle {
+            background: var(--bg-card);
+            border-color: var(--border);
         }
 
         .lang-toggle span {
@@ -100,77 +117,117 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.6);
             transition: all 0.2s;
             user-select: none;
         }
 
+        nav.scrolled .lang-toggle span { color: var(--text-muted); }
+
         .lang-toggle span.active {
-            background: var(--accent);
+            background: rgba(16,185,129,0.85);
             color: #ffffff;
         }
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 8rem 2rem 6rem;
+        nav.scrolled .lang-toggle span.active { background: var(--accent); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; text-align: center;
+            background: linear-gradient(160deg, #0f172a 0%, #064e3b 28%, #059669 55%, #047857 78%, #0f172a 100%);
         }
 
-        .back {
-            font-size: 0.68rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            margin-bottom: 3rem;
-            transition: color 0.2s;
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 220px;
+            background: linear-gradient(to bottom, transparent, var(--bg)); z-index: 1;
         }
 
-        .back:hover { color: var(--accent); }
-        .back svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-        .section-icon {
-            width: 56px; height: 56px;
-            border-radius: 14px;
-            background: var(--lab-soft);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 1.5rem;
+        #starCanvas {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
         }
 
-        .tag {
+        .hero-inner {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1.25rem; padding: 0 2rem;
+        }
+
+        .hero-line {
+            width: 40px; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(167,243,208,0.85), transparent);
+            animation: revealFade 0.6s ease both 0.2s;
+        }
+
+        .hero-icon {
+            font-size: 2.5rem;
+            animation: revealFade 0.8s ease both 0.15s;
+            margin-bottom: -0.25rem;
+        }
+
+        .hero-tag {
             font-size: 0.62rem;
-            letter-spacing: 0.32em;
+            letter-spacing: 0.35em;
             text-transform: uppercase;
-            color: var(--lab);
+            color: rgba(167,243,208,0.85);
             font-weight: 600;
-            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+            animation: revealFade 0.8s ease both 0.25s;
         }
 
-        h1 {
+        .hero-inner h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.2rem, 6vw, 3.8rem);
             font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 1.25rem;
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            color: #ffffff; line-height: 1.1; letter-spacing: -0.02em;
+            animation: revealUp 1s cubic-bezier(0.16,1,0.3,1) both 0.35s;
         }
 
-        .desc {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 480px;
+        .hero-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: rgba(255,255,255,0.5);
+            max-width: 500px;
             line-height: 1.65;
-            margin-bottom: 2.5rem;
+            animation: revealUp 0.9s cubic-bezier(0.16,1,0.3,1) both 0.5s;
+        }
+
+        .hero-scroll {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem; font-weight: 500;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(255,255,255,0.28);
+            animation: revealFade 0.8s ease both 0.8s;
+            margin-top: 0.75rem;
+        }
+
+        .hero-scroll svg {
+            width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2;
+            animation: bounce 2s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealFade { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ── CONTENT SECTION ── */
+        .content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            text-align: center;
         }
 
         .topics {
@@ -180,6 +237,8 @@
             justify-content: center;
             margin-bottom: 2.5rem;
             max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .topic {
@@ -199,6 +258,7 @@
             color: var(--text-muted);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
@@ -214,6 +274,7 @@
             50% { opacity: 0.4; transform: scale(0.8); }
         }
 
+        /* ── FOOTER ── */
         footer {
             border-top: 1px solid var(--border);
             padding: 2rem;
@@ -255,12 +316,13 @@
 </head>
 <body>
 
-    <nav>
+    <nav id="mainNav">
         <a href="/" class="nav-logo">The Traveling Techie</a>
         <div class="nav-center">
             <a href="/dispatch/" data-fr="Dispatch" data-en="Dispatch">Dispatch</a>
             <a href="/learn/" data-fr="Apprendre" data-en="Learn">Apprendre</a>
             <a href="/lab/" class="active" data-fr="Lab" data-en="Lab">Lab</a>
+            <a href="/about/" data-fr="À propos" data-en="About">À propos</a>
         </div>
         <div class="lang-toggle" id="langToggle" role="button" tabindex="0">
             <span id="langFR" class="active">FR</span>
@@ -268,17 +330,24 @@
         </div>
     </nav>
 
-    <main>
-        <a href="/" class="back">
-            <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            <span data-fr="Accueil" data-en="Home">Accueil</span>
-        </a>
-        <div class="section-icon">⚗️</div>
-        <div class="tag">Techie Lab</div>
-        <h1 data-fr="Construire &amp; Expérimenter" data-en="Build &amp; Experiment">Construire &amp; Expérimenter</h1>
-        <p class="desc" data-fr="Agents IA, automatisation, guides pratiques — des expériences concrètes que vous pouvez reproduire." data-en="AI agents, automation workflows, how-to guides — practical experiments you can replicate.">
-            Agents IA, automatisation, guides pratiques — des expériences concrètes que vous pouvez reproduire.
-        </p>
+    <section class="hero">
+        <canvas id="starCanvas" aria-hidden="true"></canvas>
+        <div class="hero-inner">
+            <div class="hero-line" aria-hidden="true"></div>
+            <div class="hero-icon" aria-hidden="true">⚗️</div>
+            <div class="hero-tag">Techie Lab</div>
+            <h1 data-fr="Construire &amp; Expérimenter" data-en="Build &amp; Experiment">Construire &amp; Expérimenter</h1>
+            <p class="hero-tagline" data-fr="Agents IA, automatisation, guides pratiques — des expériences concrètes que vous pouvez reproduire." data-en="AI agents, automation workflows, how-to guides — practical experiments you can replicate.">
+                Agents IA, automatisation, guides pratiques — des expériences concrètes que vous pouvez reproduire.
+            </p>
+            <div class="hero-scroll" aria-hidden="true">
+                <span data-fr="Découvrir" data-en="Discover">Découvrir</span>
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
         <div class="topics">
             <span class="topic" data-fr="Agents IA" data-en="AI Agents">Agents IA</span>
             <span class="topic" data-fr="Automatisation — n8n / Zapier" data-en="Automation — n8n / Zapier">Automatisation — n8n / Zapier</span>
@@ -290,7 +359,7 @@
             <span class="dot"></span>
             <span data-fr="Premières expériences en cours — restez connectés" data-en="First experiments loading — stay tuned">Premières expériences en cours — restez connectés</span>
         </div>
-    </main>
+    </section>
 
     <footer>
         <div class="footer-icons">
@@ -311,6 +380,49 @@
     </footer>
 
     <script>
+        // ── Star canvas
+        (function () {
+            const canvas = document.getElementById('starCanvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            function resize() {
+                canvas.width  = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            function init(n) {
+                stars = Array.from({ length: n }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.1 + 0.2,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.013 + 0.004
+                }));
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.phase += s.speed;
+                    const a = ((Math.sin(s.phase) + 1) / 2) * 0.65 + 0.08;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            new ResizeObserver(() => { resize(); init(180); }).observe(canvas.parentElement);
+            resize(); init(180); requestAnimationFrame(draw);
+        })();
+
+        // ── Nav scroll
+        (function () {
+            const nav = document.getElementById('mainNav');
+            window.addEventListener('scroll', () => {
+                nav.classList.toggle('scrolled', window.scrollY > 80);
+            }, { passive: true });
+        })();
+
+        // ── Language toggle
         const LANG_KEY = 'ttt-lang';
         let currentLang = localStorage.getItem(LANG_KEY) || 'fr';
         const langFR = document.getElementById('langFR');
