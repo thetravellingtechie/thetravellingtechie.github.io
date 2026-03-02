@@ -97,6 +97,9 @@
 
         nav.scrolled .nav-logo { color: var(--text); }
 
+        /* Hide logo on homepage — image carries the brand */
+        .nav-logo { opacity: 0; pointer-events: none; }
+
         .nav-center {
             display: flex;
             gap: 2rem;
@@ -187,13 +190,13 @@
             pointer-events: none;
         }
 
-        /* Fade to light at bottom */
+        /* Fade to black at bottom */
         .hero::after {
             content: '';
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            height: 120px;
-            background: linear-gradient(to bottom, transparent, var(--bg));
+            height: 220px;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 80%, #000000);
             pointer-events: none;
         }
 
@@ -288,20 +291,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px; height: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 6px;
-            color: rgba(255,255,255,0.6);
+            width: 44px; height: 44px;
+            border: 1px solid rgba(255,255,255,0.55);
+            border-radius: 8px;
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.2s;
-            background: rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
         }
 
         .social-link:hover {
-            border-color: rgba(255,255,255,0.6);
-            color: #ffffff;
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-2px);
+            border-color: #ffffff;
+            background: rgba(255,255,255,0.18);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
         .social-link svg {
@@ -338,6 +342,9 @@
         }
 
         /* ── SECTIONS ── */
+        .sections-wrap {
+            background: linear-gradient(to bottom, #000000 0, var(--bg) 5rem);
+        }
         .sections {
             padding: 6rem 2rem 8rem;
             max-width: 1140px;
@@ -584,6 +591,7 @@
         </div>
     </section>
 
+    <div class="sections-wrap">
     <section class="sections">
         <p class="sections-label" data-fr="Trois espaces. Une voix." data-en="Three spaces. One voice.">Trois espaces. Une voix.</p>
         <div class="cards">
@@ -621,6 +629,7 @@
 
         </div>
     </section>
+    </div>
 
     <footer>
         <div class="footer-icons">
