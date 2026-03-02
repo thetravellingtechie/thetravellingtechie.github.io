@@ -115,7 +115,6 @@
             aspect-ratio: 3/4;
             box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
-        .story-content { display: flex; flex-direction: column; gap: 2rem; }
         .hero-line {
             width: 40px; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(196,181,253,0.85), transparent);
@@ -175,7 +174,25 @@
         /* ── STORY SECTION ── */
         .story-grid {
             display: grid; grid-template-columns: 260px 1fr; gap: 3rem;
-            align-items: start;
+            align-items: start; margin-bottom: 2.5rem;
+        }
+        .story-milestones {
+            display: flex; flex-direction: column; gap: 1.6rem;
+            padding-top: 0.5rem;
+        }
+        .milestone {
+            display: flex; align-items: flex-start; gap: 1rem;
+        }
+        .milestone-flag {
+            font-size: 1.8rem; line-height: 1; flex-shrink: 0;
+            width: 2.2rem; text-align: center; margin-top: 0.1rem;
+        }
+        .milestone-content strong {
+            display: block; font-family: 'Outfit'; font-size: 1rem;
+            font-weight: 700; color: var(--text); margin-bottom: 0.25rem;
+        }
+        .milestone-content span {
+            font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;
         }
         .story-text p {
             font-family: 'Crimson Pro'; font-size: 1.2rem;
@@ -183,29 +200,6 @@
             margin-bottom: 1.2rem;
         }
         .story-text p:last-child { margin-bottom: 0; }
-        .story-aside {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px; padding: 2rem;
-            display: flex; flex-direction: column; gap: 1.2rem;
-        }
-        .journey-item {
-            display: flex; align-items: flex-start; gap: 1rem;
-        }
-        .journey-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--accent); margin-top: 0.4rem; flex-shrink: 0;
-        }
-        .journey-dot.dispatch { background: var(--dispatch); }
-        .journey-dot.learn    { background: var(--learn); }
-        .journey-dot.lab      { background: var(--lab); }
-        .journey-text strong {
-            display: block; font-family: 'Inter'; font-size: 0.8rem;
-            font-weight: 600; color: var(--text); margin-bottom: 0.2rem;
-        }
-        .journey-text span {
-            font-size: 0.78rem; color: var(--text-muted);
-        }
 
         /* ── WHAT I DO ── */
         .domains-grid {
@@ -403,45 +397,43 @@
             <h2 class="section-title" id="story-title">Planting seeds, wherever the road leads.</h2>
             <div class="story-grid">
                 <div class="story-photo">
-                    <img src="../assets/salim.jpg" alt="Salim Damien Le Bihan">
+                    <img src="../assets/salim.png" alt="Salim Damien Le Bihan">
                 </div>
-                <div class="story-content">
-                <div class="story-text">
-                    <p>Born in Niger, raised in France — I've always been in between worlds, and I've always been curious about all of them. Tech became my language. Travel became my compass.</p>
-                    <p>After years working across France and building my first community project — <em>LMS Haïti</em>, a free learning initiative — I migrated to Canada. A new chapter, but the same mission: help the people around me grow.</p>
-                    <p>Twelve countries visited. Dozens more on the list. And wherever I land, I try to leave something useful behind — a course, an insight, a tool someone can actually use.</p>
-                </div>
-                <div class="story-aside">
-                    <div class="journey-item">
-                        <div class="journey-dot dispatch"></div>
-                        <div class="journey-text">
-                            <strong>Niger → France</strong>
-                            <span>Roots, studies, first steps in tech</span>
+                <div class="story-milestones">
+                    <div class="milestone">
+                        <div class="milestone-flag">🇳🇪</div>
+                        <div class="milestone-content">
+                            <strong>Niger</strong>
+                            <span>Born here · family roots · where it all begins</span>
                         </div>
                     </div>
-                    <div class="journey-item">
-                        <div class="journey-dot"></div>
-                        <div class="journey-text">
-                            <strong>France — LMS Haïti</strong>
-                            <span>Free tech education initiative, born from a desire to share</span>
+                    <div class="milestone">
+                        <div class="milestone-flag">🇫🇷</div>
+                        <div class="milestone-content">
+                            <strong>France</strong>
+                            <span>Arrived at age 8 · school & university · career · LMS IT · teaching</span>
                         </div>
                     </div>
-                    <div class="journey-item">
-                        <div class="journey-dot learn"></div>
-                        <div class="journey-text">
-                            <strong>Canada — Montreal</strong>
-                            <span>Cloud & AI transformations, enterprise strategy, Beyond Knowledge</span>
+                    <div class="milestone">
+                        <div class="milestone-flag">🇨🇦</div>
+                        <div class="milestone-content">
+                            <strong>Canada</strong>
+                            <span>Montréal · cloud & AI · strategy & transformation</span>
                         </div>
                     </div>
-                    <div class="journey-item">
-                        <div class="journey-dot lab"></div>
-                        <div class="journey-text">
-                            <strong>The World → Africa</strong>
-                            <span>12+ countries · still counting · final chapter: home</span>
+                    <div class="milestone">
+                        <div class="milestone-flag">🌍</div>
+                        <div class="milestone-content">
+                            <strong>The World</strong>
+                            <span>12+ countries · still counting · the rest is being written</span>
                         </div>
                     </div>
                 </div>
-                </div><!-- end story-content -->
+            </div>
+            <div class="story-text">
+                <p>Born in Niger, I arrived in France at age 8. I did all my studies there — collège, lycée, université — and found my calling somewhere between code and curiosity. I started my career as a BI consultant, then moved through full-stack web development, DevOps, DevSecOps, project and portfolio management, program direction, cloud architecture, cloud security, FinOps, IT platform architecture, and digital transformation strategy — working with enterprises and public institutions, particularly across Africa.</p>
+                <p>In parallel, I was always teaching. I gave courses at LMS IT — a private school in France — and worked as a freelance instructor at other training centers. Knowledge was never something I could keep to myself. I tutored for free on the side too. That instinct never left me.</p>
+                <p>Then I migrated to Canada. Montréal. The work continued — and new chapters opened: AI integration, vibe coding, agentic AI workflows. The tools evolved. The mission didn't. The rest is still being written — and we're working on it right now.</p>
             </div>
         </section>
 
@@ -556,7 +548,7 @@
         <section>
             <div class="philosophy-block">
                 <p class="philosophy-quote">"I don't believe in hoarding knowledge.<br>I build things, I learn things — and I share everything."</p>
-                <p class="philosophy-sub">Every course in Learn, every experiment in Lab — free. Because the best way to grow a community is to give before you ask. That's been my conviction since LMS Haïti. That's still the mission today.</p>
+                <p class="philosophy-sub">Every course in Learn, every experiment in Lab — free. Because the best way to grow a community is to give before you ask. That's always been my conviction. That's the mission today.</p>
             </div>
         </section>
 
