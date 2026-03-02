@@ -75,14 +75,15 @@
         nav {
             position: fixed; top: 3px; left: 0; right: 0;
             padding: 1.25rem 3rem;
-            display: flex; justify-content: space-between; align-items: center;
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center;
             z-index: 100;
             transition: all 0.4s ease;
         }
 
         /* Over dark hero: white text */
+        .nav-back { color: rgba(255,255,255,0.75); }
         .nav-logo { color: rgba(255,255,255,0.95); }
-        .nav-links a { color: rgba(255,255,255,0.75); }
         .nav-lang button { color: rgba(255,255,255,0.75); }
 
         nav.scrolled {
@@ -91,44 +92,36 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+        nav.scrolled .nav-back { color: var(--text-muted); }
+        nav.scrolled .nav-back:hover { color: var(--text); }
         nav.scrolled .nav-logo { color: var(--text); }
-        nav.scrolled .nav-links a { color: var(--text-muted); }
-        nav.scrolled .nav-links a:hover { color: var(--text); }
         nav.scrolled .nav-lang button { color: var(--text-muted); }
         nav.scrolled .nav-lang button.active { color: var(--dispatch); }
+
+        .nav-back {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            text-decoration: none;
+            justify-self: start;
+            transition: color 0.3s;
+        }
+        .nav-back:hover { opacity: 0.8; }
 
         .nav-logo {
             font-family: 'Outfit', sans-serif;
             font-weight: 800; font-size: 0.875rem;
             letter-spacing: 0.15em; text-transform: uppercase;
             text-decoration: none;
+            justify-self: center;
             transition: color 0.3s;
         }
         .nav-logo:hover { opacity: 0.8; }
 
-        .nav-right {
-            display: flex; align-items: center; gap: 2.5rem;
-        }
-
-        .nav-links {
-            display: flex; gap: 1.75rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
-        }
-        .nav-links a {
-            text-decoration: none; transition: color 0.3s;
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -3px; left: 0;
-            width: 0; height: 1px; background: var(--dispatch);
-            transition: width 0.3s;
-        }
-        .nav-links a:hover::after { width: 100%; }
-
         /* Language toggle */
         .nav-lang {
             display: flex; align-items: center; gap: 0;
+            justify-self: end;
             font-family: 'Inter', sans-serif;
             font-size: 0.7rem; letter-spacing: 0.08em;
         }
@@ -580,6 +573,36 @@
             font-variant-numeric: tabular-nums;
         }
         .chapter-item.active .chapter-num { color: var(--dispatch); }
+
+        /* Scroll-to-top button (above chapter fab) */
+        .scroll-top-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            background: rgba(10,10,10,0.85);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 100px;
+            color: var(--text-muted);
+            cursor: pointer;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: background 0.25s, opacity 0.3s, transform 0.3s, color 0.2s, border-color 0.2s;
+            opacity: 0; transform: translateY(10px); pointer-events: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        .scroll-top-btn.visible {
+            opacity: 1; transform: translateY(0); pointer-events: auto;
+        }
+        .scroll-top-btn:hover {
+            background: rgba(225,29,72,0.1);
+            color: var(--dispatch);
+            border-color: rgba(225,29,72,0.35);
+        }
+        .scroll-top-btn svg {
+            width: 14px; height: 14px;
+            stroke: currentColor; fill: none; stroke-width: 2.5;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
         @media (max-width: 768px) {
             .chapter-fab-wrap { bottom: 1.25rem; right: 1.25rem; }
             .chapter-panel { min-width: 190px; }
@@ -598,7 +621,6 @@
         }
         @media (max-width: 768px) {
             nav { padding: 1rem 1.5rem; }
-            .nav-links { display: none; }
             .hero { padding: 0 1.5rem 4rem; }
             article, .breadcrumb, .share-section { padding-left: 1.25rem; padding-right: 1.25rem; }
             p { font-size: 1.1rem; text-align: left; }
@@ -638,20 +660,12 @@
     </div>
 
     <nav id="navbar">
-        <a href="/dispatch/" class="nav-logo">Techie Dispatch</a>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#part1" data-fr="Le Choc" data-en="The Shock">The Shock</a>
-                <a href="#part2" data-fr="Contexte" data-en="Context">Context</a>
-                <a href="#part3" data-fr="Implications" data-en="Implications">Implications</a>
-                <a href="#part4" data-fr="Paysage" data-en="Landscape">Landscape</a>
-                <a href="#part5" data-fr="Futur" data-en="Future">Future</a>
-            </div>
-            <div class="nav-lang">
-                <button id="langFR" onclick="location.href='fr/'">FR</button>
-                <span class="sep">/</span>
-                <button id="langEN" onclick="applyLang('en')" class="active">EN</button>
-            </div>
+        <a href="/dispatch/" class="nav-back">Techie Dispatch</a>
+        <a href="/" class="nav-logo">The Traveling Techie</a>
+        <div class="nav-lang">
+            <button id="langFR" onclick="location.href='fr/'">FR</button>
+            <span class="sep">/</span>
+            <button id="langEN" onclick="applyLang('en')" class="active">EN</button>
         </div>
     </nav>
 
@@ -989,6 +1003,9 @@
                 <span data-fr="Conclusions" data-en="Conclusions">Conclusions</span>
             </a>
         </div>
+        <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+            <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
         <button class="chapter-fab" id="chapterFab" aria-label="Chapter navigation">
             <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
             <span data-fr="Chapitres" data-en="Chapters">Chapters</span>
@@ -1087,11 +1104,14 @@
         const chapterFab   = document.getElementById('chapterFab');
         const chapterPanel = document.getElementById('chapterPanel');
         const homeItem     = document.getElementById('ch-home');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
 
-        // Show fab after scrolling past half the hero
+        // Show fab + scroll-top after scrolling past half the hero
         function updateFabVisibility() {
             const heroBottom = heroEl ? heroEl.offsetHeight : 500;
-            chapterFab.classList.toggle('visible', document.documentElement.scrollTop > heroBottom * 0.5);
+            const past = document.documentElement.scrollTop > heroBottom * 0.5;
+            chapterFab.classList.toggle('visible', past);
+            scrollTopBtn.classList.toggle('visible', past);
         }
         window.addEventListener('scroll', updateFabVisibility, { passive: true });
         updateFabVisibility();
