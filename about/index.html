@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Salim · The Traveling Techie</title>
+    <meta name="description" content="Builder. Strategist. Perpetual traveler. From Niger to France to Canada and beyond — Salim shares what he learns along the way.">
+    <meta property="og:title" content="About Salim — The Traveling Techie">
+    <meta property="og:description" content="Builder. Strategist. Perpetual traveler.">
+    <meta property="og:url" content="https://thetravellingtechie.github.io/about/">
+    <link rel="canonical" href="https://thetravellingtechie.github.io/about/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:           #f5f4f2;
+            --bg-card:      #ffffff;
+            --text:         #1a1a1a;
+            --text-muted:   #6b7280;
+            --border:       #e2e8f0;
+            --accent:       #6366f1;
+            --accent-soft:  rgba(99,102,241,0.08);
+            --dispatch:     #e11d48;
+            --learn:        #8b5cf6;
+            --lab:          #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 1.25rem 3rem;
+            z-index: 100;
+            transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+        }
+        nav.scrolled {
+            background: rgba(245,244,242,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+        .nav-back {
+            font-family: 'Inter'; font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            text-decoration: none; color: rgba(255,255,255,0.75);
+            justify-self: start; transition: color 0.3s;
+        }
+        nav.scrolled .nav-back { color: var(--text-muted); }
+        .nav-back:hover { color: var(--accent); }
+        .nav-logo {
+            font-family: 'Outfit'; font-weight: 800; font-size: 0.875rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            text-decoration: none; color: rgba(255,255,255,0.95);
+            justify-self: center; transition: color 0.3s;
+        }
+        nav.scrolled .nav-logo { color: var(--text); }
+        .nav-logo:hover { color: var(--accent); }
+        .nav-lang {
+            display: flex; align-items: center; gap: 0;
+            justify-self: end; font-family: 'Inter'; font-size: 0.7rem;
+        }
+        .nav-lang button {
+            background: none; border: none; cursor: pointer;
+            font-family: 'Inter'; font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: rgba(255,255,255,0.5); padding: 0.25rem 0.4rem;
+            transition: color 0.3s;
+        }
+        nav.scrolled .nav-lang button { color: var(--text-muted); }
+        .nav-lang button.active { color: rgba(255,255,255,0.95); }
+        nav.scrolled .nav-lang button.active { color: var(--text); }
+        .nav-lang button:hover { color: var(--accent) !important; }
+        .nav-lang .sep { color: rgba(255,255,255,0.25); font-size: 0.65rem; }
+        nav.scrolled .nav-lang .sep { color: var(--border); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; text-align: center;
+            background: linear-gradient(160deg, #1e1b4b 0%, #312e81 30%, #4c1d95 60%, #1e1b4b 100%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0; height: 160px;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+            z-index: 1;
+        }
+        #starCanvas {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        .hero-inner {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1.5rem; padding: 0 2rem;
+        }
+        .hero-photo-wrap {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.15);
+            overflow: hidden;
+            box-shadow: 0 0 0 6px rgba(139,92,246,0.15), 0 20px 60px rgba(0,0,0,0.4);
+            animation: revealFade 0.8s ease both 0.1s;
+        }
+        .hero-photo-wrap img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top center;
+        }
+        .hero-photo-placeholder {
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #4c1d95, #6366f1);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Outfit'; font-weight: 800; font-size: 3rem;
+            color: rgba(255,255,255,0.6);
+        }
+        .hero-line {
+            width: 40px; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(196,181,253,0.85), transparent);
+            animation: revealFade 0.6s ease both 0.2s;
+        }
+        .hero-inner h1 {
+            font-family: 'Outfit'; font-weight: 800;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            color: #ffffff; line-height: 1.1;
+            letter-spacing: -0.02em;
+            animation: revealUp 1s cubic-bezier(0.16,1,0.3,1) both 0.3s;
+        }
+        .hero-tagline {
+            font-family: 'Crimson Pro'; font-style: italic;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(196,181,253,0.9);
+            animation: revealUp 0.9s cubic-bezier(0.16,1,0.3,1) both 0.5s;
+        }
+        .hero-location {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-family: 'Inter'; font-size: 0.75rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            animation: revealFade 0.8s ease both 0.7s;
+        }
+        .hero-location span { color: rgba(196,181,253,0.6); }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealFade {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ── MAIN CONTENT ── */
+        main { max-width: 860px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+
+        /* ── SECTION TITLES ── */
+        .section-label {
+            font-family: 'Inter'; font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: 'Outfit'; font-weight: 700;
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--text); line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        .section-divider {
+            border: none; border-top: 1px solid var(--border);
+            margin: 4rem 0;
+        }
+
+        /* ── STORY SECTION ── */
+        .story-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            align-items: start;
+        }
+        .story-text p {
+            font-family: 'Crimson Pro'; font-size: 1.2rem;
+            color: var(--text); line-height: 1.8;
+            margin-bottom: 1.2rem;
+        }
+        .story-text p:last-child { margin-bottom: 0; }
+        .story-aside {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 2rem;
+            display: flex; flex-direction: column; gap: 1.2rem;
+        }
+        .journey-item {
+            display: flex; align-items: flex-start; gap: 1rem;
+        }
+        .journey-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent); margin-top: 0.4rem; flex-shrink: 0;
+        }
+        .journey-dot.dispatch { background: var(--dispatch); }
+        .journey-dot.learn    { background: var(--learn); }
+        .journey-dot.lab      { background: var(--lab); }
+        .journey-text strong {
+            display: block; font-family: 'Inter'; font-size: 0.8rem;
+            font-weight: 600; color: var(--text); margin-bottom: 0.2rem;
+        }
+        .journey-text span {
+            font-size: 0.78rem; color: var(--text-muted);
+        }
+
+        /* ── WHAT I DO ── */
+        .domains-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+        }
+        .domain-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.4rem 1.2rem;
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+        .domain-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.08);
+        }
+        .domain-icon {
+            font-size: 1.4rem; margin-bottom: 0.8rem;
+        }
+        .domain-title {
+            font-family: 'Inter'; font-size: 0.82rem; font-weight: 600;
+            color: var(--text); margin-bottom: 0.4rem;
+        }
+        .domain-desc {
+            font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+        }
+
+        /* ── SKILLS ── */
+        .skills-section { display: flex; flex-direction: column; gap: 1.8rem; }
+        .skill-group { }
+        .skill-group-label {
+            font-family: 'Inter'; font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 0.75rem;
+        }
+        .skill-tags {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .tag {
+            display: inline-flex; align-items: center;
+            padding: 0.3rem 0.75rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 100px;
+            font-family: 'Inter'; font-size: 0.72rem; font-weight: 500;
+            color: var(--text-muted);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .tag:hover { border-color: var(--accent); color: var(--accent); }
+        .tag.cloud:hover  { border-color: var(--accent); color: var(--accent); }
+        .tag.ai:hover     { border-color: var(--learn);  color: var(--learn); }
+        .tag.sec:hover    { border-color: var(--dispatch); color: var(--dispatch); }
+        .tag.mgmt:hover   { border-color: var(--lab);    color: var(--lab); }
+
+        /* ── PHILOSOPHY ── */
+        .philosophy-block {
+            background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 16px; padding: 3rem;
+            text-align: center;
+        }
+        .philosophy-quote {
+            font-family: 'Crimson Pro'; font-style: italic;
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            color: var(--text); line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .philosophy-sub {
+            font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;
+            max-width: 520px; margin: 0 auto;
+        }
+
+        /* ── TTT SECTIONS ── */
+        .ttt-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+        }
+        .ttt-card {
+            border-radius: 10px; padding: 1.4rem;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+        .ttt-card:hover { transform: translateY(-3px); }
+        .ttt-card.d { --c: var(--dispatch); }
+        .ttt-card.l { --c: var(--learn); }
+        .ttt-card.b { --c: var(--lab); }
+        .ttt-card:hover { border-color: var(--c); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .ttt-tag {
+            font-family: 'Inter'; font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--c); margin-bottom: 0.5rem;
+        }
+        .ttt-title {
+            font-family: 'Outfit'; font-weight: 700; font-size: 1rem;
+            color: var(--text); margin-bottom: 0.4rem;
+        }
+        .ttt-desc {
+            font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+        }
+
+        /* ── CONNECT ── */
+        .connect-block {
+            text-align: center;
+        }
+        .connect-block p {
+            font-size: 0.9rem; color: var(--text-muted);
+            max-width: 480px; margin: 0 auto 2rem; line-height: 1.7;
+        }
+        .connect-socials {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.6rem; margin-bottom: 1.5rem;
+        }
+        .connect-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px;
+            border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text-muted); text-decoration: none;
+            background: var(--bg-card);
+            transition: all 0.2s;
+        }
+        .connect-icon svg { width: 16px; height: 16px; fill: currentColor; }
+        .connect-icon:hover {
+            border-color: var(--accent); color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .connect-note {
+            font-size: 0.75rem; color: var(--text-muted);
+            border-top: 1px solid var(--border); padding-top: 1.2rem;
+            max-width: 480px; margin: 0 auto;
+        }
+        .connect-note a { color: var(--accent); text-decoration: none; }
+        .connect-note a:hover { text-decoration: underline; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg); border-top: 1px solid var(--border);
+            padding: 2rem; text-align: center;
+        }
+        .footer-icons { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1rem; }
+        .footer-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            border: 1px solid var(--border); border-radius: 6px;
+            color: var(--text-muted); text-decoration: none;
+            background: var(--bg-card); transition: all 0.2s;
+        }
+        .footer-icon:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .footer-icon svg { width: 15px; height: 15px; fill: currentColor; }
+        .footer-copy { font-size: 0.72rem; color: var(--text-muted); }
+        .footer-copy a { color: var(--accent); text-decoration: none; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            nav { padding: 1rem 1.2rem; }
+            .nav-back, .nav-logo { font-size: 0.62rem; }
+            .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .domains-grid { grid-template-columns: 1fr 1fr; }
+            .ttt-grid { grid-template-columns: 1fr; }
+            main { padding: 4rem 1.2rem 5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="/" class="nav-back">The Traveling Techie</a>
+        <a href="/" class="nav-logo">The Traveling Techie</a>
+        <div class="nav-lang">
+            <button onclick="location.href='fr/'" id="btnFR">FR</button>
+            <span class="sep">/</span>
+            <button class="active" id="btnEN">EN</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <canvas id="starCanvas" aria-hidden="true"></canvas>
+        <div class="hero-inner">
+            <div class="hero-photo-wrap">
+                <img src="../assets/salim.jpg" alt="Salim Damien Le Bihan"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="hero-photo-placeholder" style="display:none">SD</div>
+            </div>
+            <div class="hero-line" aria-hidden="true"></div>
+            <h1>Salim Damien<br>Le Bihan</h1>
+            <p class="hero-tagline">Builder. Strategist. Perpetual Traveler.</p>
+            <div class="hero-location">
+                <span>Niger</span> · France · Canada · <span>World</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- STORY -->
+        <section aria-labelledby="story-title">
+            <p class="section-label">The Journey</p>
+            <h2 class="section-title" id="story-title">Planting seeds, wherever the road leads.</h2>
+            <div class="story-grid">
+                <div class="story-text">
+                    <p>Born in Niger, raised in France — I've always been in between worlds, and I've always been curious about all of them. Tech became my language. Travel became my compass.</p>
+                    <p>After years working across France and building my first community project — <em>LMS Haïti</em>, a free learning initiative — I migrated to Canada. A new chapter, but the same mission: help the people around me grow.</p>
+                    <p>Twelve countries visited. Dozens more on the list. And wherever I land, I try to leave something useful behind — a course, an insight, a tool someone can actually use.</p>
+                </div>
+                <div class="story-aside">
+                    <div class="journey-item">
+                        <div class="journey-dot dispatch"></div>
+                        <div class="journey-text">
+                            <strong>Niger → France</strong>
+                            <span>Roots, studies, first steps in tech</span>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-dot"></div>
+                        <div class="journey-text">
+                            <strong>France — LMS Haïti</strong>
+                            <span>Free tech education initiative, born from a desire to share</span>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-dot learn"></div>
+                        <div class="journey-text">
+                            <strong>Canada — Montreal</strong>
+                            <span>Cloud & AI transformations, enterprise strategy, Beyond Knowledge</span>
+                        </div>
+                    </div>
+                    <div class="journey-item">
+                        <div class="journey-dot lab"></div>
+                        <div class="journey-text">
+                            <strong>The World → Africa</strong>
+                            <span>12+ countries · still counting · final chapter: home</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- WHAT I DO -->
+        <section aria-labelledby="domains-title">
+            <p class="section-label">What I Do</p>
+            <h2 class="section-title" id="domains-title">Tech that moves. Strategy that transforms.</h2>
+            <div class="domains-grid">
+                <div class="domain-card">
+                    <div class="domain-icon">☁️</div>
+                    <div class="domain-title">Cloud Architecture</div>
+                    <div class="domain-desc">Multi-cloud platforms — AWS, Azure, GCP. Infrastructure that scales with your ambitions.</div>
+                </div>
+                <div class="domain-card">
+                    <div class="domain-icon">🤖</div>
+                    <div class="domain-title">AI & Product Building</div>
+                    <div class="domain-desc">From idea to product via vibe coding and AI integration. I build things that work.</div>
+                </div>
+                <div class="domain-card">
+                    <div class="domain-icon">🔄</div>
+                    <div class="domain-title">IT Transformation</div>
+                    <div class="domain-desc">Migrations, modernization, and end-to-end digital transformation programs.</div>
+                </div>
+                <div class="domain-card">
+                    <div class="domain-icon">🛡️</div>
+                    <div class="domain-title">Cybersecurity</div>
+                    <div class="domain-desc">Platform security, compliance, and resilience — for enterprises and public institutions.</div>
+                </div>
+                <div class="domain-card">
+                    <div class="domain-icon">🌍</div>
+                    <div class="domain-title">Digital Strategy</div>
+                    <div class="domain-desc">National and enterprise tech roadmaps. Worked with organizations across Africa, Europe & North America.</div>
+                </div>
+                <div class="domain-card">
+                    <div class="domain-icon">📖</div>
+                    <div class="domain-title">Learning & Editorial</div>
+                    <div class="domain-desc">Courses, articles, tutorials. Building the community I always wished I had access to.</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- SKILLS -->
+        <section aria-labelledby="skills-title">
+            <p class="section-label">Skills</p>
+            <h2 class="section-title" id="skills-title">The toolbox.</h2>
+            <div class="skills-section">
+                <div class="skill-group">
+                    <div class="skill-group-label">Cloud & Infrastructure</div>
+                    <div class="skill-tags">
+                        <span class="tag cloud">AWS</span>
+                        <span class="tag cloud">Azure</span>
+                        <span class="tag cloud">Google Cloud</span>
+                        <span class="tag cloud">Terraform</span>
+                        <span class="tag cloud">Kubernetes</span>
+                        <span class="tag cloud">Docker</span>
+                        <span class="tag cloud">CI/CD</span>
+                        <span class="tag cloud">Networking</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <div class="skill-group-label">AI & Development</div>
+                    <div class="skill-tags">
+                        <span class="tag ai">AI Integration</span>
+                        <span class="tag ai">Vibe Coding</span>
+                        <span class="tag ai">Python</span>
+                        <span class="tag ai">LLMs</span>
+                        <span class="tag ai">Automation</span>
+                        <span class="tag ai">API Design</span>
+                        <span class="tag ai">Product Building</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <div class="skill-group-label">Security</div>
+                    <div class="skill-tags">
+                        <span class="tag sec">Cybersecurity</span>
+                        <span class="tag sec">Zero Trust</span>
+                        <span class="tag sec">Compliance</span>
+                        <span class="tag sec">Risk Management</span>
+                        <span class="tag sec">IAM</span>
+                        <span class="tag sec">SIEM</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <div class="skill-group-label">Strategy & Management</div>
+                    <div class="skill-tags">
+                        <span class="tag mgmt">Program Management</span>
+                        <span class="tag mgmt">IT Strategy</span>
+                        <span class="tag mgmt">Digital Transformation</span>
+                        <span class="tag mgmt">Agile / Scrum</span>
+                        <span class="tag mgmt">Stakeholder Management</span>
+                        <span class="tag mgmt">Public Sector</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- PHILOSOPHY -->
+        <section>
+            <div class="philosophy-block">
+                <p class="philosophy-quote">"I don't believe in hoarding knowledge.<br>I build things, I learn things — and I share everything."</p>
+                <p class="philosophy-sub">Every course in Learn, every experiment in Lab — free. Because the best way to grow a community is to give before you ask. That's been my conviction since LMS Haïti. That's still the mission today.</p>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- THE TRAVELING TECHIE -->
+        <section aria-labelledby="ttt-title">
+            <p class="section-label">The Traveling Techie</p>
+            <h2 class="section-title" id="ttt-title">Three spaces. One voice.</h2>
+            <div class="ttt-grid">
+                <a href="/dispatch/" class="ttt-card d">
+                    <div class="ttt-tag">Techie Dispatch</div>
+                    <div class="ttt-title">Articles & Opinions</div>
+                    <div class="ttt-desc">Tech, geopolitics, AI, society — long-form takes on what actually matters.</div>
+                </a>
+                <a href="/learn/" class="ttt-card l">
+                    <div class="ttt-tag">Techie Learn</div>
+                    <div class="ttt-title">Courses & Tutorials</div>
+                    <div class="ttt-desc">Cloud, AI, PM, sciences — everything free, everything practical.</div>
+                </a>
+                <a href="/lab/" class="ttt-card b">
+                    <div class="ttt-tag">Techie Lab</div>
+                    <div class="ttt-title">Build & Experiment</div>
+                    <div class="ttt-desc">AI agents, automations, tools you can actually use and replicate.</div>
+                </a>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- CONNECT -->
+        <section>
+            <p class="section-label">Connect</p>
+            <h2 class="section-title">Let's talk.</h2>
+            <div class="connect-block">
+                <p>Find me on LinkedIn, Instagram, YouTube or GitHub. I'm always open to conversations about tech, strategy, and ideas worth building.</p>
+                <div class="connect-socials">
+                    <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                    </a>
+                    <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                    </a>
+                </div>
+                <p class="connect-note">
+                    Need custom training, a tailored application, or strategic consulting?
+                    <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer">Reach out on LinkedIn →</a>
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-icons">
+            <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer" class="footer-icon" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer" class="footer-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer" class="footer-icon" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+            <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer" class="footer-icon" aria-label="GitHub">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            </a>
+        </div>
+        <p class="footer-copy">© 2026 Salim — <a href="/">The Traveling Techie</a></p>
+    </footer>
+
+    <script>
+        // ── Star canvas (same as homepage)
+        (function () {
+            const canvas = document.getElementById('starCanvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            function resize() {
+                canvas.width  = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            function init(n) {
+                stars = Array.from({ length: n }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.1 + 0.2,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.013 + 0.004
+                }));
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.phase += s.speed;
+                    const a = ((Math.sin(s.phase) + 1) / 2) * 0.65 + 0.08;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            new ResizeObserver(() => { resize(); init(180); }).observe(canvas.parentElement);
+            resize(); init(180); requestAnimationFrame(draw);
+        })();
+
+        // ── Navbar scroll behavior
+        (function () {
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                nav.classList.toggle('scrolled', window.scrollY > 60);
+            }, { passive: true });
+        })();
+    </script>
+</body>
+</html>
