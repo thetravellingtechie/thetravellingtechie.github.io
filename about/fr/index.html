@@ -164,15 +164,23 @@
         .story-photo-zone img {
             width: 100%; display: block;
             max-height: 440px; object-fit: cover; object-position: top center;
+            opacity: 0.88;
+            filter: saturate(0.82) brightness(1.1) contrast(0.92);
+        }
+        .story-photo-zone::before {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(244,248,255,0.10);
+            backdrop-filter: blur(0px);
+            z-index: 1; pointer-events: none;
         }
         .story-photo-zone::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
-            background: linear-gradient(to top, rgba(244,248,255,0.96), transparent);
-            pointer-events: none;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 220px;
+            background: linear-gradient(to top, rgba(244,248,255,1.0) 0%, rgba(244,248,255,0.6) 40%, transparent 100%);
+            pointer-events: none; z-index: 2;
         }
         .story-pills {
             position: absolute; top: 1.5rem; left: 1.75rem;
-            display: flex; gap: 0.45rem; z-index: 2; flex-wrap: wrap;
+            display: flex; gap: 0.45rem; z-index: 3; flex-wrap: wrap;
         }
         .story-pill {
             background: rgba(255,255,255,0.16);
