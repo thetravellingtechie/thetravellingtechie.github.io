@@ -153,47 +153,16 @@
         .section-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
 
         /* ── STORY ── */
-        .story-feature {
-            border-radius: 24px; overflow: hidden;
-            background: var(--bg-card);
-            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border-card);
-            box-shadow: var(--shadow-md);
-        }
-        .story-photo-zone { position: relative; width: 100%; overflow: hidden; }
-        .story-photo-zone img {
+        .story-img {
             width: 100%; display: block;
-            max-height: 440px; object-fit: cover; object-position: top center;
-            opacity: 0.88;
-            filter: saturate(0.82) brightness(1.1) contrast(0.92);
+            border-radius: 16px;
+            margin-bottom: 2rem;
         }
-        .story-photo-zone::before {
-            content: ''; position: absolute; inset: 0;
-            background: rgba(244,248,255,0.10);
-            backdrop-filter: blur(0px);
-            z-index: 1; pointer-events: none;
+        .story-roles {
+            font-family: 'Inter'; font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--sky); margin-bottom: 1.25rem;
         }
-        .story-photo-zone::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 220px;
-            background: linear-gradient(to top, rgba(244,248,255,1.0) 0%, rgba(244,248,255,0.6) 40%, transparent 100%);
-            pointer-events: none; z-index: 2;
-        }
-        .story-pills {
-            position: absolute; top: 1.5rem; left: 1.75rem;
-            display: flex; gap: 0.45rem; z-index: 3; flex-wrap: wrap;
-        }
-        .story-pill {
-            background: rgba(255,255,255,0.16);
-            backdrop-filter: blur(20px) saturate(2);
-            -webkit-backdrop-filter: blur(20px) saturate(2);
-            border: 1px solid rgba(255,255,255,0.32);
-            color: rgba(255,255,255,0.96);
-            font-family: 'Inter'; font-size: 0.6rem; font-weight: 600;
-            letter-spacing: 0.12em; text-transform: uppercase;
-            padding: 0.3rem 0.85rem; border-radius: 100px;
-            text-shadow: 0 1px 6px rgba(0,0,0,0.28);
-        }
-        .story-body { padding: 0.5rem 2.75rem 2.75rem; position: relative; z-index: 1; }
         .story-hl {
             font-family: 'Crimson Pro'; font-style: italic; font-weight: 600;
             font-size: clamp(1.65rem, 3vw, 2.2rem);
@@ -328,9 +297,6 @@
         @media (max-width: 700px) {
             nav { padding: 1rem 1.2rem; }
             .nav-back { font-size: 0.62rem; }
-            .story-pills { top: 1rem; left: 1rem; }
-            .story-photo-zone img { max-height: 280px; }
-            .story-body { padding: 0.5rem 1.5rem 2rem; }
             .domains-grid { grid-template-columns: 1fr 1fr; }
             .ttt-grid { grid-template-columns: 1fr; }
             main { padding: 4rem 1.2rem 5rem; }
@@ -367,23 +333,13 @@
 
         <!-- PARCOURS -->
         <section aria-label="À propos de Salim">
-            <div class="story-feature reveal">
-                <div class="story-photo-zone">
-                    <div class="story-pills">
-                        <span class="story-pill">Bâtisseur</span>
-                        <span class="story-pill">Stratège</span>
-                        <span class="story-pill">Voyageur perpétuel</span>
-                    </div>
-                    <img src="../../assets/salim.png" alt="Salim Damien Le Bihan">
-                </div>
-                <div class="story-body">
-                    <p class="story-hl">Les outils ont évolué.<br>La mission, non.</p>
-                    <div class="story-prose">
-                        <p>Né au Niger et grandi en France, j'ai bâti ma carrière sur tout le spectre de l'informatique — du développement et de l'infrastructure au cloud, à la cybersécurité, au FinOps, à l'architecture de plateformes. Puis vers l'extérieur : pilotage de programmes, stratégies de transformation digitale, accompagnement d'entreprises et d'institutions publiques à travers les continents, en particulier en Afrique.</p>
-                        <p>En parallèle, j'ai toujours enseigné. À LMS IT, en freelance dans d'autres centres, ou simplement à titre gratuit. Transmettre le savoir n'a jamais été optionnel pour moi.</p>
-                        <p>Puis le Canada. Montréal. Le travail continue — et de nouveaux chapitres s'ouvrent : intégration de l'IA, vibe coding, workflows agentiques. Les outils ont évolué. La mission, elle, ne change pas. La suite est encore à écrire — et on est en train de le faire là.</p>
-                    </div>
-                </div>
+            <img src="../../assets/salim.png" alt="Salim Damien Le Bihan" class="story-img">
+            <p class="story-roles">Bâtisseur · Stratège · Voyageur perpétuel</p>
+            <p class="story-hl">Les outils ont évolué.<br>La mission, non.</p>
+            <div class="story-prose">
+                <p>Né au Niger et grandi en France, j'ai bâti ma carrière sur tout le spectre de l'informatique — du développement et de l'infrastructure au cloud, à la cybersécurité, au FinOps, à l'architecture de plateformes. Puis vers l'extérieur : pilotage de programmes, stratégies de transformation digitale, accompagnement d'entreprises et d'institutions publiques à travers les continents, en particulier en Afrique.</p>
+                <p>En parallèle, j'ai toujours enseigné. À LMS IT, en freelance dans d'autres centres, ou simplement à titre gratuit. Transmettre le savoir n'a jamais été optionnel pour moi.</p>
+                <p>Puis le Canada. Montréal. Le travail continue — et de nouveaux chapitres s'ouvrent : intégration de l'IA, vibe coding, workflows agentiques. Les outils ont évolué. La mission, elle, ne change pas. La suite est encore à écrire — et on est en train de le faire là.</p>
             </div>
         </section>
 
