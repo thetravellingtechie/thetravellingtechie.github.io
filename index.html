@@ -168,11 +168,21 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 6rem 2rem 5rem;
+            align-items: flex-start;
+            text-align: left;
+            padding: 7rem clamp(2rem, 6vw, 7rem) 5rem;
             position: relative;
-            background: linear-gradient(160deg, #08061a 0%, #1e1b4b 28%, #312e81 52%, #1e1b4b 76%, #08061a 100%);
+            background:
+                /* Left dark panel for text, fades to transparent on right */
+                linear-gradient(to right,
+                    rgba(4,3,15,0.96) 0%,
+                    rgba(5,4,20,0.92) 20%,
+                    rgba(6,5,22,0.70) 38%,
+                    rgba(4,3,15,0.22) 55%,
+                    rgba(4,3,15,0.08) 100%),
+                /* Subtle top/bottom fade */
+                linear-gradient(to bottom, rgba(4,3,15,0.45) 0%, transparent 20%, transparent 80%, rgba(4,3,15,0.55) 100%),
+                url('images/photo-accueil.png') right center / cover no-repeat;
             color: #ffffff;
         }
 
@@ -197,6 +207,7 @@
         .hero-content {
             position: relative;
             z-index: 1;
+            max-width: min(580px, 52vw);
         }
 
         /* Dark vignette behind text for readability */
@@ -212,21 +223,23 @@
             z-index: -1;
         }
 
-        /* Dragon scale canvas */
+        /* Dragon scale canvas — subtle shimmer over the hero photo */
         #dragonCanvas {
             position: absolute;
             inset: 0;
             width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
+            opacity: 0.28;
+            mix-blend-mode: screen;
         }
 
-        /* Thin decorative line (replaces hero-tag) */
+        /* Thin decorative line */
         .hero-line {
             width: 40px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(147,197,253,0.85), transparent);
-            margin: 0 auto 2rem;
+            background: linear-gradient(90deg, rgba(147,197,253,0.85), transparent);
+            margin: 0 0 2rem;
         }
 
         /* ── Entrance animations ── */
@@ -268,8 +281,8 @@
             font-family: 'Inter', sans-serif;
             font-size: clamp(1rem, 2.2vw, 1.2rem);
             color: rgba(210, 230, 255, 0.95);
-            max-width: 520px;
-            margin: 0 auto 2rem;
+            max-width: 480px;
+            margin: 0 0 2rem;
             line-height: 1.65;
             font-weight: 400;
             text-shadow: 0 1px 12px rgba(5, 10, 40, 0.7);
@@ -288,7 +301,7 @@
         .socials {
             display: flex;
             gap: 0.75rem;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
         }
 
@@ -548,6 +561,16 @@
             .cards { grid-template-columns: 1fr; gap: 1rem; }
             .nav-center { display: none; }
             nav { padding: 1rem 1.25rem; }
+            /* On mobile: back to centered layout */
+            .hero {
+                align-items: center;
+                text-align: center;
+                padding: 6rem 1.5rem 4rem;
+            }
+            .hero-content { max-width: 100%; }
+            .hero-line { margin: 0 auto 2rem; }
+            .hero-sub  { margin: 0 auto 2rem; }
+            .socials   { justify-content: center; }
         }
     </style>
 </head>
