@@ -109,24 +109,13 @@
             display: flex; flex-direction: column; align-items: center;
             gap: 1.5rem; padding: 0 2rem;
         }
-        .hero-photo-wrap {
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.15);
-            overflow: hidden;
-            box-shadow: 0 0 0 6px rgba(139,92,246,0.15), 0 20px 60px rgba(0,0,0,0.4);
-            animation: revealFade 0.8s ease both 0.1s;
+        .story-photo img {
+            width: 100%; border-radius: 16px;
+            object-fit: cover; object-position: top center;
+            aspect-ratio: 3/4;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
-        .hero-photo-wrap img {
-            width: 100%; height: 100%; object-fit: cover; object-position: top center;
-        }
-        .hero-photo-placeholder {
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #4c1d95, #6366f1);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Outfit'; font-weight: 800; font-size: 3rem;
-            color: rgba(255,255,255,0.6);
-        }
+        .story-content { display: flex; flex-direction: column; gap: 2rem; }
         .hero-line {
             width: 40px; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(196,181,253,0.85), transparent);
@@ -185,7 +174,7 @@
 
         /* ── STORY SECTION ── */
         .story-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            display: grid; grid-template-columns: 260px 1fr; gap: 3rem;
             align-items: start;
         }
         .story-text p {
@@ -264,10 +253,11 @@
             transition: border-color 0.2s, color 0.2s;
         }
         .tag:hover { border-color: var(--accent); color: var(--accent); }
-        .tag.cloud:hover  { border-color: var(--accent); color: var(--accent); }
-        .tag.ai:hover     { border-color: var(--learn);  color: var(--learn); }
-        .tag.sec:hover    { border-color: var(--dispatch); color: var(--dispatch); }
-        .tag.mgmt:hover   { border-color: var(--lab);    color: var(--lab); }
+        .tag.cloud:hover   { border-color: var(--accent);   color: var(--accent); }
+        .tag.ai:hover      { border-color: var(--learn);    color: var(--learn); }
+        .tag.sec:hover     { border-color: var(--dispatch); color: var(--dispatch); }
+        .tag.mgmt:hover    { border-color: var(--lab);      color: var(--lab); }
+        .tag.sector:hover  { border-color: var(--text-muted); color: var(--text); }
 
         /* ── PHILOSOPHY ── */
         .philosophy-block {
@@ -371,6 +361,7 @@
             nav { padding: 1rem 1.2rem; }
             .nav-back, .nav-logo { font-size: 0.62rem; }
             .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .story-photo { max-width: 200px; margin: 0 auto; }
             .domains-grid { grid-template-columns: 1fr 1fr; }
             .ttt-grid { grid-template-columns: 1fr; }
             main { padding: 4rem 1.2rem 5rem; }
@@ -394,11 +385,6 @@
     <section class="hero">
         <canvas id="starCanvas" aria-hidden="true"></canvas>
         <div class="hero-inner">
-            <div class="hero-photo-wrap">
-                <img src="../assets/salim.jpg" alt="Salim Damien Le Bihan"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                <div class="hero-photo-placeholder" style="display:none">SD</div>
-            </div>
             <div class="hero-line" aria-hidden="true"></div>
             <h1>Salim Damien<br>Le Bihan</h1>
             <p class="hero-tagline">Builder. Strategist. Perpetual Traveler.</p>
@@ -416,6 +402,10 @@
             <p class="section-label">The Journey</p>
             <h2 class="section-title" id="story-title">Planting seeds, wherever the road leads.</h2>
             <div class="story-grid">
+                <div class="story-photo">
+                    <img src="../assets/salim.jpg" alt="Salim Damien Le Bihan">
+                </div>
+                <div class="story-content">
                 <div class="story-text">
                     <p>Born in Niger, raised in France — I've always been in between worlds, and I've always been curious about all of them. Tech became my language. Travel became my compass.</p>
                     <p>After years working across France and building my first community project — <em>LMS Haïti</em>, a free learning initiative — I migrated to Canada. A new chapter, but the same mission: help the people around me grow.</p>
@@ -451,6 +441,7 @@
                         </div>
                     </div>
                 </div>
+                </div><!-- end story-content -->
             </div>
         </section>
 
@@ -545,7 +536,15 @@
                         <span class="tag mgmt">Digital Transformation</span>
                         <span class="tag mgmt">Agile / Scrum</span>
                         <span class="tag mgmt">Stakeholder Management</span>
-                        <span class="tag mgmt">Public Sector</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <div class="skill-group-label">Sectors</div>
+                    <div class="skill-tags">
+                        <span class="tag sector">Retail</span>
+                        <span class="tag sector">Aviation</span>
+                        <span class="tag sector">Aerospace</span>
+                        <span class="tag sector">Marketing</span>
                     </div>
                 </div>
             </div>
