@@ -172,7 +172,7 @@
             text-align: center;
             padding: 6rem 2rem 5rem;
             position: relative;
-            background: linear-gradient(160deg, #0f172a 0%, #1e3a8a 28%, #1d4ed8 55%, #0369a1 78%, #0f172a 100%);
+            background: linear-gradient(160deg, #08061a 0%, #1e1b4b 28%, #312e81 52%, #1e1b4b 76%, #08061a 100%);
             color: #ffffff;
         }
 
@@ -719,19 +719,19 @@
                 const sx = cx - r * 0.22, sy = cy - r * 0.28;
                 const grad = ctx.createRadialGradient(sx, sy, 0, cx, cy, r);
 
-                // Colour channels: dark navy → bright blue-cyan on activation
-                const cr = Math.floor(18  + G * 170);
-                const cg = Math.floor(80  + G * 130);
-                const cb = Math.floor(195 + G * 60);
+                // Colour channels: deep indigo → electric violet-indigo on activation
+                const cr = Math.floor(14  + G * 118);   // dark indigo → violet
+                const cg = Math.floor(10  + G * 95);    // less green = more purple feel
+                const cb = Math.floor(55  + G * 195);   // strong blue throughout
 
-                // Specular peak
-                grad.addColorStop(0,    `rgba(${Math.min(255, cr + 100)}, ${Math.min(255, cg + 90)}, 255, ${0.16 + G * 0.74})`);
-                // Mid dome
-                grad.addColorStop(0.28, `rgba(${cr}, ${cg}, ${cb}, ${0.68 + G * 0.24})`);
-                // Base plate
-                grad.addColorStop(0.75, `rgba(${Math.floor(cr * 0.25)}, ${Math.floor(cg * 0.25)}, ${Math.floor(cb * 0.40)}, 0.87)`);
-                // Edge groove (darkest — separation between scales)
-                grad.addColorStop(1,    `rgba(2, 5, 18, 0.96)`);
+                // Specular peak (lavender-white)
+                grad.addColorStop(0,    `rgba(${Math.min(255, cr + 88)}, ${Math.min(255, cg + 68)}, 255, ${0.18 + G * 0.72})`);
+                // Mid dome (indigo)
+                grad.addColorStop(0.28, `rgba(${cr}, ${cg}, ${cb}, ${0.70 + G * 0.22})`);
+                // Base plate (dark violet)
+                grad.addColorStop(0.75, `rgba(${Math.floor(cr * 0.30)}, ${Math.floor(cg * 0.22)}, ${Math.floor(cb * 0.38)}, 0.88)`);
+                // Edge groove (near-black indigo)
+                grad.addColorStop(1,    `rgba(4, 3, 18, 0.97)`);
 
                 hexPath(cx, cy, r);
                 ctx.fillStyle = grad;
@@ -752,7 +752,7 @@
                         const py = cy + r * Math.sin(a);
                         i === 3 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
                     }
-                    ctx.strokeStyle = `rgba(150, 220, 255, ${G * 0.42})`;
+                    ctx.strokeStyle = `rgba(185, 175, 255, ${G * 0.45})`;
                     ctx.lineWidth = 0.9;
                     ctx.stroke();
                 }
@@ -760,7 +760,7 @@
                 // ── Glow corona: outer ring on strong hover / ripple ──
                 if (G > 0.30) {
                     hexPath(cx, cy, r + 3.5);
-                    ctx.strokeStyle = `rgba(55, 155, 255, ${(G - 0.30) * 0.52})`;
+                    ctx.strokeStyle = `rgba(130, 100, 255, ${(G - 0.30) * 0.55})`;
                     ctx.lineWidth = 3.5;
                     ctx.stroke();
                 }
