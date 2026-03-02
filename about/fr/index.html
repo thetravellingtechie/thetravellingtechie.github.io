@@ -36,8 +36,7 @@
         /* ── NAV ── */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
-            display: grid; grid-template-columns: 1fr auto 1fr;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 1.25rem 3rem; z-index: 100;
             transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
         }
@@ -50,21 +49,13 @@
             font-family: 'Inter'; font-size: 0.7rem; font-weight: 600;
             letter-spacing: 0.1em; text-transform: uppercase;
             text-decoration: none; color: rgba(255,255,255,0.75);
-            justify-self: start; transition: color 0.3s;
+            transition: color 0.3s;
         }
         nav.scrolled .nav-back { color: var(--text-muted); }
         .nav-back:hover { color: var(--accent); }
-        .nav-logo {
-            font-family: 'Outfit'; font-weight: 800; font-size: 0.875rem;
-            letter-spacing: 0.15em; text-transform: uppercase;
-            text-decoration: none; color: rgba(255,255,255,0.95);
-            justify-self: center; transition: color 0.3s;
-        }
-        nav.scrolled .nav-logo { color: var(--text); }
-        .nav-logo:hover { color: var(--accent); }
         .nav-lang {
             display: flex; align-items: center; gap: 0;
-            justify-self: end; font-family: 'Inter'; font-size: 0.7rem;
+            font-family: 'Inter'; font-size: 0.7rem;
         }
         .nav-lang button {
             background: none; border: none; cursor: pointer;
@@ -154,28 +145,39 @@
         .section-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
 
         /* ── STORY ── */
-        .story-grid {
-            display: grid; grid-template-columns: 260px 1fr; gap: 3rem;
-            align-items: start; margin-bottom: 2.5rem;
+        .story-visual { margin-bottom: 2.5rem; }
+        .story-photo { width: 100%; margin-bottom: 1.5rem; }
+        .story-photo img {
+            width: 100%; display: block;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
-        .story-milestones {
-            display: flex; flex-direction: column; gap: 1.6rem;
-            padding-top: 0.5rem;
+        .story-timeline {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            position: relative;
         }
-        .milestone {
-            display: flex; align-items: flex-start; gap: 1rem;
+        .story-timeline::before {
+            content: '';
+            position: absolute; top: 13px;
+            left: 12.5%; right: 12.5%;
+            height: 1px; background: var(--border); z-index: 0;
         }
-        .milestone-flag {
-            font-size: 1.8rem; line-height: 1; flex-shrink: 0;
-            width: 2.2rem; text-align: center; margin-top: 0.1rem;
+        .timeline-step {
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 0.35rem;
+            position: relative; z-index: 1; padding: 0 0.25rem;
         }
-        .milestone-content strong {
-            display: block; font-family: 'Outfit'; font-size: 1rem;
-            font-weight: 700; color: var(--text); margin-bottom: 0.25rem;
+        .timeline-flag {
+            width: 40px; height: 27px; border-radius: 4px;
+            overflow: hidden; border: 1px solid var(--border);
+            flex-shrink: 0; margin-bottom: 0.5rem;
         }
-        .milestone-content span {
-            font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;
+        .timeline-flag svg { width: 40px; height: 27px; display: block; }
+        .timeline-name {
+            font-family: 'Outfit'; font-size: 0.82rem; font-weight: 700; color: var(--text);
         }
+        .timeline-desc { font-size: 0.68rem; color: var(--text-muted); line-height: 1.4; }
+        .story-text { margin-top: 2.5rem; }
         .story-text p {
             font-family: 'Crimson Pro'; font-size: 1.2rem;
             color: var(--text); line-height: 1.8; margin-bottom: 1.2rem;
@@ -230,7 +232,7 @@
         .philosophy-quote {
             font-family: 'Crimson Pro'; font-style: italic;
             font-size: clamp(1.3rem, 2.5vw, 1.7rem);
-            color: var(--text); line-height: 1.6; margin-bottom: 1.5rem;
+            color: var(--text); line-height: 1.6; margin-bottom: 0;
         }
         .philosophy-sub {
             font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;
@@ -263,26 +265,15 @@
             font-size: 0.9rem; color: var(--text-muted);
             max-width: 480px; margin: 0 auto 2rem; line-height: 1.7;
         }
-        .connect-socials {
-            display: flex; align-items: center; justify-content: center;
-            gap: 0.6rem; margin-bottom: 1.5rem;
+        .connect-cta {
+            display: inline-block; padding: 0.65rem 1.6rem;
+            background: var(--accent); color: #fff;
+            border-radius: 8px; font-family: 'Inter'; font-size: 0.8rem;
+            font-weight: 600; letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
         }
-        .connect-icon {
-            display: flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px;
-            border: 1px solid var(--border); border-radius: 8px;
-            color: var(--text-muted); text-decoration: none;
-            background: var(--bg-card); transition: all 0.2s;
-        }
-        .connect-icon svg { width: 16px; height: 16px; fill: currentColor; }
-        .connect-icon:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-        .connect-note {
-            font-size: 0.75rem; color: var(--text-muted);
-            border-top: 1px solid var(--border); padding-top: 1.2rem;
-            max-width: 480px; margin: 0 auto;
-        }
-        .connect-note a { color: var(--accent); text-decoration: none; }
-        .connect-note a:hover { text-decoration: underline; }
+        .connect-cta:hover { opacity: 0.88; transform: translateY(-2px); }
 
         /* ── FOOTER ── */
         footer { background: var(--bg); border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
@@ -302,9 +293,9 @@
         /* ── RESPONSIVE ── */
         @media (max-width: 700px) {
             nav { padding: 1rem 1.2rem; }
-            .nav-back, .nav-logo { font-size: 0.62rem; }
-            .story-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .story-photo { max-width: 200px; margin: 0 auto; }
+            .nav-back { font-size: 0.62rem; }
+            .story-timeline { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .story-timeline::before { display: none; }
             .domains-grid { grid-template-columns: 1fr 1fr; }
             .ttt-grid { grid-template-columns: 1fr; }
             main { padding: 4rem 1.2rem 5rem; }
@@ -316,7 +307,6 @@
     <!-- NAV -->
     <nav id="navbar">
         <a href="/" class="nav-back">The Traveling Techie</a>
-        <a href="/" class="nav-logo">The Traveling Techie</a>
         <div class="nav-lang">
             <button class="active" id="btnFR">FR</button>
             <span class="sep">/</span>
@@ -344,38 +334,59 @@
         <section aria-labelledby="story-title">
             <p class="section-label">Le Parcours</p>
             <h2 class="section-title" id="story-title">Semer des graines, où que la route mène.</h2>
-            <div class="story-grid">
+            <div class="story-visual">
                 <div class="story-photo">
                     <img src="../../assets/salim.png" alt="Salim Damien Le Bihan">
                 </div>
-                <div class="story-milestones">
-                    <div class="milestone">
-                        <div class="milestone-flag">🇳🇪</div>
-                        <div class="milestone-content">
-                            <strong>Niger</strong>
-                            <span>Racines · origine</span>
+                <div class="story-timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-flag">
+                            <svg viewBox="0 0 40 27" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="40" height="9" fill="#E05206"/>
+                                <rect y="9" width="40" height="9" fill="#FFFFFF"/>
+                                <rect y="18" width="40" height="9" fill="#009E60"/>
+                                <circle cx="20" cy="13.5" r="3.5" fill="#E05206"/>
+                            </svg>
                         </div>
+                        <div class="timeline-name">Niger</div>
+                        <div class="timeline-desc">Racines · origine</div>
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-flag">🇫🇷</div>
-                        <div class="milestone-content">
-                            <strong>France</strong>
-                            <span>Études · carrière · savoirs partagés</span>
+                    <div class="timeline-step">
+                        <div class="timeline-flag">
+                            <svg viewBox="0 0 40 27" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="13.33" height="27" fill="#002395"/>
+                                <rect x="13.33" width="13.34" height="27" fill="#FFFFFF"/>
+                                <rect x="26.67" width="13.33" height="27" fill="#ED2939"/>
+                            </svg>
                         </div>
+                        <div class="timeline-name">France</div>
+                        <div class="timeline-desc">Études · carrière · savoirs partagés</div>
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-flag">🇨🇦</div>
-                        <div class="milestone-content">
-                            <strong>Canada</strong>
-                            <span>Cloud · IA · stratégie · impact</span>
+                    <div class="timeline-step">
+                        <div class="timeline-flag">
+                            <svg viewBox="0 0 40 27" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="40" height="27" fill="#FFFFFF"/>
+                                <rect width="10" height="27" fill="#D52B1E"/>
+                                <rect x="30" width="10" height="27" fill="#D52B1E"/>
+                                <path fill="#D52B1E" d="M20 5.5L21.8 10.5L26.5 9.5L23.5 13L25 13L20 20.5L15 13L16.5 13L13.5 9.5L18.2 10.5Z"/>
+                            </svg>
                         </div>
+                        <div class="timeline-name">Canada</div>
+                        <div class="timeline-desc">Cloud · IA · stratégie · impact</div>
                     </div>
-                    <div class="milestone">
-                        <div class="milestone-flag">🌍</div>
-                        <div class="milestone-content">
-                            <strong>Le Monde</strong>
-                            <span>12+ pays · en cours</span>
+                    <div class="timeline-step">
+                        <div class="timeline-flag">
+                            <svg viewBox="0 0 40 27" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="40" height="27" fill="#1565C0"/>
+                                <ellipse cx="20" cy="13.5" rx="6" ry="11" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
+                                <ellipse cx="20" cy="13.5" rx="12" ry="11" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.2"/>
+                                <line x1="2" y1="8.5" x2="38" y2="8.5" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                                <line x1="2" y1="13.5" x2="38" y2="13.5" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                                <line x1="2" y1="18.5" x2="38" y2="18.5" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                            </svg>
                         </div>
+                        <div class="timeline-name">Le Monde</div>
+                        <div class="timeline-desc">12+ pays · en cours</div>
                     </div>
                 </div>
             </div>
@@ -521,25 +532,8 @@
             <p class="section-label">Contact</p>
             <h2 class="section-title">Parlons-en.</h2>
             <div class="connect-block">
-                <p>Retrouvez-moi sur LinkedIn, Instagram, YouTube ou GitHub. Je suis toujours disponible pour discuter de tech, de stratégie et d'idées qui méritent d'être construites.</p>
-                <div class="connect-socials">
-                    <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-                    </a>
-                    <a href="https://www.instagram.com/sd_thetravellingtechie/" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                    </a>
-                    <a href="https://www.youtube.com/@lvlupwithsd" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="YouTube">
-                        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-                    </a>
-                    <a href="https://github.com/thetravellingtechie" target="_blank" rel="noopener noreferrer" class="connect-icon" aria-label="GitHub">
-                        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                    </a>
-                </div>
-                <p class="connect-note">
-                    Besoin d'une formation sur mesure, d'une application personnalisée ou d'un conseil stratégique ?
-                    <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer">Contactez-moi sur LinkedIn →</a>
-                </p>
+                <p>Disponible pour des échanges sur la tech, la stratégie, et les idées qui méritent d'être construites. Formation sur mesure, conseil stratégique ou collaboration — LinkedIn est le meilleur endroit pour me joindre.</p>
+                <a href="https://www.linkedin.com/in/salim-damien-le-bihan-cloud-enabler/" target="_blank" rel="noopener noreferrer" class="connect-cta">Me joindre sur LinkedIn →</a>
             </div>
         </section>
 
