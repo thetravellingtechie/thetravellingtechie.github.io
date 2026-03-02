@@ -196,8 +196,8 @@
 
         .hero-content { position: relative; z-index: 1; }
 
-        /* Star canvas */
-        #starCanvas {
+        /* Dragon scale canvas */
+        #dragonCanvas {
             position: absolute;
             inset: 0;
             width: 100%; height: 100%;
@@ -550,7 +550,7 @@
     </nav>
 
     <section class="hero">
-        <canvas id="starCanvas" aria-hidden="true"></canvas>
+        <canvas id="dragonCanvas" aria-hidden="true"></canvas>
         <div class="hero-content">
             <div class="hero-line" aria-hidden="true"></div>
             <h1>The Traveling<br>Techie</h1>
@@ -638,42 +638,176 @@
     </footer>
 
     <script>
-        // ── Twinkling star canvas ──
+        // ── Dragon Scale Canvas ──
         (function () {
-            const canvas = document.getElementById('starCanvas');
+            const canvas = document.getElementById('dragonCanvas');
             const ctx    = canvas.getContext('2d');
-            let stars    = [];
+            const hero   = document.querySelector('.hero');
+
+            let W = 0, H = 0, hexes = [], waves = [];
+            let mouseX = -9999, mouseY = -9999;
+            let t = 0, wakeUp = 0;
+
+            // Flat-top hexagon grid
+            const R   = 22;                        // circumradius (px)
+            const S3  = Math.sqrt(3);
+            const CX  = R * 1.5;                   // column x-spacing
+            const CY  = R * S3;                    // row y-spacing
+            const GAP = 1.5;                       // groove between scales
+
+            // Draws a flat-top hexagon path centered at (cx, cy)
+            function hexPath(cx, cy, r) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const a  = (Math.PI / 3) * i;
+                    const px = cx + r * Math.cos(a);
+                    const py = cy + r * Math.sin(a);
+                    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+            }
 
             function resize() {
-                canvas.width  = canvas.offsetWidth;
-                canvas.height = canvas.offsetHeight;
+                W = canvas.width  = hero.offsetWidth;
+                H = canvas.height = hero.offsetHeight;
+                buildGrid();
             }
 
-            function init(n) {
-                stars = Array.from({ length: n }, () => ({
-                    x:     Math.random() * canvas.width,
-                    y:     Math.random() * canvas.height,
-                    r:     Math.random() * 1.1 + 0.2,
-                    phase: Math.random() * Math.PI * 2,
-                    speed: Math.random() * 0.013 + 0.004
-                }));
+            function buildGrid() {
+                hexes = [];
+                const cols = Math.ceil(W / CX) + 3;
+                const rows = Math.ceil(H / CY) + 3;
+                for (let col = -1; col < cols; col++) {
+                    for (let row = -1; row < rows; row++) {
+                        hexes.push({
+                            cx:   col * CX,
+                            cy:   row * CY + (col % 2 === 0 ? 0 : CY / 2),
+                            glow: 0
+                        });
+                    }
+                }
             }
 
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                stars.forEach(s => {
-                    s.phase += s.speed;
-                    const a = ((Math.sin(s.phase) + 1) / 2) * 0.65 + 0.08;
+            function drawHex(h) {
+                const { cx, cy, glow } = h;
+
+                // Dual-frequency ambient wave — the scales "breathe"
+                const w1 = (Math.sin(cx * 0.018 + cy * 0.013 + t * 0.65) + 1) * 0.5;
+                const w2 = (Math.sin(cx * 0.027 - cy * 0.019 + t * 0.42) + 1) * 0.5;
+                const ambient = w1 * w2 * 0.16;
+
+                const G = Math.min(1, glow + ambient);
+                const r = R - GAP;
+
+                // ── Dome fill: radial gradient with specular highlight ──
+                // Light source: upper-left of scale
+                const sx = cx - r * 0.22, sy = cy - r * 0.28;
+                const grad = ctx.createRadialGradient(sx, sy, 0, cx, cy, r);
+
+                // Colour channels: dark navy → bright blue-cyan on activation
+                const cr = Math.floor(18  + G * 170);
+                const cg = Math.floor(80  + G * 130);
+                const cb = Math.floor(195 + G * 60);
+
+                // Specular peak
+                grad.addColorStop(0,    `rgba(${Math.min(255, cr + 100)}, ${Math.min(255, cg + 90)}, 255, ${0.16 + G * 0.74})`);
+                // Mid dome
+                grad.addColorStop(0.28, `rgba(${cr}, ${cg}, ${cb}, ${0.68 + G * 0.24})`);
+                // Base plate
+                grad.addColorStop(0.75, `rgba(${Math.floor(cr * 0.25)}, ${Math.floor(cg * 0.25)}, ${Math.floor(cb * 0.40)}, 0.87)`);
+                // Edge groove (darkest — separation between scales)
+                grad.addColorStop(1,    `rgba(2, 5, 18, 0.96)`);
+
+                hexPath(cx, cy, r);
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                // ── Inter-scale groove ──
+                hexPath(cx, cy, r);
+                ctx.strokeStyle = `rgba(1, 4, 15, ${0.90 - G * 0.30})`;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // ── Rim highlight: top 3 edges catch the light ──
+                if (G > 0.04) {
                     ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
-                    ctx.fill();
-                });
-                requestAnimationFrame(draw);
+                    for (let i = 3; i <= 6; i++) {
+                        const a  = (Math.PI / 3) * (i % 6);
+                        const px = cx + r * Math.cos(a);
+                        const py = cy + r * Math.sin(a);
+                        i === 3 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                    }
+                    ctx.strokeStyle = `rgba(150, 220, 255, ${G * 0.42})`;
+                    ctx.lineWidth = 0.9;
+                    ctx.stroke();
+                }
+
+                // ── Glow corona: outer ring on strong hover / ripple ──
+                if (G > 0.30) {
+                    hexPath(cx, cy, r + 3.5);
+                    ctx.strokeStyle = `rgba(55, 155, 255, ${(G - 0.30) * 0.52})`;
+                    ctx.lineWidth = 3.5;
+                    ctx.stroke();
+                }
             }
 
-            new ResizeObserver(() => { resize(); init(180); }).observe(canvas.parentElement);
-            resize(); init(180); requestAnimationFrame(draw);
+            function frame() {
+                t      += 0.016;
+                wakeUp  = Math.min(1, wakeUp + 0.009); // ~1.8s fade-in
+                ctx.clearRect(0, 0, W, H);
+                ctx.globalAlpha = wakeUp;
+
+                hexes.forEach(h => {
+                    // Mouse proximity glow
+                    const md  = Math.hypot(h.cx - mouseX, h.cy - mouseY);
+                    const pr  = Math.max(0, 1 - md / 185);
+                    const spr = pr * pr * (3 - 2 * pr);   // smoothstep
+
+                    // Click-ripple waves
+                    let ripple = 0;
+                    waves.forEach(w => {
+                        const wd  = Math.hypot(h.cx - w.ox, h.cy - w.oy);
+                        const rel = Math.abs(wd - w.radius) / 55;
+                        ripple = Math.max(ripple, Math.max(0, 1 - rel) * w.str);
+                    });
+
+                    const target = Math.min(1, spr * 0.93 + ripple * 0.72);
+                    h.glow += (target - h.glow) * 0.13;
+
+                    drawHex(h);
+                });
+
+                ctx.globalAlpha = 1;
+
+                // Advance & prune waves
+                waves = waves.filter(w => w.str > 0.012);
+                waves.forEach(w => { w.radius += 10; w.str *= 0.955; });
+
+                requestAnimationFrame(frame);
+            }
+
+            // ── Events ──
+            hero.addEventListener('mousemove', e => {
+                const rc = hero.getBoundingClientRect();
+                mouseX = e.clientX - rc.left;
+                mouseY = e.clientY - rc.top;
+            });
+            hero.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+            // Click → ripple wave from that point
+            hero.addEventListener('click', e => {
+                const rc = hero.getBoundingClientRect();
+                waves.push({ ox: e.clientX - rc.left, oy: e.clientY - rc.top, radius: 0, str: 1 });
+            });
+
+            // Startup pulse from center — dragon wakes up
+            setTimeout(() => {
+                if (W > 0) waves.push({ ox: W / 2, oy: H / 2, radius: 0, str: 0.88 });
+            }, 380);
+
+            new ResizeObserver(resize).observe(hero);
+            resize();
+            requestAnimationFrame(frame);
         })();
 
         // ── Scroll-reveal for sections ──
