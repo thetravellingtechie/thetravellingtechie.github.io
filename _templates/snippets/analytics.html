@@ -6,7 +6,7 @@
   SETUP (one time):
   1. Go to https://analytics.google.com
      → Admin → Create Property → get your Measurement ID
-     → Replace ALL occurrences of  GA4_MEASUREMENT_ID  with  G-XXXXXXXXXX
+     → Replace ALL occurrences of  G-M8CD1PMVMS  with  G-XXXXXXXXXX
 
   2. Go to https://clarity.microsoft.com
      → New project → get your Project ID
@@ -17,12 +17,12 @@
 -->
 
 <!-- ── Google Analytics 4 ─────────────────────────── -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GA4_MEASUREMENT_ID"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M8CD1PMVMS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'GA4_MEASUREMENT_ID', {
+  gtag('config', 'G-M8CD1PMVMS', {
     anonymize_ip: true,          // GDPR: mask last IP octet
     cookie_flags: 'SameSite=None;Secure'
   });
