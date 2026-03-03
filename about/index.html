@@ -590,6 +590,21 @@
         .footer-sitemap a:hover { color: var(--sky) !important; text-decoration: underline; }
         .footer-bottom a:hover { color: var(--sky) !important; }
         
+                /* Footer Alignment Overrides */
+        .footer-modern { text-align: left !important; }
+        .footer-content { text-align: left !important; }
+        .footer-col h3, .footer-col h4, .footer-col p { text-align: left !important; margin-left: 0 !important; margin-right: auto !important; }
+        .footer-sitemap { align-items: flex-start !important; }
+        .footer-icons { justify-content: flex-start !important; }
+        
+        @media (max-width: 768px) {
+            .footer-modern { text-align: center !important; }
+            .footer-col h3, .footer-col h4, .footer-col p { text-align: left !important; margin-left: 0 !important; margin-right: auto !important; }
+            .footer-sitemap { align-items: flex-start !important; }
+            .footer-icons { justify-content: flex-start !important; }
+            .footer-bottom { align-items: center !important; flex-direction: column; gap: 1rem; text-align: center !important; }
+        }
+
         /* Language Toggle - active state */
         nav.scrolled .lang-toggle span.active { background: var(--sky) !important; color: #fff !important; }
         .lang-toggle span.active { background: var(--sky) !important; color: #fff !important; border-color: var(--sky) !important; }
