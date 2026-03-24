@@ -43,11 +43,65 @@
     color: #0f172a;
 }
 
-/* Center links */
+/* Center links — contains two layers that toggle */
 .ttt-nav-center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.ttt-nav-layer {
     display: flex;
     gap: 1.8rem;
     align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(4px);
+}
+
+.ttt-nav-layer.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    transform: translateY(0);
+}
+
+/* Back arrow button */
+.ttt-nav-back {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    line-height: 1;
+}
+
+.ttt-nav-back:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ttt-navbar.scrolled .ttt-nav-back {
+    color: #94a3b8;
+}
+
+.ttt-navbar.scrolled .ttt-nav-back:hover {
+    color: #0f172a;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Sub-links style — slightly different from global */
+.ttt-sub-link {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.08em !important;
 }
 
 .ttt-nav-link {
@@ -243,54 +297,7 @@
     color: var(--section-accent, #6366f1);
 }
 
-/* ── SUBNAV ── */
-.ttt-subnav {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    z-index: 198;
-    background: rgba(250, 250, 250, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e2e8f0;
-    opacity: 0;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.ttt-navbar.scrolled ~ .ttt-subnav {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.ttt-subnav-inner {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0.45rem 2rem;
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.ttt-subnav a {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #94a3b8;
-    text-decoration: none;
-    transition: color 0.2s;
-    white-space: nowrap;
-    padding: 0.25rem 0;
-}
-
-.ttt-subnav a:hover {
-    color: var(--section-accent, #6366f1);
-}
+/* ── OLD SUBNAV (removed — now integrated in nav-center layers) ── */
 
 /* ── FOOTER ── */
 .ttt-footer {
@@ -397,7 +404,7 @@
     .ttt-nav-center { display: none; }
     .ttt-lang { display: none; }
     .ttt-hamburger { display: flex; }
-    .ttt-subnav { display: none; }
+    .ttt-nav-layer { display: none; }
 
     .ttt-footer-content {
         grid-template-columns: 1fr;

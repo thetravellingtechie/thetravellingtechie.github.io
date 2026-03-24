@@ -1,6 +1,6 @@
 /**
  * TTT — Shared Navigation Component
- * Two-level nav: global (site-wide) + sub-nav (page-specific)
+ * Single-bar nav with toggle between global links and page sub-links
  * Bilingual FR/EN with localStorage sync
  * Accent colors per section
  *
@@ -10,11 +10,6 @@
  *        data-subnav='[{"fr":"Articles","en":"Articles","href":"#articles"}]'>
  *   </div>
  *   <script src="/shared/nav.js"></script>
- *
- * data-section: home|dispatch|learn|lab|aventure|about
- * data-subnav: JSON array (optional)
- * data-logo: custom logo text (optional, default "The Traveling Techie")
- * data-logo-href: custom logo link (optional, default "/")
  */
 
 (function () {
@@ -27,14 +22,13 @@
   let subnav = [];
   try { subnav = JSON.parse(container.dataset.subnav || '[]'); } catch (e) {}
 
-  // Section accent colors
   const ACCENTS = {
-    home:     { color: '#6366f1', name: 'Indigo' },
-    dispatch: { color: '#e11d48', name: 'Ruby' },
-    learn:    { color: '#8b5cf6', name: 'Violet' },
-    lab:      { color: '#10b981', name: 'Emerald' },
-    aventure: { color: '#C9A84C', name: 'Gold' },
-    about:    { color: '#0ea5e9', name: 'Sky' },
+    home:     { color: '#6366f1' },
+    dispatch: { color: '#e11d48' },
+    learn:    { color: '#8b5cf6' },
+    lab:      { color: '#10b981' },
+    aventure: { color: '#C9A84C' },
+    about:    { color: '#0ea5e9' },
   };
 
   const accent = ACCENTS[section] || ACCENTS.home;
@@ -47,36 +41,47 @@
     { href: '/about/',    key: 'about',    fr: 'À propos',  en: 'About' },
   ];
 
-  // Build links HTML
-  const linksHTML = (cls, sep) => LINKS.map(l =>
-    `<a href="${l.href}" class="${cls} ${l.key === section ? 'active' : ''}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`
-  ).join(sep);
+  const hasSubnav = subnav.length > 0;
 
-  // Build subnav HTML
-  const subnavHTML = subnav.length > 0 ? `
-    <div class="ttt-subnav" id="tttSubnav">
-      <div class="ttt-subnav-inner">
-        ${subnav.map(s => `<a href="${s.href}" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`).join('\n        ')}
-      </div>
-    </div>` : '';
+  // Build global links — active link gets a toggle role if subnav exists
+  const globalLinksHTML = LINKS.map(l => {
+    const isActive = l.key === section;
+    const cls = `ttt-nav-link ${isActive ? 'active' : ''}`;
+    if (isActive && hasSubnav) {
+      return `<a href="javascript:void(0)" class="${cls}" id="tttToggleSubnav" data-fr="${l.fr}" data-en="${l.en}" title="Show page sections">${l.fr}</a>`;
+    }
+    return `<a href="${l.href}" class="${cls}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`;
+  }).join('\n        ');
 
-  // Build mobile menu — global links + subnav links
-  const mobileSubnavHTML = subnav.length > 0
+  // Build subnav links with back arrow
+  const subnavLinksHTML = hasSubnav ? `
+        <a href="javascript:void(0)" class="ttt-nav-back" id="tttBackToGlobal" title="Back to main menu">←</a>
+        ${subnav.map(s => `<a href="${s.href}" class="ttt-nav-link ttt-sub-link" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`).join('\n        ')}` : '';
+
+  // Mobile menu
+  const mobileSubnavHTML = hasSubnav
     ? `<div class="ttt-mobile-divider"></div>` + subnav.map(s =>
         `<a href="${s.href}" class="ttt-mobile-sub" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`
       ).join('\n        ')
     : '';
 
+  const mobileLinksHTML = LINKS.map(l =>
+    `<a href="${l.href}" class="ttt-mobile-link ${l.key === section ? 'active' : ''}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`
+  ).join('\n        ');
+
   // Inject
   container.innerHTML = `
     <div class="ttt-mobile-overlay" id="tttMobileOverlay">
-        ${linksHTML('ttt-mobile-link', '\n        ')}
+        ${mobileLinksHTML}
         ${mobileSubnavHTML}
     </div>
     <nav class="ttt-navbar" id="tttNavbar">
       <a href="${logoHref}" class="ttt-logo">${logoText}</a>
-      <div class="ttt-nav-center">
-        ${linksHTML('ttt-nav-link', '\n        ')}
+      <div class="ttt-nav-center" id="tttNavCenter">
+        <div class="ttt-nav-layer ttt-nav-global active" id="tttGlobalLayer">
+          ${globalLinksHTML}
+        </div>
+        ${hasSubnav ? `<div class="ttt-nav-layer ttt-nav-sub" id="tttSubLayer">${subnavLinksHTML}</div>` : ''}
       </div>
       <div class="ttt-lang" id="tttLang" role="button" aria-label="Toggle language" tabindex="0">
         <span id="langFR" class="active">FR</span>
@@ -85,9 +90,8 @@
       <button class="ttt-hamburger" id="tttHamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-    </nav>${subnavHTML}`;
+    </nav>`;
 
-  // Inject accent color as CSS variable
   container.style.setProperty('--section-accent', accent.color);
 
   // ── Scroll ──
@@ -95,6 +99,34 @@
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 60);
   });
+
+  // ── Toggle subnav / global ──
+  if (hasSubnav) {
+    const globalLayer = document.getElementById('tttGlobalLayer');
+    const subLayer = document.getElementById('tttSubLayer');
+    const toggleBtn = document.getElementById('tttToggleSubnav');
+    const backBtn = document.getElementById('tttBackToGlobal');
+
+    function showSub() {
+      globalLayer.classList.remove('active');
+      subLayer.classList.add('active');
+    }
+
+    function showGlobal() {
+      subLayer.classList.remove('active');
+      globalLayer.classList.add('active');
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', showSub);
+    if (backBtn) backBtn.addEventListener('click', showGlobal);
+
+    // Close sub-nav when clicking a sub-link (anchor navigation)
+    subLayer.querySelectorAll('.ttt-sub-link').forEach(a => {
+      a.addEventListener('click', () => {
+        // Keep subnav visible while navigating sections
+      });
+    });
+  }
 
   // ── Hamburger ──
   const hamburger = document.getElementById('tttHamburger');

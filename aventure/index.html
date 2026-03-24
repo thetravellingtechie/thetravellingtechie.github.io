@@ -12,8 +12,29 @@
   <link rel="stylesheet" href="./css/variables.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="/shared/components.css">
+  <style>
+    #cookieBanner{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);width:min(640px,calc(100vw - 2rem));background:rgba(15,23,42,0.96);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.25rem;z-index:9999;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 8px 40px rgba(0,0,0,0.5);font-family:'Inter',sans-serif;transition:opacity .3s,transform .3s}
+    #cookieBanner.hidden{opacity:0;transform:translateX(-50%) translateY(20px);pointer-events:none}
+    #cookieBanner p{font-size:.8rem;color:rgba(255,255,255,0.7);margin:0;line-height:1.5;flex:1}
+    #cookieBanner p a{color:rgba(255,255,255,0.5);text-decoration:underline}
+    .cookie-actions{display:flex;gap:.6rem;flex-shrink:0}
+    .cookie-btn{padding:.45rem 1rem;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:opacity .2s}
+    .cookie-btn:hover{opacity:.85}
+    .cookie-btn-accept{background:#C9A84C;color:#fff}
+    .cookie-btn-decline{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.15)}
+    @media(max-width:540px){#cookieBanner{flex-direction:column;align-items:flex-start}.cookie-actions{width:100%;justify-content:flex-end}}
+  </style>
 </head>
 <body>
+
+  <!-- Cookie consent (RGPD / GDPR) -->
+  <div id="cookieBanner" class="hidden" role="dialog" aria-live="polite" aria-label="Consentement cookies">
+    <p data-fr="Ce site mesure son audience via Google Analytics (données anonymisées — aucune revente). <a href='/about/' target='_blank'>En savoir plus</a>" data-en="This site uses Google Analytics for anonymized audience measurement — no data is sold. <a href='/about/' target='_blank'>Learn more</a>">Ce site mesure son audience via Google Analytics (données anonymisées — aucune revente). <a href="/about/" target="_blank">En savoir plus</a></p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-btn-decline" id="cookieDecline" data-fr="Refuser" data-en="Decline">Refuser</button>
+      <button class="cookie-btn cookie-btn-accept" id="cookieAccept" data-fr="Accepter" data-en="Accept">Accepter</button>
+    </div>
+  </div>
 
   <canvas id="sparklesCanvas" aria-hidden="true"></canvas>
 
@@ -235,5 +256,53 @@
   <script src="./js/main.js"></script>
   <script src="/shared/nav.js"></script>
   <script src="/shared/footer.js"></script>
+
+  <!-- Analytics consent manager (RGPD) -->
+  <script>
+    (function () {
+      var ID  = 'G-M8CD1PMVMS';
+      var KEY = 'ttt-analytics-consent';
+      var banner = document.getElementById('cookieBanner');
+
+      function loadGA4() {
+        if (window._ga4loaded) return;
+        window._ga4loaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', ID, { anonymize_ip: true, cookie_flags: 'SameSite=None;Secure' });
+      }
+
+      function hideBanner() {
+        if (!banner) return;
+        banner.classList.add('hidden');
+        setTimeout(function () { if (banner) banner.style.display = 'none'; }, 380);
+      }
+
+      var c = localStorage.getItem(KEY);
+      if (c === 'granted') {
+        loadGA4();
+        if (banner) banner.style.display = 'none';
+      } else if (c === 'denied') {
+        if (banner) banner.style.display = 'none';
+      } else {
+        setTimeout(function () { if (banner) banner.classList.remove('hidden'); }, 900);
+      }
+
+      var btnA = document.getElementById('cookieAccept');
+      var btnD = document.getElementById('cookieDecline');
+      if (btnA) btnA.addEventListener('click', function () {
+        localStorage.setItem(KEY, 'granted'); loadGA4(); hideBanner();
+      });
+      if (btnD) btnD.addEventListener('click', function () {
+        localStorage.setItem(KEY, 'denied'); hideBanner();
+      });
+    })();
+  </script>
 </body>
 </html>

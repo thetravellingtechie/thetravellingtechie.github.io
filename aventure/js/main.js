@@ -81,11 +81,12 @@ function initHeroCanvas() {
 }
 
 /* ── 2. Nav scroll behavior + mobile menu toggle ── */
+/* NOTE: Nav is now handled by /shared/nav.js — this is kept as fallback only */
 function initNav() {
   const nav = document.getElementById('nav');
+  if (!nav) return; // Nav managed by shared/nav.js
   const toggle = document.getElementById('navToggle');
-  const navGlobal = document.getElementById('navGlobal');
-  const navSub = document.getElementById('navSub');
+  if (!toggle) return;
 
   let ticking = false;
   window.addEventListener('scroll', () => {
@@ -98,20 +99,8 @@ function initNav() {
     }
   });
 
-  // Mobile toggle — show/hide global + sub nav
   toggle.addEventListener('click', () => {
     nav.classList.toggle('nav-open');
-    if (navGlobal) navGlobal.classList.toggle('show');
-    if (navSub) navSub.classList.toggle('show');
-  });
-
-  // Close on link click
-  nav.querySelectorAll('.nav-global a, .nav-sub a').forEach(a => {
-    a.addEventListener('click', () => {
-      nav.classList.remove('nav-open');
-      if (navGlobal) navGlobal.classList.remove('show');
-      if (navSub) navSub.classList.remove('show');
-    });
   });
 }
 
