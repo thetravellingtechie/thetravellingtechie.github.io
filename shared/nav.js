@@ -1,123 +1,139 @@
 /**
- * The Traveling Techie — Shared Global Nav
- * Injects a two-level navigation on every page:
- *   Level 1: Global nav (Dispatch | Learn | Lab | Aventure | About)
- *   Level 2: Page-specific sub-nav (defined per page via data attribute)
+ * TTT — Shared Navigation Component
+ * Two-level nav: global (site-wide) + sub-nav (page-specific)
+ * Bilingual FR/EN with localStorage sync
+ * Accent colors per section
  *
- * Usage: <div id="ttt-nav" data-section="dispatch" data-subnav='[{"label":"Articles","href":"#articles"},...]'></div>
- *        <script src="/shared/nav.js"></script>
+ * Usage:
+ *   <div id="ttt-nav"
+ *        data-section="dispatch"
+ *        data-subnav='[{"fr":"Articles","en":"Articles","href":"#articles"}]'>
+ *   </div>
+ *   <script src="/shared/nav.js"></script>
  *
- * Attributes:
- *   data-section  — active section key (dispatch|learn|lab|aventure|about|home)
- *   data-subnav   — JSON array of {fr, en, href} for page-specific sub-links (optional)
+ * data-section: home|dispatch|learn|lab|aventure|about
+ * data-subnav: JSON array (optional)
+ * data-logo: custom logo text (optional, default "The Traveling Techie")
+ * data-logo-href: custom logo link (optional, default "/")
  */
 
 (function () {
   const container = document.getElementById('ttt-nav');
   if (!container) return;
 
-  const activeSection = container.dataset.section || '';
-  let subnavItems = [];
-  try { subnavItems = JSON.parse(container.dataset.subnav || '[]'); } catch (e) {}
+  const section = container.dataset.section || 'home';
+  const logoText = container.dataset.logo || 'The Traveling Techie';
+  const logoHref = container.dataset.logoHref || '/';
+  let subnav = [];
+  try { subnav = JSON.parse(container.dataset.subnav || '[]'); } catch (e) {}
 
-  const GLOBAL_LINKS = [
-    { href: '/dispatch/', fr: 'Dispatch', en: 'Dispatch', key: 'dispatch' },
-    { href: '/learn/',    fr: 'Apprendre', en: 'Learn',   key: 'learn' },
-    { href: '/lab/',      fr: 'Lab',       en: 'Lab',     key: 'lab' },
-    { href: '/aventure/', fr: 'Aventure',  en: 'Adventure', key: 'aventure' },
-    { href: '/about/',    fr: 'À propos',  en: 'About',   key: 'about' },
+  // Section accent colors
+  const ACCENTS = {
+    home:     { color: '#6366f1', name: 'Indigo' },
+    dispatch: { color: '#e11d48', name: 'Ruby' },
+    learn:    { color: '#8b5cf6', name: 'Violet' },
+    lab:      { color: '#10b981', name: 'Emerald' },
+    aventure: { color: '#C9A84C', name: 'Gold' },
+    about:    { color: '#0ea5e9', name: 'Sky' },
+  };
+
+  const accent = ACCENTS[section] || ACCENTS.home;
+
+  const LINKS = [
+    { href: '/dispatch/', key: 'dispatch', fr: 'Dispatch',  en: 'Dispatch' },
+    { href: '/learn/',    key: 'learn',    fr: 'Apprendre', en: 'Learn' },
+    { href: '/lab/',      key: 'lab',      fr: 'Lab',       en: 'Lab' },
+    { href: '/aventure/', key: 'aventure', fr: 'Aventure',  en: 'Adventure' },
+    { href: '/about/',    key: 'about',    fr: 'À propos',  en: 'About' },
   ];
 
-  // Build global nav links
-  const globalLinksHTML = GLOBAL_LINKS.map(l =>
-    `<a href="${l.href}" class="${l.key === activeSection ? 'active' : ''}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`
-  ).join('\n            ');
+  // Build links HTML
+  const linksHTML = (cls, sep) => LINKS.map(l =>
+    `<a href="${l.href}" class="${cls} ${l.key === section ? 'active' : ''}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`
+  ).join(sep);
 
-  // Build mobile overlay links
-  const mobileLinksHTML = GLOBAL_LINKS.map(l =>
-    `<a href="${l.href}" class="${l.key === activeSection ? 'active' : ''}" data-fr="${l.fr}" data-en="${l.en}">${l.fr}</a>`
-  ).join('\n        ');
-
-  // Build subnav
-  const subnavHTML = subnavItems.length > 0 ? `
-    <div class="subnav" id="subnav">
-      <div class="subnav-inner">
-        ${subnavItems.map(s =>
-          `<a href="${s.href}" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`
-        ).join('\n        ')}
+  // Build subnav HTML
+  const subnavHTML = subnav.length > 0 ? `
+    <div class="ttt-subnav" id="tttSubnav">
+      <div class="ttt-subnav-inner">
+        ${subnav.map(s => `<a href="${s.href}" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`).join('\n        ')}
       </div>
     </div>` : '';
 
-  // Inject HTML
+  // Build mobile menu — global links + subnav links
+  const mobileSubnavHTML = subnav.length > 0
+    ? `<div class="ttt-mobile-divider"></div>` + subnav.map(s =>
+        `<a href="${s.href}" class="ttt-mobile-sub" data-fr="${s.fr}" data-en="${s.en}">${s.fr}</a>`
+      ).join('\n        ')
+    : '';
+
+  // Inject
   container.innerHTML = `
-    <div class="nav-mobile-overlay" id="navMobileOverlay">
-        ${mobileLinksHTML}
+    <div class="ttt-mobile-overlay" id="tttMobileOverlay">
+        ${linksHTML('ttt-mobile-link', '\n        ')}
+        ${mobileSubnavHTML}
     </div>
-    <nav id="navbar">
-        <a href="/" class="nav-logo">The Traveling Techie</a>
-        <div class="nav-center">
-            ${globalLinksHTML}
-        </div>
-        <div class="lang-toggle" id="langToggle" role="button" aria-label="Toggle language" tabindex="0">
-            <span id="langFR" class="active">FR</span>
-            <span id="langEN">EN</span>
-        </div>
-        <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <nav class="ttt-navbar" id="tttNavbar">
+      <a href="${logoHref}" class="ttt-logo">${logoText}</a>
+      <div class="ttt-nav-center">
+        ${linksHTML('ttt-nav-link', '\n        ')}
+      </div>
+      <div class="ttt-lang" id="tttLang" role="button" aria-label="Toggle language" tabindex="0">
+        <span id="langFR" class="active">FR</span>
+        <span id="langEN">EN</span>
+      </div>
+      <button class="ttt-hamburger" id="tttHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </nav>${subnavHTML}`;
 
-  // ── Nav scroll behavior ──
-  const nav = document.getElementById('navbar');
+  // Inject accent color as CSS variable
+  container.style.setProperty('--section-accent', accent.color);
+
+  // ── Scroll ──
+  const navbar = document.getElementById('tttNavbar');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
   });
 
-  // ── Hamburger toggle ──
-  const hamburger = document.getElementById('navHamburger');
-  const overlay = document.getElementById('navMobileOverlay');
-  if (hamburger && overlay) {
-    hamburger.addEventListener('click', () => {
-      overlay.classList.toggle('open');
-      hamburger.classList.toggle('open');
-    });
-    overlay.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        overlay.classList.remove('open');
-        hamburger.classList.remove('open');
-      });
-    });
-  }
+  // ── Hamburger ──
+  const hamburger = document.getElementById('tttHamburger');
+  const overlay = document.getElementById('tttMobileOverlay');
+  hamburger.addEventListener('click', () => {
+    overlay.classList.toggle('open');
+    hamburger.classList.toggle('open');
+  });
+  overlay.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+    })
+  );
 
   // ── Language toggle ──
   const LANG_KEY = 'ttt-lang';
-  let currentLang = localStorage.getItem(LANG_KEY) || 'fr';
+  let lang = localStorage.getItem(LANG_KEY) || 'fr';
   const langFR = document.getElementById('langFR');
   const langEN = document.getElementById('langEN');
-  const toggle = document.getElementById('langToggle');
+  const langToggle = document.getElementById('tttLang');
 
-  function applyLang(lang) {
-    currentLang = lang;
-    localStorage.setItem(LANG_KEY, lang);
-    langFR.classList.toggle('active', lang === 'fr');
-    langEN.classList.toggle('active', lang === 'en');
+  function applyLang(l) {
+    lang = l;
+    localStorage.setItem(LANG_KEY, l);
+    langFR.classList.toggle('active', l === 'fr');
+    langEN.classList.toggle('active', l === 'en');
     document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-      const val = lang === 'fr' ? el.dataset.fr : el.dataset.en;
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = val;
-      } else {
-        el.innerHTML = val;
-      }
+      const v = l === 'fr' ? el.dataset.fr : el.dataset.en;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = v;
+      else el.innerHTML = v;
     });
-    document.documentElement.lang = lang;
+    document.documentElement.lang = l;
   }
 
-  toggle.addEventListener('click', () => applyLang(currentLang === 'fr' ? 'en' : 'fr'));
-  toggle.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyLang(currentLang === 'fr' ? 'en' : 'fr'); }
+  langToggle.addEventListener('click', () => applyLang(lang === 'fr' ? 'en' : 'fr'));
+  langToggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyLang(lang === 'fr' ? 'en' : 'fr'); }
   });
 
-  applyLang(currentLang);
+  applyLang(lang);
 })();

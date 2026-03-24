@@ -11,44 +11,19 @@
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/variables.css">
   <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="/shared/components.css">
 </head>
 <body>
 
   <canvas id="sparklesCanvas" aria-hidden="true"></canvas>
 
-  <!-- ═══════════ NAV — Global TTT + Page sub-nav ═══════════ -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#">S & M</a>
-
-      <!-- Global TTT links (site-wide) -->
-      <div class="nav-global" id="navGlobal">
-        <a href="/dispatch/" data-fr="Dispatch" data-en="Dispatch">Dispatch</a>
-        <a href="/learn/" data-fr="Apprendre" data-en="Learn">Apprendre</a>
-        <a href="/lab/" data-fr="Lab" data-en="Lab">Lab</a>
-        <a href="/aventure/" class="active" data-fr="Aventure" data-en="Adventure">Aventure</a>
-        <a href="/about/" data-fr="À propos" data-en="About">À propos</a>
-      </div>
-
-      <div class="lang-toggle" id="langToggle" role="button" aria-label="Toggle language" tabindex="0">
-        <span id="langFR" class="active">FR</span>
-        <span id="langEN">EN</span>
-      </div>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <!-- Page-specific sub-nav (anchor links) -->
-    <div class="nav-sub" id="navSub">
-      <div class="nav-sub-inner">
-        <a href="#intro" data-fr="Notre Histoire" data-en="Our Story">Notre Histoire</a>
-        <a href="#voyage" data-fr="Le Voyage" data-en="The Journey">Le Voyage</a>
-        <a href="#vision" data-fr="Notre Vision" data-en="Our Vision">Notre Vision</a>
-        <a href="#who-we-are" data-fr="Qui sommes-nous" data-en="About Us">Qui sommes-nous</a>
-      </div>
-    </div>
-  </nav>
+  <!-- ═══════════ NAV — Shared TTT component ═══════════ -->
+  <div id="ttt-nav"
+       data-section="aventure"
+       data-logo="S & M"
+       data-logo-href="#"
+       data-subnav='[{"fr":"Notre Histoire","en":"Our Story","href":"#intro"},{"fr":"Le Voyage","en":"The Journey","href":"#voyage"},{"fr":"Notre Vision","en":"Our Vision","href":"#vision"},{"fr":"Qui sommes-nous","en":"About Us","href":"#who-we-are"}]'>
+  </div>
 
   <!-- ═══════════ 1. HERO ═══════════ -->
   <section class="section hero" id="hero">
@@ -254,58 +229,11 @@
     </div>
   </section>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="footer">
-    <div class="container">
-      <p data-fr="&copy; 2025 Salim &amp; Marion — Tous droits réservés." data-en="&copy; 2025 Salim &amp; Marion — All rights reserved.">&copy; 2025 Salim &amp; Marion — Tous droits réservés.</p>
-      <p><a href="/">The Travelling Techie</a></p>
-    </div>
-  </footer>
+  <!-- ═══════════ FOOTER — Shared TTT component ═══════════ -->
+  <div id="ttt-footer"></div>
 
   <script src="./js/main.js"></script>
-  <script>
-    /* ── Language toggle — same system as TTT ── */
-    (function() {
-      const LANG_KEY = 'ttt-lang';
-      let currentLang = localStorage.getItem(LANG_KEY) || 'fr';
-
-      const langFR = document.getElementById('langFR');
-      const langEN = document.getElementById('langEN');
-      const toggle = document.getElementById('langToggle');
-
-      if (!toggle) return;
-
-      function applyLang(lang) {
-        currentLang = lang;
-        localStorage.setItem(LANG_KEY, lang);
-        langFR.classList.toggle('active', lang === 'fr');
-        langEN.classList.toggle('active', lang === 'en');
-
-        document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-          const val = lang === 'fr' ? el.dataset.fr : el.dataset.en;
-          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.placeholder = val;
-          } else {
-            el.innerHTML = val;
-          }
-        });
-
-        document.documentElement.lang = lang;
-      }
-
-      toggle.addEventListener('click', () => {
-        applyLang(currentLang === 'fr' ? 'en' : 'fr');
-      });
-
-      toggle.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          applyLang(currentLang === 'fr' ? 'en' : 'fr');
-        }
-      });
-
-      applyLang(currentLang);
-    })();
-  </script>
+  <script src="/shared/nav.js"></script>
+  <script src="/shared/footer.js"></script>
 </body>
 </html>
