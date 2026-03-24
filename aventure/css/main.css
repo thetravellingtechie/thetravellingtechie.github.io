@@ -117,37 +117,36 @@ a:hover {
    3. NAVIGATION
    ────────────────────────────────────────────────── */
 
+/* ── Nav container ── */
 .nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--nav-height);
     z-index: 100;
     transition: background-color var(--transition-fast),
                 border-color var(--transition-fast),
                 backdrop-filter var(--transition-fast);
-    border-bottom: 1px solid transparent;
 }
 
 .nav-scrolled {
-    background-color: rgba(245, 240, 230, 0.92);
+    background-color: rgba(253, 251, 247, 0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom-color: var(--border);
+    box-shadow: 0 1px 0 var(--border-light);
 }
 
+/* ── Level 1: Main bar ── */
 .nav-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
+    height: var(--nav-height);
     max-width: var(--container-max);
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-/* Nav starts light-on-dark over hero, switches to dark-on-light when scrolled */
 .nav-logo {
     font-family: var(--font-heading);
     font-size: 1.25rem;
@@ -166,75 +165,86 @@ a:hover {
     color: var(--accent-gold);
 }
 
-.nav-links {
+/* Global site links (Dispatch | Learn | Lab | Aventure | About) */
+.nav-global {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: 1.5rem;
 }
 
-.nav-links a {
+.nav-global a {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
     transition: color var(--transition-fast);
-    position: relative;
 }
 
-.nav-scrolled .nav-links a {
-    color: var(--text-secondary);
+.nav-scrolled .nav-global a {
+    color: var(--text-muted);
 }
 
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--accent-gold);
-    transition: width var(--transition-fast);
-}
-
-.nav-links a:hover {
+.nav-global a:hover {
     color: #ffffff;
 }
 
-.nav-scrolled .nav-links a:hover {
+.nav-scrolled .nav-global a:hover {
     color: var(--text);
 }
 
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.nav-cta {
-    flex-shrink: 0;
-    display: inline-block;
-    padding: 0.5rem 1.25rem;
-    font-family: var(--font-body);
-    font-size: 0.75rem;
+.nav-global a.active {
+    color: #ffffff;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text);
-    background-color: var(--accent-gold);
-    border-radius: var(--radius-pill);
-    text-decoration: none;
-    transition: transform var(--transition-fast),
-                box-shadow var(--transition-fast);
 }
 
-.nav-cta:hover {
-    transform: scale(1.03);
-    box-shadow: var(--shadow-gold);
-    color: var(--text);
+.nav-scrolled .nav-global a.active {
+    color: var(--accent-gold);
+}
+
+/* ── Level 2: Page sub-nav ── */
+.nav-sub {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color var(--transition-fast);
+}
+
+.nav-scrolled .nav-sub {
+    border-top-color: var(--border-light);
+}
+
+.nav-sub-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0.4rem 2rem;
+}
+
+.nav-sub a {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    white-space: nowrap;
+}
+
+.nav-scrolled .nav-sub a {
+    color: var(--text-muted);
+}
+
+.nav-sub a:hover {
+    color: #ffffff;
+}
+
+.nav-scrolled .nav-sub a:hover {
+    color: var(--accent-gold);
 }
 
 /* Language toggle — identical to TTT */
@@ -1161,39 +1171,66 @@ a:hover {
         padding-bottom: var(--space-lg);
     }
 
-    /* Nav mobile — hide links, show hamburger */
-    .nav-links {
+    /* Nav mobile — hide global links + subnav, show hamburger */
+    .nav-global {
         display: none;
         position: absolute;
         top: var(--nav-height);
         left: 0;
         width: 100%;
         flex-direction: column;
-        background-color: rgba(245, 240, 230, 0.97);
+        background-color: rgba(253, 251, 247, 0.97);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid var(--border);
-        padding: var(--space-sm) 2rem var(--space-md);
-        gap: 0;
+        padding: var(--space-sm) 2rem;
+        border-bottom: 1px solid var(--border-light);
     }
 
-    .nav-links.show {
+    .nav-global.show {
         display: flex;
     }
 
-    .nav-links li a {
+    .nav-global a {
         display: block;
-        padding: 0.75rem 0;
+        padding: 0.6rem 0;
         border-bottom: 1px solid var(--border-light);
-        font-size: 0.9rem;
+        color: var(--text-secondary) !important;
+        font-size: 0.85rem;
     }
 
-    .nav-links li:last-child a {
+    .nav-global a:last-child {
         border-bottom: none;
     }
 
-    .nav-cta {
+    .nav-global a.active {
+        color: var(--accent-gold) !important;
+    }
+
+    .nav-sub {
         display: none;
+    }
+
+    .nav-sub.show {
+        display: block;
+        position: absolute;
+        top: calc(var(--nav-height) + 200px);
+        left: 0;
+        width: 100%;
+        background-color: rgba(253, 251, 247, 0.97);
+        padding: var(--space-xs) 2rem var(--space-sm);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-sub.show .nav-sub-inner {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .nav-sub.show a {
+        display: block;
+        padding: 0.5rem 0;
+        color: var(--text-muted) !important;
+        font-size: 0.8rem;
     }
 
     .lang-toggle {

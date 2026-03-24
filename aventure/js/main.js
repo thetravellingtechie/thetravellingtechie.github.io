@@ -84,7 +84,8 @@ function initHeroCanvas() {
 function initNav() {
   const nav = document.getElementById('nav');
   const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
+  const navGlobal = document.getElementById('navGlobal');
+  const navSub = document.getElementById('navSub');
 
   let ticking = false;
   window.addEventListener('scroll', () => {
@@ -97,15 +98,19 @@ function initNav() {
     }
   });
 
+  // Mobile toggle — show/hide global + sub nav
   toggle.addEventListener('click', () => {
     nav.classList.toggle('nav-open');
-    links.classList.toggle('show');
+    if (navGlobal) navGlobal.classList.toggle('show');
+    if (navSub) navSub.classList.toggle('show');
   });
 
-  links.querySelectorAll('a').forEach(a => {
+  // Close on link click
+  nav.querySelectorAll('.nav-global a, .nav-sub a').forEach(a => {
     a.addEventListener('click', () => {
       nav.classList.remove('nav-open');
-      links.classList.remove('show');
+      if (navGlobal) navGlobal.classList.remove('show');
+      if (navSub) navSub.classList.remove('show');
     });
   });
 }
