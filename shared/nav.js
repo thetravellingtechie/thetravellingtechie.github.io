@@ -27,7 +27,6 @@
     dispatch: { color: '#e11d48' },
     learn:    { color: '#8b5cf6' },
     lab:      { color: '#10b981' },
-    aventure: { color: '#C9A84C' },
     about:    { color: '#0ea5e9' },
   };
 
@@ -37,7 +36,6 @@
     { href: '/dispatch/', key: 'dispatch', fr: 'Dispatch',  en: 'Dispatch' },
     { href: '/learn/',    key: 'learn',    fr: 'Apprendre', en: 'Learn' },
     { href: '/lab/',      key: 'lab',      fr: 'Lab',       en: 'Lab' },
-    { href: '/aventure/', key: 'aventure', fr: 'Aventure',  en: 'Adventure' },
     { href: '/about/',    key: 'about',    fr: 'À propos',  en: 'About' },
   ];
 

@@ -29,7 +29,6 @@
             <a href="/dispatch/" data-fr="Dispatch"  data-en="Dispatch">Dispatch</a>
             <a href="/learn/"    data-fr="Apprendre" data-en="Learn">Apprendre</a>
             <a href="/lab/"      data-fr="Lab"       data-en="Lab">Lab</a>
-            <a href="/aventure/" data-fr="Aventure"  data-en="Adventure">Aventure</a>
             <a href="/about/"    data-fr="À propos"  data-en="About">À propos</a>
           </div>
         </div>
